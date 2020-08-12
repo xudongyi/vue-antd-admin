@@ -1,9 +1,9 @@
 import axios from 'axios'
 import Cookie from 'js-cookie'
-
+import {BASE_URL} from '@/services/api'
 // 跨域认证信息 header 名
 const xsrfHeaderName = 'Authorization'
-
+import notification from 'ant-design-vue/es/notification'
 axios.defaults.timeout = 5000
 axios.defaults.withCredentials= true
 axios.defaults.xsrfHeaderName= xsrfHeaderName
@@ -22,7 +22,53 @@ const METHOD = {
   GET: 'get',
   POST: 'post'
 }
+// 创建 axios 实例
+const service = axios.create({
+  baseURL: BASE_URL, // api base_url
+  timeout: 6000 // 请求超时时间
+})
+const err = (error) => {
+  console.log('error')
+  if (error.response) {
+    const data = error.response.data
+    if (error.response.status === 403) {
+      notification.error({
+        message: 'Forbidden',
+        description: data.message
+      })
+    }
+    if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
+      notification.error({
+        message: 'Unauthorized',
+        description: 'Authorization verification failed'
+      })
+    }
+  }
+  return Promise.reject(error)
+}
 
+// request interceptor
+service.interceptors.request.use(config => {
+  const token = Cookie.get(xsrfHeaderName)
+  if (token) {
+    config.headers['Authorization'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
+  }
+  return config
+}, err)
+
+// response interceptor
+service.interceptors.response.use((response) => {
+  const res = response.data
+  if (res.code !==200) {
+    notification.error({
+      message: res.message || 'Error',
+      duration: 3
+    })
+    return Promise.reject(new Error(res.message || 'Error'))
+  } else {
+    return response
+  }
+}, err)
 /**
  * axios请求
  * @param url 请求地址
@@ -33,11 +79,11 @@ const METHOD = {
 async function request(url, method, params) {
   switch (method) {
     case METHOD.GET:
-      return axios.get(url, {params})
+      return service.get(url, {params})
     case METHOD.POST:
-      return axios.post(url, params)
+      return service.post(url, params)
     default:
-      return axios.get(url, {params})
+      return service.get(url, {params})
   }
 }
 

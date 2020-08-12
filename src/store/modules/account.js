@@ -18,30 +18,6 @@ export default {
       }
       return state.user
     },
-    permissions: state => {
-      if (!state.permissions) {
-        try {
-          const permissions = localStorage.getItem(process.env.VUE_APP_PERMISSIONS_KEY)
-          state.permissions = JSON.parse(permissions)
-          state.permissions = state.permissions ? state.permissions : []
-        } catch (e) {
-          console.error(e.message)
-        }
-      }
-      return state.permissions
-    },
-    roles: state => {
-      if (!state.roles) {
-        try {
-          const roles = localStorage.getItem(process.env.VUE_APP_ROLES_KEY)
-          state.roles = JSON.parse(roles)
-          state.roles = state.roles ? state.roles : []
-        } catch (e) {
-          console.error(e.message)
-        }
-      }
-      return state.roles
-    },
     routesConfig: state => {
       if (!state.routesConfig) {
         try {
@@ -59,14 +35,6 @@ export default {
     setUser (state, user) {
       state.user = user
       localStorage.setItem(process.env.VUE_APP_USER_KEY, JSON.stringify(user))
-    },
-    setPermissions(state, permissions) {
-      state.permissions = permissions
-      localStorage.setItem(process.env.VUE_APP_PERMISSIONS_KEY, JSON.stringify(permissions))
-    },
-    setRoles(state, roles) {
-      state.roles = roles
-      localStorage.setItem(process.env.VUE_APP_ROLES_KEY, JSON.stringify(roles))
     },
     setRoutesConfig(state, routesConfig) {
       state.routesConfig = routesConfig

@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Vue Antd Admin',
+  title: '',
   description: 'Vue Antd Admin',
   base: '/vue-antd-admin-docs/',
   head: [

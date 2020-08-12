@@ -3,13 +3,13 @@ import {request, METHOD, removeAuthorization} from '@/utils/request'
 
 /**
  * 登录服务
- * @param name 账户名
+ * @param loginid 账户名
  * @param password 账户密码
  * @returns {Promise<AxiosResponse<T>>}
  */
-async function login(name, password) {
+async function login(loginid, password) {
   return request(LOGIN, METHOD.POST, {
-    name: name,
+    loginid: loginid,
     password: password
   })
 }

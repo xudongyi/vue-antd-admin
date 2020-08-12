@@ -31,6 +31,26 @@ module.exports = {
         })
     }
   },
+  devServer: {
+    // development server port 8000
+    port: 8000,
+    proxy: {
+      // change xxx-api/login => mock/login
+      // detail: https://cli.vuejs.org/config/#devserver-proxy
+      '/salary': {
+        target: `http://127.0.0.1:8888/`,
+        changeOrigin: true
+      }
+    }
+    // If you want to turn on the proxy, please remove the mockjs /src/main.jsL11
+    // proxy: {
+    //   '/api': {
+    //     target: 'https://mock.ihx.me/mock/5baf3052f7da7e07e04a5116/antd-pro',
+    //     ws: false,
+    //     changeOrigin: true
+    //   }
+    // }
+  },
   css: {
     loaderOptions: {
       less: {
