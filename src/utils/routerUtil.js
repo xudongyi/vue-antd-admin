@@ -3,7 +3,6 @@ import {mergeI18nFromRoutes} from '@/utils/i18n'
 import Router from 'vue-router'
 import {loginIgnore} from '@/router'
 import {checkAuthorization} from '@/utils/request'
-import {VUE_APP_USER_KEY} from '@/utils/constant'
 /**
  * 根据 路由配置 和 路由组件注册 解析路由
  * @param routesConfig 路由配置
@@ -67,8 +66,8 @@ function loadRoutes({router, store, i18n}, routesConfig) {
 function filterRouter(store,routesConfig){
   formatAuthority(routesConfig.routes)
   let routesConfigJson = {}
-  const user = localStorage.getItem(VUE_APP_USER_KEY)
-  if(user==='' ||user==='null'){
+  const user = localStorage.getItem(process.env.VUE_APP_USER_KEY)
+  if(user==='' ||user==='null' ||user==null){
     return routesConfig
   }
   let userObject =  JSON.parse(user)
@@ -133,8 +132,8 @@ function loginGuard(router) {
 function authorityGuard(router, store) {
   router.beforeEach((to, form, next) => {
     const permissions = store.getters['account/permissions']
-    const user = localStorage.getItem(VUE_APP_USER_KEY)
-    if(user==='' ||user==='null'){
+    const user = localStorage.getItem(process.env.VUE_APP_USER_KEY)
+    if (!loginIgnore.includes(to) && !checkAuthorization()) {
       next({path: '/login'})
     }
     let userObject =  JSON.parse(user)
@@ -147,7 +146,7 @@ function authorityGuard(router, store) {
 }
 
 /**
- * 判断是否有路由的权限
+ * 判断是否有路由的权限admin.user
  * @param route 路由
  * @param permissions 用户权限集合
  * @returns {boolean|*}

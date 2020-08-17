@@ -1,4 +1,3 @@
-import {VUE_APP_USER_KEY} from '@/utils/constant'
 export default {
   namespaced: true,
   state: {
@@ -11,7 +10,7 @@ export default {
     user: state => {
       if (!state.user) {
         try {
-          const user = localStorage.getItem(VUE_APP_USER_KEY)
+          const user = localStorage.getItem(process.env.VUE_APP_USER_KEY)
           state.user = JSON.parse(user)
         } catch (e) {
           console.error(e)
@@ -35,7 +34,7 @@ export default {
   mutations: {
     setUser (state, user) {
       state.user = user
-      localStorage.setItem(VUE_APP_USER_KEY, JSON.stringify(user))
+      localStorage.setItem(process.env.VUE_APP_USER_KEY, JSON.stringify(user))
     },
     setRoutesConfig(state, routesConfig) {
       state.routesConfig = routesConfig

@@ -85,7 +85,6 @@
                 })
             },
             afterLogin: function (res) {
-                debugger
                 this.logging = false
                 const loginRes = res.data
                 if (loginRes.code == 200) {

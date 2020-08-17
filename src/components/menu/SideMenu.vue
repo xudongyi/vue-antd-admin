@@ -1,9 +1,8 @@
 <template>
   <a-layout-sider :theme="sideTheme" :class="['side-menu', 'beauty-scroll', isMobile ? null : 'shadow']" width="256px" :collapsible="collapsible" v-model="collapsed" :trigger="null">
     <div :class="['logo', theme]">
-      <router-link to="/dashboard/workplace">
-        <img src="@/assets/img/logo.png">
-        <h1>{{systemName}}</h1>
+      <router-link to="/index">
+        <img src="@/assets/img/logo_inzb.png">
       </router-link>
     </div>
     <i-menu :theme="theme" :collapsed="collapsed" :options="menuData" @select="onSelect" class="menu"/>

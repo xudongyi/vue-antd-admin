@@ -8,6 +8,7 @@ import routesConfig from '@/router/config'
  * @param i18n 应用的 vue-i18n 实例
  */
 function bootstrap({router, store, i18n}) {
+  debugger
   // 加载路由
   loadRoutes({router, store, i18n},routesConfig)
   // 添加路由守卫
