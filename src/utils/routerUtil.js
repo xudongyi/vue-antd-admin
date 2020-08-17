@@ -3,7 +3,7 @@ import {mergeI18nFromRoutes} from '@/utils/i18n'
 import Router from 'vue-router'
 import {loginIgnore} from '@/router'
 import {checkAuthorization} from '@/utils/request'
-
+import {VUE_APP_USER_KEY} from '@/utils/constant'
 /**
  * 根据 路由配置 和 路由组件注册 解析路由
  * @param routesConfig 路由配置
@@ -54,30 +54,51 @@ function parseRoutes(routesConfig, routerMap) {
  */
 function loadRoutes({router, store, i18n}, routesConfig) {
   // 如果 routesConfig 有值，则更新到本地，否则从本地获取
-  if (routesConfig) {
-    store.commit('account/setRoutesConfig', routesConfig)
-  } else {
-    routesConfig = store.getters['account/routesConfig']
-  }
-  // 如果开启了异步路由，则加载异步路由配置
-  const asyncRoutes = store.state.setting.asyncRoutes
-  if (asyncRoutes) {
-    if (routesConfig && routesConfig.length > 0) {
-      const routes = parseRoutes(routesConfig, routerMap)
-      formatAuthority(routes)
-      const finalRoutes = mergeRoutes(router.options.routes, routes)
-      router.options = {...router.options, routes: finalRoutes}
-      router.matcher = new Router({...router.options, routes:[]}).matcher
-      router.addRoutes(finalRoutes)
-    }
-  }
-  // 初始化Admin后台菜单数据
-  const rootRoute = router.options.routes.find(item => item.path === '/')
+  let routesConfigJson = filterRouter(store,routesConfig)
+  // 初始化后台菜单数据
+  const rootRoute = routesConfigJson.routes.find(item => item.path === '/')
   const menuRoutes = rootRoute && rootRoute.children
   if (menuRoutes) {
     mergeI18nFromRoutes(i18n, menuRoutes)
     store.commit('setting/setMenuData', menuRoutes)
   }
+}
+
+function filterRouter(store,routesConfig){
+  debugger
+  formatAuthority(routesConfig.routes)
+  let routesConfigJson = {}
+  const user = localStorage.getItem(VUE_APP_USER_KEY)
+  if(user==='' ||user==='null'){
+    return routesConfig
+  }
+  let userObject =  JSON.parse(user)
+  store.commit('account/setUser',  userObject)
+  let filterRouterConfig = []
+  const roleId = userObject.roleId
+  routesConfig.routes.forEach(item => {
+    let routerItem ={}
+    if(hasRole(item,roleId)){
+      if(item.path) routerItem.path = item.path
+      if(item.name) routerItem.name = item.name
+      if(item.component) routerItem.component = item.component
+      if(item.redirect) routerItem.redirect = item.redirect
+      if(item.children) routerItem.children = item.children
+      if(item.meta) routerItem.meta = item.meta
+    }
+    if(item.children){
+      let children = []
+      item.children.forEach(item1=>{
+        if(hasRole(item1,roleId)){
+          children.push(item1)
+        }
+      })
+      routerItem.children = children
+    }
+    filterRouterConfig.push(routerItem)
+  })
+  routesConfigJson.routes = filterRouterConfig
+  return routesConfigJson
 }
 
 /**
@@ -115,8 +136,12 @@ function loginGuard(router) {
 function authorityGuard(router, store) {
   router.beforeEach((to, form, next) => {
     const permissions = store.getters['account/permissions']
-    const roles = store.getters['account/roles']
-    if (!hasPermission(to, permissions) && !hasRole(to, roles)) {
+    const user = localStorage.getItem(VUE_APP_USER_KEY)
+    if(user==='' ||user==='null'){
+      next({path: '/login'})
+    }
+    let userObject =  JSON.parse(user)
+    if (!hasPermission(to, permissions) && !hasRole(to, userObject.roleId)) {
       next({path: '/403'})
     } else {
       next()
@@ -150,9 +175,9 @@ function hasRole(route, roles) {
   const authority = route.meta.authority || '*'
   let required = undefined
   if (typeof authority === 'object') {
-    required = authority.role
+    required = authority.permission
   }
-  return authority === '*' || (required && roles && roles.findIndex(item => item === required || item.id === required) !== -1)
+  return  authority === '*' ||authority.permission === '*' || required==roles
 }
 
 /**
@@ -195,5 +220,6 @@ function getI18nKey(path) {
   keys.push('name')
   return keys.join('.')
 }
+
 
 export {parseRoutes, loadRoutes, loginGuard, authorityGuard, formatAuthority, getI18nKey}

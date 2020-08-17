@@ -1,5 +1,5 @@
 import {loadRoutes, loginGuard, authorityGuard} from '@/utils/routerUtil'
-
+import routesConfig from '@/router/config'
 /**
  * 启动引导方法
  * 应用启动时需要执行的操作放在这里
@@ -9,7 +9,7 @@ import {loadRoutes, loginGuard, authorityGuard} from '@/utils/routerUtil'
  */
 function bootstrap({router, store, i18n}) {
   // 加载路由
-  loadRoutes({router, store, i18n})
+  loadRoutes({router, store, i18n},routesConfig)
   // 添加路由守卫
   loginGuard(router)
   authorityGuard(router, store)

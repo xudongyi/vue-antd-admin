@@ -1,7 +1,7 @@
 import TabsView from '@/layouts/tabs/TabsView'
 import PageView from '@/layouts/PageView'
 
-// 路由配置
+// 路由配置(路由不设置则全部人能够看，设置了role 则只能)
 const options = {
   routes: [
     {
@@ -37,7 +37,7 @@ const options = {
           path: 'query',
           name: '薪资查询',
           meta: {
-            icon: 'money-collect'
+            icon: 'money-collect',
           },
           component: () => import('@/pages/list/QueryList'),
         },
@@ -45,7 +45,8 @@ const options = {
           path: 'log',
           name: '日志查询',
           meta: {
-            icon: 'exclamation-circle'
+            icon: 'exclamation-circle',
+            authority:'2'
           },
           component: () => import('@/pages/list/QueryList'),
         },

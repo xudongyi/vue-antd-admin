@@ -24,6 +24,7 @@ const loginIgnore = {
  * @returns {VueRouter}
  */
 function initRouter(isAsync) {
+  debugger
   const options = isAsync ? require('./config.async').default : require('./config').default
   formatAuthority(options.routes)
   return new Router(options)
