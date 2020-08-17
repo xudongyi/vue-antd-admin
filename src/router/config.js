@@ -20,6 +20,11 @@ const options = {
       component: () => import('@/pages/exception/403'),
     },
     {
+      path: '/sso/:loginid/:token',
+      name: 'sso',
+      component: () => import('@/pages/login/Sso'),
+    },
+    {
       path: '/',
       name: '首页',
       component: TabsView,

@@ -1,4 +1,4 @@
-import {LOGIN, ROUTES} from '@/services/api'
+import {LOGIN, ROUTES,CHECKSSO} from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
 /**
@@ -18,6 +18,13 @@ async function getRoutesConfig() {
   return request(ROUTES, METHOD.GET)
 }
 
+async function checkSso(loginid,token){
+  return  request(CHECKSSO, METHOD.POST, {
+    loginid: loginid,
+    token: token
+  })
+}
+
 /**
  * 退出登录
  */
@@ -28,4 +35,4 @@ function logout() {
   removeAuthorization()
 }
 
-export {login, logout, getRoutesConfig}
+export {login, logout,checkSso, getRoutesConfig}

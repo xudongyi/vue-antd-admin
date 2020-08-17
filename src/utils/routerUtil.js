@@ -65,7 +65,6 @@ function loadRoutes({router, store, i18n}, routesConfig) {
 }
 
 function filterRouter(store,routesConfig){
-  debugger
   formatAuthority(routesConfig.routes)
   let routesConfigJson = {}
   const user = localStorage.getItem(VUE_APP_USER_KEY)
@@ -113,7 +112,6 @@ function mergeRoutes(target, source) {
   source.forEach(item => routesMap[item.path] = item)
   return Object.values(routesMap)
 }
-
 /**
  * 登录守卫
  * @param router 应用路由实例
@@ -127,7 +125,6 @@ function loginGuard(router) {
     }
   })
 }
-
 /**
  * 权限守卫
  * @param router 应用路由实例

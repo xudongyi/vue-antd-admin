@@ -6,7 +6,7 @@ Vue.use(Router)
 
 // 不需要登录拦截的路由配置
 const loginIgnore = {
-  names: ['404', '403'],      //根据路由名称匹配
+  names: ['404', '403','sso'],      //根据路由名称匹配
   paths: ['/login'],   //根据路由fullPath匹配
   /**
    * 判断路由是否包含在该配置中
@@ -17,14 +17,12 @@ const loginIgnore = {
     return this.names.includes(route.name) || this.paths.includes(route.path)
   }
 }
-
 /**
  * 初始化路由实例
  * @param isAsync 是否异步路由模式
  * @returns {VueRouter}
  */
 function initRouter(isAsync) {
-  debugger
   const options = isAsync ? require('./config.async').default : require('./config').default
   formatAuthority(options.routes)
   return new Router(options)
