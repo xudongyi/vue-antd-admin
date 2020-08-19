@@ -1,5 +1,7 @@
 import {loadRoutes, loginGuard, authorityGuard} from '@/utils/routerUtil'
 import routesConfig from '@/router/config'
+import {loginIgnore} from '@/router'
+import {checkAuthorization} from '@/utils/request'
 /**
  * 启动引导方法
  * 应用启动时需要执行的操作放在这里
@@ -8,7 +10,6 @@ import routesConfig from '@/router/config'
  * @param i18n 应用的 vue-i18n 实例
  */
 function bootstrap({router, store, i18n}) {
-  debugger
   // 加载路由
   loadRoutes({router, store, i18n},routesConfig)
   // 添加路由守卫

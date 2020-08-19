@@ -15,7 +15,7 @@
                     <a-input
                             autocomplete="autocomplete"
                             size="large"
-                            v-decorator="['loginid', {rules: [{ required: true, message: '请输入账户名', whitespace: true}]}]"
+                            v-decorator="['loginid', {rules: [{ required: true, message: '请输入用户名', whitespace: true}]}]"
                     >
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
@@ -93,6 +93,7 @@
                     user.workcode = loginRes.data.workcode
                     user.lastname = loginRes.data.lastname
                     user.roleId = loginRes.data.roleId
+                    user.first_login = loginRes.data.first_login
                     this.setUser(user)
                     setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireTime)})
                     // 获取路由配置(使用本地配置)

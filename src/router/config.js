@@ -25,6 +25,11 @@ const options = {
       component: () => import('@/pages/login/Sso'),
     },
     {
+      path: '/firstLogin',
+      name: 'firstLogin',
+      component: () => import('@/pages/login/firstLogin'),
+    },
+    {
       path: '/',
       name: '首页',
       component: TabsView,
