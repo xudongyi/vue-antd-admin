@@ -135,7 +135,7 @@ function loginGuard(router) {
 function checkUserIsFirstLogin() {
     const user = localStorage.getItem(process.env.VUE_APP_USER_KEY)
     let userObject = JSON.parse(user)
-    if (userObject == null || (!userObject.first_login || userObject.first_login !== 2)) {
+    if (userObject == null || (!userObject.first_login || userObject.first_login ==0)) {
         return true
     }
     return false

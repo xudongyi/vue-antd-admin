@@ -3,26 +3,22 @@
         <a-form-model-item has-feedback label="用户" prop="user">
             <a-input :value="account.user.lastname" :disabled="true" />
         </a-form-model-item>
-        <a-form-model-item has-feedback label="手机号" prop="mobile">
-            <a-row>
-                <a-col :span="22">
-                    <a-input v-model.number="ruleForm.mobile" />
-                </a-col>
-                <a-col :span="2">
-                    <a-button  @click="sendMessage()" :disabled="buttonStatus">
-                        {{button}}
-                    </a-button>
-                </a-col>
-            </a-row>
+        <a-form-model-item label="手机号" prop="mobile" >
+            <a-input-search validateStatus="false" v-model.number="ruleForm.mobile"  @search="sendMsg('ruleForm')">
+                <a-button :disabled="buttonStatus" slot="enterButton">
+                    {{button}}
+                </a-button>
+            </a-input-search>
         </a-form-model-item>
+
         <a-form-model-item has-feedback label="验证码" prop="captcha">
             <a-input v-model.number="ruleForm.captcha" />
         </a-form-model-item>
-        <a-form-model-item has-feedback label="密码" prop="pass">
-            <a-input v-model="ruleForm.pass" type="password" autocomplete="off" />
+        <a-form-model-item has-feedback label="密码" prop="password">
+            <a-input-password v-model="ruleForm.password" type="password" autocomplete="off" />
         </a-form-model-item>
         <a-form-model-item has-feedback label="确认密码" prop="checkPass">
-            <a-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
+            <a-input-password v-model="ruleForm.checkPass" type="password" autocomplete="off" />
         </a-form-model-item>
 
         <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
@@ -33,27 +29,30 @@
     </a-form-model>
 </template>
 <script>
-    import {mapState} from "vuex"
+    import {mapState,mapMutations} from "vuex"
+    import {sendMobile,modifyPassword} from '@/services/user'
     export default {
         data() {
             let checkPending;
-            let checkAge = (rule, value, callback) => {
-                clearTimeout(checkPending);
-                if (!value) {
-                    return callback(new Error('Please input the age'));
+            let checkMobile = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入手机号'));
+                }else if(!(/^1[3456789]\d{9}$/.test(this.ruleForm.mobile))){
+                    callback(new Error("手机号码格式错误"));
+                }else{
+                    callback();
                 }
-                checkPending = setTimeout(() => {
-                    if (!Number.isInteger(value)) {
-                        callback(new Error('Please input digits'));
-                    } else {
-                        if (value < 18) {
-                            callback(new Error('Age must be greater than 18'));
-                        } else {
-                            callback();
-                        }
-                    }
-                }, 1000);
             };
+
+
+            let validateCaptcha = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入验证码'));
+                } else {
+                    callback();
+                }
+            };
+
             let validatePass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入密码'));
@@ -67,7 +66,7 @@
             let validatePass2 = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请确认密码'));
-                } else if (value !== this.ruleForm.pass) {
+                } else if (value !== this.ruleForm.password) {
                     callback(new Error("两次密码不一致"));
                 } else {
                     callback();
@@ -78,14 +77,16 @@
                 buttonStatus:false,
                 buttonInterval:null,
                 ruleForm: {
-                    pass: '',
+                    password: '',
                     checkPass: '',
-                    age: '',
+                    mobile: '',
+                    captcha: '',
                 },
                 rules: {
-                    pass: [{ validator: validatePass, trigger: 'change' }],
-                    checkPass: [{ validator: validatePass2, trigger: 'change' }],
-                    age: [{ validator: checkAge, trigger: 'change' }],
+                    password: [{ validator: validatePass, trigger: 'blur' }],
+                    checkPass: [{ validator: validatePass2, trigger: 'blur' }],
+                    mobile: [{ validator: checkMobile, trigger: 'blur' }],
+                    captcha: [{ validator: validateCaptcha, trigger: 'blur' }],
                 },
                 layout: {
                     labelCol: { span: 4 },
@@ -94,23 +95,49 @@
             };
         },
         methods: {
-            sendMessage(){
+            ...mapMutations('account', ['setUser']),
+            sendMsg(formName){
                 let that = this;
-                this.buttonStatus = true
-                this.button = 60
-                this.buttonInterval = setInterval(function(){
-                    that.button = that.button-1
-                    if(that.button==0){
-                        that.button = '发送'
-                        that.buttonStatus = false
-                        clearInterval(that.buttonInterval)
+                this.$refs[formName].validateField("mobile",valid => {
+                    if (!valid) {
+                        sendMobile(this.account.user.loginid, this.ruleForm.mobile).then(res=>{
+                            console.log(res)
+                            this.buttonStatus = true
+                            this.button = 60
+                            this.buttonInterval = setInterval(()=>{
+                                this.button = this.button-1
+                                if(this.button==1){
+                                    this.button = '发送'
+                                    this.buttonStatus = false
+                                    clearInterval(this.buttonInterval)
+                                }
+                            }, 1000)
+                        }).catch(function (error) {
+                            console.log(error)
+                        })
+                    } else {
+                        return false;
                     }
-                },1000)
+                });
             },
             submitForm(formName) {
                 this.$refs[formName].validate(valid => {
                     if (valid) {
-                        alert('submit!');
+                        const sha256 = require('js-sha256').sha256
+                        const sha256_password = sha256(this.ruleForm.password)
+                        const sha256_checkPass = sha256(this.ruleForm.checkPass)
+                        modifyPassword(this.account.user.loginid, this.ruleForm.mobile, sha256_password, sha256_checkPass, this.ruleForm.captcha).then(res=>{
+                          if(res.data.code==200){
+                              const user = localStorage.getItem(process.env.VUE_APP_USER_KEY)
+                              const userJson = JSON.parse(user)
+                              userJson.first_login = 1
+                              this.setUser(userJson)
+                              this.$router.push('/index')
+                          }
+                        }).catch(function (error) {
+                            console.log(error)
+                        })
+
                     } else {
                         console.log('error submit!!');
                         return false;

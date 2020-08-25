@@ -1,4 +1,4 @@
-import {LOGIN, ROUTES,CHECKSSO} from '@/services/api'
+import {BASE_URL,LOGIN, ROUTES,CHECKSSO} from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
 
 /**
@@ -24,7 +24,22 @@ async function checkSso(loginid,token){
     token: token
   })
 }
+async function sendMobile(loginid,mobile){
+  return  request(BASE_URL+"/auth/user/sendMobile", METHOD.POST, {
+    loginid: loginid,
+    mobile: mobile
+  })
+}
 
+async function modifyPassword(loginid,mobile,password,checkPass,captcha){
+  return  request(BASE_URL+"/auth/user/modifyPassword", METHOD.POST, {
+    loginid: loginid,
+    mobile: mobile,
+    password: password,
+    checkPass: checkPass,
+    captcha: captcha
+  })
+}
 /**
  * 退出登录
  */
@@ -35,4 +50,4 @@ function logout() {
   removeAuthorization()
 }
 
-export {login, logout,checkSso, getRoutesConfig}
+export {login, logout,checkSso, getRoutesConfig,sendMobile,modifyPassword}
