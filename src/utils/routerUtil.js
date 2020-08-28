@@ -119,7 +119,6 @@ function mergeRoutes(target, source) {
  */
 function loginGuard(router) {
     router.beforeEach((to, from, next) => {
-        debugger
         if (!loginIgnore.includes(to) && !checkAuthorization()) {
             next({path: '/login'})
         } else if (to.path === '/login') {

@@ -58,28 +58,9 @@ const options = {
             icon: 'exclamation-circle',
             authority:'2'
           },
-          component: () => import('@/pages/list/QueryList'),
-        },
-        {
-          path: 'result',
-          name: '结果页',
-          meta: {
-            icon: 'check-circle-o',
-          },
-          component: PageView,
-          children: [
-            {
-              path: 'success',
-              name: '成功',
-              component: () => import('@/pages/result/Success')
-            },
-            {
-              path: 'error',
-              name: '失败',
-              component: () => import('@/pages/result/Error')
-            }
-          ]
+          component: () => import('@/pages/log/QueryList'),
         }
+
       ]
     }
   ]
