@@ -23,7 +23,18 @@
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
-                                <a-input v-model="queryParam.dept" placeholder="请输入"/>
+                                <a-tree-select
+                                        show-search
+                                        tree-node-filter-prop="title"
+                                        v-model="queryParam.dept"
+                                        tree-data-simple-mode
+                                        style="width: 100%"
+                                        :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+                                        :tree-data="treeDataSimple"
+                                        placeholder="Please select"
+
+                                >
+                                </a-tree-select>
                             </a-form-item>
                         </a-col>
 
@@ -93,8 +104,7 @@
 
 <script>
     import {QueryMixIn} from '@/mixins/query'
-    import StandardTable from '@/components/table/StandardTable'
-
+    import {departMentAll} from '@/services/oa'
     export default {
         name: 'QueryList',
         mixins: [QueryMixIn],
@@ -137,10 +147,30 @@
                 url: {
                     list: '/log/list'
                 },
+                treeDataSimple:[
+                    { id: 1, pId: 0, value: '1', title: 'Expand to load' },
+                    { id: 4, pId: 1, value: '11', title: 'Expand to load11' },
+                    { id: 5, pId: 1, value: '12', title: 'Expand to load12' },
+                    { id: 2, pId: 0, value: '2', title: 'Expand to load' },
+                    { id: 3, pId: 0, value: '3', title: 'Tree Node', isLeaf: true },
+                ],
             }
         },
+        created () {
+            this.initTreeDataSimple()
+        },
         methods: {
+            initTreeDataSimple(){
+                departMentAll().then(res=>{
+                    console.log(res)
+                    if(res.data.code==200){
+                        this.treeDataSimple = res.data.data
+                    }
+                })
+            },
+            filterTreeNode(inputValue){
 
+            }
         }
     }
 </script>
