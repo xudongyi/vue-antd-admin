@@ -10,7 +10,7 @@
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
-                                <a-select allowClear  v-model="queryParam.operateType" placeholder="请选择">
+                                <a-select defaultValue="-1" allowClear  v-model="queryParam.operateType" placeholder="请选择">
                                     <a-select-option value="0">登录</a-select-option>
                                     <a-select-option value="1">发送短信</a-select-option>
                                     <a-select-option value="2">薪资查询</a-select-option>
@@ -206,6 +206,7 @@
             onChange(value) {
                 console.log('onChange', value);
                 if(!value){
+                    this.queryParam.userId = ''
                     this.userDatasource = [];
                 }
             },
