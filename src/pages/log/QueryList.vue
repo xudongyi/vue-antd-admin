@@ -10,7 +10,7 @@
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
-                                <a-select v-model="queryParam.operate_type" placeholder="请选择">
+                                <a-select allowClear  v-model="queryParam.operateType" placeholder="请选择">
                                     <a-select-option value="0">登录</a-select-option>
                                     <a-select-option value="1">发送短信</a-select-option>
                                     <a-select-option value="2">薪资查询</a-select-option>
@@ -46,9 +46,9 @@
                             >
                                 <a-auto-complete
                                         allow-clear
-                                        v-model="queryParam.user_id"
+                                        v-model="queryParam.userId"
                                         :data-source="userDatasource"
-                                        style="width: 200px"
+                                        style="width: 100%"
                                         placeholder="输入名称"
                                         @select="onSelect"
                                         @search="onSearch"
@@ -64,7 +64,7 @@
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
-                                <a-date-picker v-model="queryParam.operate_time" style="width: 100%" placeholder="请输入更新日期"/>
+                                <a-range-picker  @change="onChangeDate"  style="width: 100%"  format="YYYY-MM-DD"/>
                             </a-form-item>
                         </a-col>
                         <a-col :md="8" :sm="24">
@@ -145,10 +145,12 @@
                     }
                 ],
                 queryParam:{
-                    operate_type:'',
+                    operateType:'',
                     dept:'',
-                    user_id:'',
-                    operate_time:'',
+                    userId:'',
+                    operateTime:'',
+                    operateTimeST:'',
+                    operateTimeED:'',
                     content:''
 
                 },
@@ -163,6 +165,7 @@
         created () {
             this.initTreeDataSimple()
         },
+
         methods: {
             initTreeDataSimple(){
                 departMentAll().then(res=>{
@@ -173,7 +176,7 @@
                 })
             },
             onSearch(searchText) {
-                if(searchText&&searchText!=''){
+                if(searchText){
                     getHrmResource(searchText).then(res=>{
                         if(res.data.code==200){
                             this.userDatasource = res.data.data
@@ -190,7 +193,15 @@
             },
             onChange(value) {
                 console.log('onChange', value);
+                if(!value){
+                    this.userDatasource = [];
+                }
             },
+            onChangeDate(date, dateString){
+                console.log(date, dateString);
+                this.queryParam.operateTimeST = dateString[0]
+                this.queryParam.operateTimeED = dateString[1]
+            }
         }
     }
 </script>
