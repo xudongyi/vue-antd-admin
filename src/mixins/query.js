@@ -61,7 +61,7 @@ export const QueryMixIn ={
             }
             let params = this.getQueryParams();//查询条件
             this.loading = true;
-            request(BASE_URL+this.url.list, METHOD.POST, params).then((res)=>{
+            request(BASE_URL+this.url.list, METHOD.GET, params).then((res)=>{
                 const response = res.data
                 if (response.code == 200) {
                     this.dataSource = response.data.records;

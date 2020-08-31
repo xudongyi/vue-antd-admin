@@ -7,4 +7,10 @@ async function departMentAll(departMentName){
     })
 }
 
-export {departMentAll}
+async function getHrmResource(lastname){
+    return  request(BASE_URL+"/oa/getHrmResource", METHOD.POST, {
+        lastname: lastname
+    })
+}
+
+export {departMentAll,getHrmResource}

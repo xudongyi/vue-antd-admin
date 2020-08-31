@@ -24,6 +24,7 @@
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
                                 <a-tree-select
+                                        allow-clear
                                         show-search
                                         tree-node-filter-prop="title"
                                         v-model="queryParam.dept"
@@ -31,7 +32,6 @@
                                         style="width: 100%"
                                         :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
                                         :tree-data="treeDataSimple"
-                                        placeholder="Please select"
 
                                 >
                                 </a-tree-select>
@@ -44,7 +44,16 @@
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
-                                <a-input v-model="queryParam.user_id" style="width: 100%" placeholder="请输入"/>
+                                <a-auto-complete
+                                        allow-clear
+                                        v-model="queryParam.user_id"
+                                        :data-source="userDatasource"
+                                        style="width: 200px"
+                                        placeholder="输入名称"
+                                        @select="onSelect"
+                                        @search="onSearch"
+                                        @change="onChange"
+                                />
                             </a-form-item>
                         </a-col>
                     </a-row>
@@ -104,7 +113,7 @@
 
 <script>
     import {QueryMixIn} from '@/mixins/query'
-    import {departMentAll} from '@/services/oa'
+    import {departMentAll,getHrmResource} from '@/services/oa'
     export default {
         name: 'QueryList',
         mixins: [QueryMixIn],
@@ -147,13 +156,8 @@
                 url: {
                     list: '/log/list'
                 },
-                treeDataSimple:[
-                    { id: 1, pId: 0, value: '1', title: 'Expand to load' },
-                    { id: 4, pId: 1, value: '11', title: 'Expand to load11' },
-                    { id: 5, pId: 1, value: '12', title: 'Expand to load12' },
-                    { id: 2, pId: 0, value: '2', title: 'Expand to load' },
-                    { id: 3, pId: 0, value: '3', title: 'Tree Node', isLeaf: true },
-                ],
+                treeDataSimple:[],
+                userDatasource:[]
             }
         },
         created () {
@@ -168,9 +172,25 @@
                     }
                 })
             },
-            filterTreeNode(inputValue){
+            onSearch(searchText) {
+                if(searchText&&searchText!=''){
+                    getHrmResource(searchText).then(res=>{
+                        if(res.data.code==200){
+                            this.userDatasource = res.data.data
+                        }
+                    })
+                }else{
+                    this.userDatasource = [];
+                }
 
-            }
+
+            },
+            onSelect(value) {
+                console.log('onSelect', value);
+            },
+            onChange(value) {
+                console.log('onChange', value);
+            },
         }
     }
 </script>
