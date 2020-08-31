@@ -46,14 +46,15 @@
                             >
                                 <a-auto-complete
                                         allow-clear
-                                        v-model="queryParam.userId"
                                         :data-source="userDatasource"
                                         style="width: 100%"
                                         placeholder="输入名称"
                                         @select="onSelect"
                                         @search="onSearch"
                                         @change="onChange"
-                                />
+                                >
+                                </a-auto-complete>
+
                             </a-form-item>
                         </a-col>
                     </a-row>
@@ -159,7 +160,8 @@
                     list: '/log/list'
                 },
                 treeDataSimple:[],
-                userDatasource:[]
+                userDatasource:[],
+                userDatasourceId:[]
             }
         },
         created () {
@@ -179,16 +181,26 @@
                 if(searchText){
                     getHrmResource(searchText).then(res=>{
                         if(res.data.code==200){
-                            this.userDatasource = res.data.data
+                            this.userDatasourceId = []
+                            let dataSource = []
+                            res.data.data.forEach((value,key,arr)=>{
+                                dataSource.push(value.LABEL)
+                                this.userDatasourceId.push(value.ID)
+                            })
+                            this.userDatasource = dataSource
                         }
                     })
                 }else{
                     this.userDatasource = [];
                 }
-
-
             },
             onSelect(value) {
+                this.queryParam.userId =  this.userDatasource
+                this.userDatasource.forEach((v1,key,arr)=>{
+                    if(value===v1){
+                        this.queryParam.userId = this.userDatasourceId[key]
+                    }
+                })
                 console.log('onSelect', value);
             },
             onChange(value) {
