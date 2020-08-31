@@ -44,6 +44,12 @@ const err = (error) => {
         description: 'Authorization verification failed'
       })
     }
+    if(error.response.status===500){
+      notification.error({
+        message: '服务器错误',
+        description: data.message
+      })
+    }
   }
   return Promise.reject(error)
 }

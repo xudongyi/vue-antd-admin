@@ -49,7 +49,7 @@ const options = {
           meta: {
             icon: 'money-collect',
           },
-          component: () => import('@/pages/list/QueryList'),
+          component: () => import('@/pages/list/salary/SalaryQueryList'),
         },
         {
           path: 'log',

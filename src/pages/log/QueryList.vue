@@ -32,7 +32,6 @@
                                         style="width: 100%"
                                         :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
                                         :tree-data="treeDataSimple"
-
                                 >
                                 </a-tree-select>
                             </a-form-item>

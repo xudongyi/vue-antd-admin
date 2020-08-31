@@ -33,7 +33,6 @@
                     const loginRes = res.data
                     if (loginRes.code == 200) {
                         let user = {}
-                        debugger
                         user.loginid = loginRes.data.loginid
                         user.workcode = loginRes.data.workcode
                         user.lastname = loginRes.data.lastname
