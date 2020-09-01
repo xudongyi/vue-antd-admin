@@ -30,6 +30,12 @@ module.exports = {
           return args
         })
     }
+    config
+        .plugin('html')
+        .tap(args => {
+          args[0].title= '薪资管理平台'
+          return args
+        })
   },
   devServer: {
     // development server port 8000

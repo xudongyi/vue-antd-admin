@@ -12,8 +12,9 @@
                             >
                                 <a-select defaultValue="-1" allowClear  v-model="queryParam.operateType" placeholder="请选择">
                                     <a-select-option value="0">登录</a-select-option>
-                                    <a-select-option value="1">发送短信</a-select-option>
-                                    <a-select-option value="2">薪资查询</a-select-option>
+                                    <a-select-option value="3">单点登录</a-select-option>
+                                    <a-select-option value="1">薪资查询</a-select-option>
+                                    <a-select-option value="2">发送短信</a-select-option>
                                 </a-select>
                             </a-form-item>
                         </a-col>
@@ -99,7 +100,6 @@
                     :dataSource="dataSource"
                     :pagination="ipagination"
                     :loading="loading"
-                    :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
                     @change="handleTableChange">
 
                 <!-- 字符串超长截取省略号显示-->
@@ -125,6 +125,10 @@
                     {
                         title: '用户名',
                         dataIndex: 'lastname'
+                    },
+                    {
+                        title: '登录名',
+                        dataIndex: 'userId'
                     },
                     {
                         title: 'IP地址',
