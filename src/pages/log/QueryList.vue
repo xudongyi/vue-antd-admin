@@ -25,7 +25,6 @@
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
                                 <a-tree-select
-                                        @select="selectTree"
                                         allow-clear
                                         show-search
                                         tree-node-filter-prop="title"
@@ -205,11 +204,6 @@
                         this.queryParam.userId = this.userDatasourceId[key]
                     }
                 })
-            },
-            selectTree(value, node, extra){
-                console.log(value)
-                console.log(node)
-                console.log(extra)
             },
             onChange(value) {
                 if(!value){
