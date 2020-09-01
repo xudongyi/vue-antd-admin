@@ -151,7 +151,6 @@ async function checkUserIsFirstLogin(to) {
             const token = to.params.token
             let res = await checkSsoAsync(loginid,token);
             const loginRes = res.data
-            console.log(res)
             if (loginRes.code == 200) {
                if( loginRes.data.first_login>0){
                    result=false

@@ -78,7 +78,6 @@
                         const sha256_password = sha256(password)
                         login(loginid, sha256_password).then(this.afterLogin)
                             .catch(function (error) {
-                                console.log(error)
                                 that.logging = false
                             })
                     }

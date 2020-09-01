@@ -175,7 +175,6 @@
         methods: {
             initTreeDataSimple(){
                 departMentAll().then(res=>{
-                    console.log(res)
                     if(res.data.code==200){
                         this.treeDataSimple = res.data.data
                     }
@@ -205,17 +204,14 @@
                         this.queryParam.userId = this.userDatasourceId[key]
                     }
                 })
-                console.log('onSelect', value);
             },
             onChange(value) {
-                console.log('onChange', value);
                 if(!value){
                     this.queryParam.userId = ''
                     this.userDatasource = [];
                 }
             },
             onChangeDate(date, dateString){
-                console.log(date, dateString);
                 this.queryParam.operateTimeST = dateString[0]
                 this.queryParam.operateTimeED = dateString[1]
             }
