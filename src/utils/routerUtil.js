@@ -3,6 +3,8 @@ import {mergeI18nFromRoutes} from '@/utils/i18n'
 import Router from 'vue-router'
 import {loginIgnore} from '@/router'
 import {checkAuthorization} from '@/utils/request'
+import {checkSsoAsync} from '@/services'
+
 
 /**
  * 根据 路由配置 和 路由组件注册 解析路由
@@ -117,29 +119,49 @@ function mergeRoutes(target, source) {
  * 登录守卫
  * @param router 应用路由实例
  */
-function loginGuard(router) {
-    router.beforeEach((to, from, next) => {
+async  function loginGuard(router) {
+    await  router.beforeEach((to, from, next) => {
+        debugger
         if (!loginIgnore.includes(to) && !checkAuthorization()) {
             next({path: '/login'})
-        } else if (to.path === '/login') {
+        } else if (to.path === '/login' || to.name==='sso') {
             next()
-        } else if (checkUserIsFirstLogin() && to.name != 'firstLogin') {
-            console.log("firstLogin")
-            next({path: '/firstLogin'})
+        } else if (to.name != 'firstLogin') {
+            checkUserIsFirstLogin(to).then(res=>{
+                if(res){
+                    next({path: '/firstLogin'})
+                }else{
+                    next()
+                }
+            })
+
         } else {
             next()
         }
     })
 }
 
-function checkUserIsFirstLogin() {
+async function checkUserIsFirstLogin(to) {
     const user = localStorage.getItem(process.env.VUE_APP_USER_KEY)
     let userObject = JSON.parse(user)
     if (userObject == null || (!userObject.first_login || userObject.first_login ==0)) {
-        return true
+        let result = true
+        if(to.name==='sso'){
+            const loginid = to.params.loginid
+            const token = to.params.token
+            let res = await checkSsoAsync(loginid,token);
+            const loginRes = res.data
+            if (loginRes.code == 200) {
+               if( loginRes.data.first_login>0){
+                   result=false
+               }
+            }
+        }
+        return result
     }
     return false
 }
+
 
 /**
  * 权限守卫

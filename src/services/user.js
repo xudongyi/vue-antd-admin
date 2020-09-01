@@ -24,6 +24,14 @@ async function checkSso(loginid,token){
     token: token
   })
 }
+
+async function checkSsoAsync(loginid,token){
+  let responseData = await requestAsync(CHECKSSO, METHOD.POST, {
+    loginid: loginid,
+    token: token
+  })
+  return responseData
+}
 async function sendMobile(loginid,mobile){
   return  request(BASE_URL+"/auth/user/sendMobile", METHOD.POST, {
     loginid: loginid,
@@ -50,6 +58,4 @@ function logout() {
   removeAuthorization()
 }
 
-
-
-export {login, logout,checkSso, getRoutesConfig,sendMobile,modifyPassword}
+export {login, logout,checkSso, checkSsoAsync,getRoutesConfig,sendMobile,modifyPassword}

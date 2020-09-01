@@ -24,6 +24,7 @@
         methods: {
             ...mapMutations('account', ['setUser', 'setPermissions', 'setRoles']),
             sso() {
+                debugger
                 let that = this
                 console.log(this.$route.params.loginid)
                 console.log(this.$route.params.token)

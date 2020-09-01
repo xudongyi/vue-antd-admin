@@ -12,8 +12,9 @@
                             >
                                 <a-select defaultValue="-1" allowClear  v-model="queryParam.operateType" placeholder="请选择">
                                     <a-select-option value="0">登录</a-select-option>
-                                    <a-select-option value="1">发送短信</a-select-option>
-                                    <a-select-option value="2">薪资查询</a-select-option>
+                                    <a-select-option value="3">单点登录</a-select-option>
+                                    <a-select-option value="1">薪资查询</a-select-option>
+                                    <a-select-option value="2">发送短信</a-select-option>
                                 </a-select>
                             </a-form-item>
                         </a-col>
@@ -98,7 +99,6 @@
                     :dataSource="dataSource"
                     :pagination="ipagination"
                     :loading="loading"
-                    :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
                     @change="handleTableChange">
 
                 <!-- 字符串超长截取省略号显示-->
@@ -122,7 +122,11 @@
                 description: '日志查询',
                 columns: [
                     {
-                        title: '用户',
+                        title: '用户名',
+                        dataIndex: 'lastname'
+                    },
+                    {
+                        title: '登录名',
                         dataIndex: 'userId'
                     },
                     {
@@ -170,7 +174,6 @@
         methods: {
             initTreeDataSimple(){
                 departMentAll().then(res=>{
-                    console.log(res)
                     if(res.data.code==200){
                         this.treeDataSimple = res.data.data
                     }
@@ -200,17 +203,14 @@
                         this.queryParam.userId = this.userDatasourceId[key]
                     }
                 })
-                console.log('onSelect', value);
             },
             onChange(value) {
-                console.log('onChange', value);
                 if(!value){
                     this.queryParam.userId = ''
                     this.userDatasource = [];
                 }
             },
             onChangeDate(date, dateString){
-                console.log(date, dateString);
                 this.queryParam.operateTimeST = dateString[0]
                 this.queryParam.operateTimeED = dateString[1]
             }
