@@ -123,8 +123,8 @@
                 description: '日志查询',
                 columns: [
                     {
-                        title: '用户',
-                        dataIndex: 'userId'
+                        title: '用户名',
+                        dataIndex: 'lastname'
                     },
                     {
                         title: 'IP地址',

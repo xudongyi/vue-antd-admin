@@ -1,5 +1,5 @@
 import {BASE_URL,LOGIN, ROUTES,CHECKSSO} from '@/services/api'
-import {request, METHOD, removeAuthorization} from '@/utils/request'
+import {request,requestAsync, METHOD, removeAuthorization} from '@/utils/request'
 
 /**
  * 登录服务
@@ -23,6 +23,14 @@ async function checkSso(loginid,token){
     loginid: loginid,
     token: token
   })
+}
+
+async function checkSsoAsync(loginid,token){
+  let responseData = await requestAsync(CHECKSSO, METHOD.POST, {
+    loginid: loginid,
+    token: token
+  })
+  return responseData
 }
 async function sendMobile(loginid,mobile){
   return  request(BASE_URL+"/auth/user/sendMobile", METHOD.POST, {
@@ -50,4 +58,4 @@ function logout() {
   removeAuthorization()
 }
 
-export {login, logout,checkSso, getRoutesConfig,sendMobile,modifyPassword}
+export {login, logout,checkSso, checkSsoAsync,getRoutesConfig,sendMobile,modifyPassword}

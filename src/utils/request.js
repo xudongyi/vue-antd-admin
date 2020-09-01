@@ -88,6 +88,17 @@ async function request(url, method, params) {
   }
 }
 
+async function requestAsync(url, method, params) {
+  switch (method) {
+    case METHOD.GET:
+      return await service.get(url, {params})
+    case METHOD.POST:
+      return await service.post(url, params)
+    default:
+      return await service.get(url, {params})
+  }
+}
+
 /**
  * 设置认证信息
  * @param auth {Object}
@@ -148,6 +159,7 @@ export {
   METHOD,
   AUTH_TYPE,
   request,
+  requestAsync,
   setAuthorization,
   removeAuthorization,
   checkAuthorization
