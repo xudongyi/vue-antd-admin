@@ -1,7 +1,6 @@
 <template>
-  <exception-page home-route="/dashboard/workplace" :style="`min-height: ${minHeight}`" type="500" />
+  <exception-page home-route="/index" :style="`min-height: ${minHeight}`" type="500" />
 </template>
-
 <script>
 import ExceptionPage from '@/components/exception/ExceptionPage'
 import {mapState} from 'vuex'
