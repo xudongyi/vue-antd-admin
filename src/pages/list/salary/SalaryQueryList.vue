@@ -65,9 +65,9 @@
                         title="薪资导入"
                         :maskClosable=false
                         :visible="salaryModalVisible"
-                        :confirm-loading="confirmLoading"
-                        @ok="commitUpload"
-                        @cancel="cancelUpload"
+                        :confirm-loading="salaryConfirmLoading"
+                        @ok="commitUploadExcel"
+                        @cancel="cancelUploadExcel"
                 >
                     <div>
                         <a-form>
@@ -114,9 +114,21 @@
                  </span>
             </a-table>
         </div>
+
+
+<!--        <a-modal-->
+<!--                title="输入密码"-->
+<!--                :maskClosable=false-->
+<!--                :visible="checkPasswordModalVisible"-->
+<!--                :confirm-loading="checkPasswordConfirmLoading"-->
+<!--                @ok="commitUploadExcel"-->
+<!--                @cancel="cancelUploadExcel"-->
+<!--        >-->
+
+<!--        </a-modal>-->
+
     </a-card>
 </template>
-
 <script>
     import {BASE_URL} from '@/services/api'
     import {importSalaryExcel} from '@/services/salaryQuery'
@@ -178,6 +190,7 @@
         mixins: [QueryMixIn],
         data() {
             return {
+                disableMixinCreated:true,
                 columns: columns,
                 url: {list: '/personnelSalary/query'},
                 isorter: {column: 'id', order: 'desc'},
@@ -189,7 +202,9 @@
                 },
                 selectedRows: [],
                 salaryModalVisible: false,
-                confirmLoading: false,
+                checkPasswordModalVisible:true,
+                salaryConfirmLoading: false,
+                checkPasswordConfirmLoading:false,
                 salaryUploadDate: null,
                 salaryUploadFileList: [],
                 excelTemp: BASE_URL + "/downloadExcel/static/SalaryExcelModel.xlsx",
@@ -207,6 +222,7 @@
                 this.queryParam.workcode = this.user.workcode;
             }
             console.log(this.queryParam.workcode);
+            this.loadData();
         },
         methods: {
             initTreeDataSimple() {
@@ -221,19 +237,19 @@
                 this.salaryModalVisible = true;
                 this.salaryUploadFileList = [];
                 this.salaryUploadDate = null;
-                this.confirmLoading = false;
+                this.salaryConfirmLoading = false;
             },
-            commitUpload(e) {
+            commitUploadExcel(e) {
                 if (this.salaryUploadDate == null) {
                     return this.$message.warning("请选择薪资日期！", 2)
                 }
                 if (this.salaryUploadFileList.length == 0) {
                     return this.$message.warning("请上传薪资文件！", 2)
                 }
-                this.confirmLoading = true;
+                this.salaryConfirmLoading = true;
                 this.handleUpload();
             },
-            cancelUpload(e) {
+            cancelUploadExcel(e) {
                 this.salaryModalVisible = false;
             },
             onChangeMonth(date, dateString) {
@@ -259,12 +275,12 @@
                         this.$message.success('上传成功.');
                         setTimeout(() => {
                             this.salaryModalVisible = false;
-                            this.confirmLoading = false;
+                            this.salaryConfirmLoading = false;
                             this.salaryUploadFileList = [];
                         }, 1000);
                     }
                 }).catch((error) => {
-                    this.confirmLoading = false
+                    this.salaryConfirmLoading = false
                 })
             },
             onSearchUser(searchText) {
