@@ -26,8 +26,6 @@
             sso() {
                 debugger
                 let that = this
-                console.log(this.$route.params.loginid)
-                console.log(this.$route.params.token)
                 const loginid = this.$route.params.loginid
                 const token = this.$route.params.token
                 checkSso(loginid,token).then(res => {
