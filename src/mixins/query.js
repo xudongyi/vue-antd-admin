@@ -23,7 +23,7 @@ export const QueryMixIn ={
             },
             /* 排序参数 */
             isorter:{
-                column: 'createTime',
+                column: 'id',
                 order: 'desc',
             },
             /* table加载状态 */
