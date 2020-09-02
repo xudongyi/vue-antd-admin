@@ -4,7 +4,7 @@
             <a-form layout="horizontal">
                 <div>
                     <a-row>
-                        <a-col :md="8" :sm="24">
+                        <a-col v-if="ismanager" :md="8" :sm="24">
                             <a-form-item
                                     label="部门"
                                     :labelCol="{span: 5}"
@@ -23,7 +23,7 @@
                                 </a-tree-select>
                             </a-form-item>
                         </a-col>
-                        <a-col :md="8" :sm="24">
+                        <a-col v-if="ismanager" :md="8" :sm="24">
                             <a-form-item
                                     label="人员"
                                     :labelCol="{span: 5}"
@@ -59,8 +59,8 @@
             </a-form>
         </div>
         <div>
-            <div class="operator">
-                <a-button type="primary" @click="showUploadSalaryModal">批量上传</a-button>
+            <div class="operator" v-if="ismanager">
+                <a-button type="primary" @click="showUploadSalaryModal">批量导入</a-button>
                 <a-modal
                         title="薪资导入"
                         :maskClosable=false
@@ -96,6 +96,7 @@
                 </a-modal>
             </div>
             <a-table
+                    style="margin-top: 18px;"
                     ref="table"
                     size="middle"
                     bordered
@@ -121,6 +122,8 @@
     import {importSalaryExcel} from '@/services/salaryQuery'
     import {QueryMixIn} from '@/mixins/query'
     import {departMentAll, getHrmResource} from '@/services/oa'
+    import {mapGetters} from 'vuex'
+
 
     const columns = [
         {title: '姓名', width: 100, dataIndex: 'name', key: 'name', fixed: 'left'},
@@ -169,6 +172,9 @@
 
     export default {
         name: 'SalaryQueryList',
+        computed: {
+            ...mapGetters('account', ['user']),
+        },
         mixins: [QueryMixIn],
         data() {
             return {
@@ -178,7 +184,8 @@
                 queryParam: {
                     userId: '',
                     dept: '',
-                    salaryMonth: ''
+                    salaryMonth: '',
+                    workcode:''
                 },
                 selectedRows: [],
                 salaryModalVisible: false,
@@ -187,11 +194,19 @@
                 salaryUploadFileList: [],
                 excelTemp: BASE_URL + "/downloadExcel/static/SalaryExcelModel.xlsx",
                 userDatasource: [],
-                treeDataSimple: []
+                treeDataSimple: [],
+                ismanager:false
             }
         },
         created() {
             this.initTreeDataSimple()
+            console.log(this.user);
+            if(this.user.roleId==2){
+                this.ismanager = true;
+            }else{
+                this.queryParam.workcode = this.user.workcode;
+            }
+            console.log(this.queryParam.workcode);
         },
         methods: {
             initTreeDataSimple() {
@@ -300,7 +315,7 @@
     }
 
     .operator {
-        margin-bottom: 18px;
+
     }
 
     @media screen and (max-width: 900px) {
