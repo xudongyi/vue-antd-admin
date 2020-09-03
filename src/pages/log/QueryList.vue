@@ -122,7 +122,7 @@
                 description: '日志查询',
                 columns: [
                     {
-                        title: '用户名',
+                        title: '姓名',
                         dataIndex: 'lastname'
                     },
                     {
