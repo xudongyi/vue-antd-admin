@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Cookie from 'js-cookie'
 import {BASE_URL} from '@/services/api'
+import {logout} from '@/services'
 // 跨域认证信息 header 名
 const xsrfHeaderName = 'Authorization'
 import notification from 'ant-design-vue/es/notification'
@@ -8,7 +9,6 @@ axios.defaults.timeout = 5000
 axios.defaults.withCredentials= true
 axios.defaults.xsrfHeaderName= xsrfHeaderName
 axios.defaults.xsrfCookieName= xsrfHeaderName
-
 // 认证类型
 const AUTH_TYPE = {
   BEARER: 'Bearer',
@@ -29,6 +29,7 @@ const service = axios.create({
   withCredentials: true
 })
 const err = (error) => {
+  debugger
   if (error.response) {
     const data = error.response.data
     if (error.response.status === 403) {
@@ -43,11 +44,16 @@ const err = (error) => {
         description: 'Authorization verification failed'
       })
     }
-    if(error.response.status===500){
-      notification.error({
-        message: '服务器错误',
-        description: data.message
-      })
+    if(error.response.status===500||(error.response.status>202 && error.response.status<=218)){
+      switch (error.response.status) {
+        case 500:
+          notification.error({
+            message: '服务器错误',
+            description: data.message
+          })
+          break
+      }
+
     }
   }
   return Promise.reject(error)
@@ -64,16 +70,26 @@ service.interceptors.request.use(config => {
 
 // response interceptor
 service.interceptors.response.use((response) => {
-  const res = response.data
-  if (res.code !==200) {
+  if(response.status===208){
     notification.error({
-      message: res.message || 'Error',
-      duration: 3
+      message: 'token过期'
     })
-    return Promise.reject(new Error(res.message || 'Error'))
-  } else {
+    logout()
+    $myrouter.push('/login')
     return response
+  }else{
+    const res = response.data
+    if (res.code !==200) {
+      notification.error({
+        message: res.message,
+        duration: 3
+      })
+      return Promise.reject(new Error(res.message || 'Error'))
+    } else {
+      return response
+    }
   }
+
 }, err)
 /**
  * axios请求

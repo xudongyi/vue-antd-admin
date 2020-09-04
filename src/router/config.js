@@ -30,6 +30,11 @@ const options = {
       component: () => import('@/pages/login/firstLogin'),
     },
     {
+      path: '/modifypwd',
+      name: 'modifypwd.vue',
+      component: () => import('@/pages/user/modifypwd'),
+    },
+    {
       path: '/',
       name: '首页',
       component: TabsView,

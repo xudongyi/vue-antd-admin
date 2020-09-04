@@ -14,6 +14,13 @@
       </a-menu-item>
       <a-menu-divider />-->
       <a-menu-item>
+        <a @click="changepwd">
+        <a-icon type="setting" />
+        <span>修改密码</span>
+        </a>
+      </a-menu-item>
+      <a-menu-divider />
+      <a-menu-item>
         <a @click="logout">
           <a-icon type="poweroff" />
           <span>退出登录</span>
@@ -35,6 +42,9 @@ export default {
     logout() {
       logout()
       this.$router.push('/login')
+    },
+    changepwd() {
+      this.$router.push('/modifypwd')
     }
   }
 }

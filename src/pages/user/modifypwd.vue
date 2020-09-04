@@ -30,6 +30,7 @@
 </template>
 <script>
     import {mapState,mapMutations} from "vuex"
+    import {logout} from '@/services'
     import {sendMobile,modifyPassword} from '@/services/user'
     export default {
         data() {
@@ -100,7 +101,7 @@
                 let that = this;
                 this.$refs[formName].validateField("mobile",valid => {
                     if (!valid) {
-                        sendMobile(this.account.user.loginid, this.ruleForm.mobile).then(res=>{
+                        sendMobile(this.account.user.workcode, this.ruleForm.mobile).then(res=>{
                             this.buttonStatus = true
                             this.button = 60
                             this.buttonInterval = setInterval(()=>{
@@ -125,13 +126,11 @@
                         const sha256 = require('js-sha256').sha256
                         const sha256_password = sha256(this.ruleForm.password)
                         const sha256_checkPass = sha256(this.ruleForm.checkPass)
-                        modifyPassword(this.account.user.workcode,this.ruleForm.mobile, sha256_password, sha256_checkPass, this.ruleForm.captcha).then(res=>{
+                        modifyPassword(this.account.user.workcode, this.ruleForm.mobile, sha256_password, sha256_checkPass, this.ruleForm.captcha).then(res=>{
                           if(res.data.code==200){
-                              const user = localStorage.getItem(process.env.VUE_APP_USER_KEY)
-                              const userJson = JSON.parse(user)
-                              userJson.first_login = 1
-                              this.setUser(userJson)
-                              this.$router.push('/index')
+                              this.$message.success("修改成功！")
+                              logout()
+                              this.$router.push('/login')
                           }
                         }).catch(function (error) {
                             console.log(error)

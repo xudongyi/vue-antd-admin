@@ -19,7 +19,7 @@ Vue.config.productionTip = false
 Vue.use(Viser)
 Vue.use(Antd)
 Vue.use(Plugins)
-
+Window.prototype.$myrouter = router
 new Vue({
   router,
   store,
