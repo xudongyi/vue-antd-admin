@@ -11,8 +11,8 @@
       @edit="editPage"
       @contextmenu="onContextmenu"
     >
-      <a-tab-pane :key="page.fullPath" v-for="page in pageList">
-        <span slot="tab" :pagekey="page.fullPath">{{pageName(page)}}</span>
+      <a-tab-pane :closable="page.name!='首页'" :key="page.fullPath" v-for="page in pageList">
+        <span slot="tab" :pagekey="page.fullPath">{{page.name}}</span>
       </a-tab-pane>
     </a-tabs>
     <div class="tabs-view-content" :style="`margin-top: ${multiPage ? -24 : 0}px`">
@@ -63,6 +63,7 @@ export default {
     this.activePage = route.fullPath
   },
   mounted () {
+    this.beforeUnload();
     this.correctPageMinHeight(-this.tabsOffset)
   },
   beforeDestroy() {
@@ -85,9 +86,25 @@ export default {
     },
     tabsOffset(newVal, oldVal) {
       this.correctPageMinHeight(oldVal - newVal)
+    },
+    'pageList':function (val) {
+      let s = []
+      val.forEach(function(ele, i){
+        let obj  = {};
+        obj.fullPath = ele.fullPath;
+        obj.name = ele.name;
+        s.push(obj);
+      });
+      localStorage.setItem(process.env.VUE_APP_TABS, JSON.stringify(s))
     }
   },
   methods: {
+    beforeUnload() {
+      let oldViews = JSON.parse(localStorage.getItem(process.env.VUE_APP_TABS)) || [];
+      if (oldViews.length > 0) {
+        this.pageList = oldViews;
+      }
+    },
     changePage (key) {
       this.activePage = key
       this.$router.push(key)
@@ -128,24 +145,26 @@ export default {
     closeOthers (pageKey) {
       const index = this.pageList.findIndex(item => item.fullPath === pageKey)
       // 要关闭的页面清除缓存
+      let home =  this.pageList.slice(0,index==0?0:1)
       this.pageList.forEach(item => {
         if (item.fullPath !== pageKey){
           this.clearCache(item)
         }
       })
-      this.pageList = this.pageList.slice(index, index + 1)
+      this.pageList = home.concat(this.pageList.slice(index, index + 1))
       this.activePage = this.pageList[0].fullPath
       this.$router.push(this.activePage)
     },
     closeLeft (pageKey) {
       const index = this.pageList.findIndex(item => item.fullPath === pageKey)
+      let home =  this.pageList.slice(0,index==0?0:1)
       // 清除缓存
       this.pageList.forEach((item, i) => {
         if (i < index) {
           this.clearCache(item)
         }
       })
-      this.pageList = this.pageList.slice(index)
+      this.pageList =  home.concat(this.pageList.slice(index))
       if (this.pageList.findIndex(item => item.fullPath === this.activePage) === -1) {
         this.activePage = this.pageList[0].fullPath
         this.$router.push(this.activePage)
@@ -166,19 +185,18 @@ export default {
       }
     },
     clearCache(route) {
-      const componentName = route.matched.slice(-1)[0].components.default.name
-      if (this.dustbins.findIndex(item => item === componentName) === -1) {
-        this.setDustbins(this.dustbins.concat(componentName))
+      let name = []
+      name.push(route.name)
+      if (route.name!='首页') {
+        this.setDustbins(this.dustbins.concat(name ))
       }
     },
     putCache(route) {
-      const componentName = route.matched.slice(-1)[0].components.default.name
-      if (this.dustbins.includes(componentName)) {
-        this.setDustbins(this.dustbins.filter(item => item !== componentName))
+      let name = []
+      name.push(route.name)
+      if (this.dustbins.includes(name)) {
+        this.setDustbins(this.dustbins.filter(item => item !== name))
       }
-    },
-    pageName(page) {
-      return this.$t(getI18nKey(page.matched[page.matched.length - 1].path))
     },
     ...mapMutations('setting', ['setDustbins', 'correctPageMinHeight'])
   }

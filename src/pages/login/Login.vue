@@ -98,6 +98,7 @@
                     // 获取路由配置(使用本地配置)
                     let routesConfig = require('../../router/config').default
                     loadRoutes({router: this.$router, store: this.$store, i18n: this.$i18n}, routesConfig)
+                    localStorage.removeItem(process.env.VUE_APP_TABS)
                     this.$router.push('/index')
                     this.$message.success(loginRes.message, 3)
                 } else {
