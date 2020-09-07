@@ -17,10 +17,7 @@
     </a-tabs>
     <div class="tabs-view-content" :style="`margin-top: ${multiPage ? -24 : 0}px`">
       <page-toggle-transition :disabled="animate.disabled" :animate="animate.name" :direction="animate.direction">
-        <keep-alive :exclude="dustbins" v-if="multiPage">
           <router-view />
-        </keep-alive>
-        <router-view v-else />
       </page-toggle-transition>
     </div>
   </admin-layout>
@@ -61,6 +58,7 @@ export default {
     const route = this.$route
     this.pageList.push(route)
     this.activePage = route.fullPath
+
   },
   mounted () {
     this.beforeUnload();
@@ -187,14 +185,12 @@ export default {
     clearCache(route) {
       let name = []
       name.push(route.name)
-      if (route.name!='首页') {
-        this.setDustbins(this.dustbins.concat(name ))
-      }
+      this.setDustbins(this.dustbins.concat(name))
     },
     putCache(route) {
       let name = []
       name.push(route.name)
-      if (this.dustbins.includes(name)) {
+      if (route.name!='薪资查询'&& !this.dustbins.includes(name)) {
         this.setDustbins(this.dustbins.filter(item => item !== name))
       }
     },
