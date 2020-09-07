@@ -98,7 +98,9 @@
             ...mapMutations('account', ['setUser']),
             sendMsg(formName){
                 let that = this;
+                debugger
                 this.$refs[formName].validateField("mobile",valid => {
+                    debugger
                     if (!valid) {
                         sendMobile(this.account.user.loginid, this.ruleForm.mobile).then(res=>{
                             this.buttonStatus = true
@@ -120,6 +122,7 @@
                 });
             },
             submitForm(formName) {
+                debugger
                 this.$refs[formName].validate(valid => {
                     if (valid) {
                         const sha256 = require('js-sha256').sha256

@@ -25,19 +25,11 @@
                         </a-col>
                         <a-col v-if="ismanager" :md="8" :sm="24">
                             <a-form-item
-                                    label="人员"
+                                    label="工号"
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
-                                <a-auto-complete
-                                        allow-clear
-                                        :data-source="userDatasource"
-                                        style="width: 100%"
-                                        placeholder="输入名称"
-                                        @select="onSelectUser"
-                                        @search="onSearchUser"
-                                        @change="onChangeUser"
-                                />
+                                <a-input v-model="queryParam.workcode" placeholder="输入工号"/>
                             </a-form-item>
                         </a-col>
                         <a-col :md="8" :sm="24">
@@ -46,21 +38,25 @@
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
-                                <a-month-picker :value="queryParam.salaryMonth" @change="onChangeQueryMonth"
-                                                style="width: 100%" placeholder="请选择日期"/>
+                                <a-month-picker :value="queryParam.salarystamonth" @change="onChangeQueryStaMonth"
+                                                style="width: calc(50% - 20px)" placeholder="请选择日期"/>
+                                <span style="width:40px;text-align: center;display: inline-block;">~</span>
+                                <a-month-picker :value="queryParam.salaryendmonth" @change="onChangeQueryEndMonth"
+                                                style="width: calc(50% - 20px)" placeholder="请选择日期"/>
                             </a-form-item>
                         </a-col>
                     </a-row>
                 </div>
                 <span style="float: right; margin-top: 3px;">
           <a-button type="primary" @click="loadData">查询</a-button>
-          <a-button style="margin-left: 8px">重置</a-button>
+          <a-button style="margin-left: 8px" @click="resetParam">重置</a-button>
         </span>
             </a-form>
         </div>
         <div>
-            <div class="operator" v-if="ismanager">
-                <a-button type="primary" @click="showUploadSalaryModal">批量导入</a-button>
+            <div class="operator">
+                <a-button v-if="ismanager" type="primary" icon="import" @click="showUploadSalaryModal">批量导入</a-button>
+                <a-button style="margin-left: 8px" type="primary" icon="export" @click="exportSalaryData">批量导出</a-button>
                 <a-modal
                         title="薪资导入"
                         :maskClosable=false
@@ -105,43 +101,58 @@
                     :dataSource="dataSource"
                     :pagination="ipagination"
                     :loading="loading"
-                    :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
                     @change="handleTableChange"
                     :scroll="{ x: 1500}">
                 <!-- 字符串超长截取省略号显示-->
                 <span slot="templateContent" slot-scope="text">
                     <j-ellipsis :value="text" :length="25"/>
-                 </span>
+                </span>
             </a-table>
         </div>
 
 
-<!--        <a-modal-->
-<!--                title="输入密码"-->
-<!--                :maskClosable=false-->
-<!--                :visible="checkPasswordModalVisible"-->
-<!--                :confirm-loading="checkPasswordConfirmLoading"-->
-<!--                @ok="commitUploadExcel"-->
-<!--                @cancel="cancelUploadExcel"-->
-<!--        >-->
-
-<!--        </a-modal>-->
+                <a-modal
+                        title="输入密码"
+                       :maskClosable=false
+                        :visible="checkPasswordModalVisible"
+                        :confirm-loading="checkPasswordConfirmLoading"
+                        @ok="commitCheckPassword('checkForm')"
+                        @cancel="cancelCheckPassword"
+                >
+                    <div>
+                        <a-form-model ref="checkForm" :model="checkForm" :rules="rules" v-bind="layout">
+                            <a-form-model-item label="手机号" prop="mobile" >
+                                <a-input-search validateStatus="false" v-model.number="checkForm.mobile"  @search="sendMsg('checkForm')">
+                                    <a-button :disabled="buttonStatus" slot="enterButton">
+                                        {{button}}
+                                    </a-button>
+                                </a-input-search>
+                            </a-form-model-item>
+                            <a-form-model-item has-feedback label="验证码" prop="captcha">
+                                <a-input v-model.number="checkForm.captcha" />
+                            </a-form-model-item>
+                            <a-form-model-item has-feedback label="密码" prop="password">
+                                <a-input-password v-model="checkForm.password" type="password" autocomplete="off" />
+                            </a-form-model-item>
+                        </a-form-model>
+                    </div>
+                 </a-modal>
 
     </a-card>
 </template>
 <script>
     import {BASE_URL} from '@/services/api'
-    import {importSalaryExcel} from '@/services/salaryQuery'
+    import {importSalaryExcel,checkPassword} from '@/services/salaryQuery'
     import {QueryMixIn} from '@/mixins/query'
-    import {departMentAll, getHrmResource} from '@/services/oa'
-    import {mapGetters} from 'vuex'
+    import {departMentAll} from '@/services/oa'
+    import {mapGetters, mapMutations} from 'vuex'
+    import {sendMobile} from '@/services/user'
 
 
     const columns = [
-        {title: '姓名', width: 100, dataIndex: 'name', key: 'name', fixed: 'left'},
-        {title: '工号', width: 100, dataIndex: 'workcode', key: 'workcode', fixed: 'left'},
-        {title: '年份', width: 100, dataIndex: 'salaryYear', key: 'salaryYear', fixed: 'left'},
-        {title: '月份', width: 100, dataIndex: 'salaryMonth', key: 'salaryMonth', fixed: 'left'},
+        {title: '姓名', width: 100, dataIndex: 'lastname', key: 'lastname', fixed: 'left'},
+        {title: '工号', width: 100, dataIndex: 'workcode', key: 'workcode', fixed: 'left',align: 'center'},
+        {title: '月份', width: 100, dataIndex: 'salaryDate', key: 'salaryDate', fixed: 'left',align: 'center'},
         {title: '基本工资', dataIndex: 'basePay', width: 100, align: 'center'},
         {title: '考核工资', dataIndex: 'assessmentPay', width: 100, align: 'center'},
         {title: '加班工资', dataIndex: 'overtimePay', width: 100, align: 'center'},
@@ -189,40 +200,81 @@
         },
         mixins: [QueryMixIn],
         data() {
+            let checkMobile = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入手机号'));
+                }else if(!(/^1[3456789]\d{9}$/.test(this.checkForm.mobile))){
+                    callback(new Error("手机号码格式错误"));
+                }else{
+                    callback();
+                }
+            };
+
+
+            let validateCaptcha = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入验证码'));
+                } else {
+                    callback();
+                }
+            };
+
+            let validatePass = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入密码'));
+                } else {
+                    if (this.checkForm.checkPass !== '') {
+                        this.$refs.checkForm.validateField('checkPass');
+                    }
+                    callback();
+                }
+            };
             return {
-                disableMixinCreated:true,
+                disableMixinCreated: true,
                 columns: columns,
                 url: {list: '/personnelSalary/query'},
                 isorter: {column: 'id', order: 'desc'},
                 queryParam: {
-                    userId: '',
                     dept: '',
-                    salaryMonth: '',
-                    workcode:''
+                    workcode: '',
+                    salarystamonth: '',
+                    salaryendmonth: ''
                 },
                 selectedRows: [],
                 salaryModalVisible: false,
-                checkPasswordModalVisible:true,
+                checkPasswordModalVisible: true,
                 salaryConfirmLoading: false,
-                checkPasswordConfirmLoading:false,
+                checkPasswordConfirmLoading: false,
                 salaryUploadDate: null,
                 salaryUploadFileList: [],
                 excelTemp: BASE_URL + "/downloadExcel/static/SalaryExcelModel.xlsx",
-                userDatasource: [],
                 treeDataSimple: [],
-                ismanager:false
+                ismanager: false,
+                button:'发送',
+                buttonStatus:false,
+                checkForm: {
+                    password: '',
+                    mobile: '',
+                    captcha: '',
+                },
+                rules: {
+                    password: [{ validator: validatePass, trigger: 'blur' }],
+                    mobile: [{ validator: checkMobile, trigger: 'blur' }],
+                    captcha: [{ validator: validateCaptcha, trigger: 'blur' }],
+                },
+                layout: {
+                    labelCol: { span: 4 },
+                    wrapperCol: { span: 14 },
+                },
             }
         },
         created() {
-            this.initTreeDataSimple()
-            console.log(this.user);
-            if(this.user.roleId==2){
+            if (this.user.roleId == 2) {
                 this.ismanager = true;
-            }else{
+                this.initTreeDataSimple();
+            } else {
                 this.queryParam.workcode = this.user.workcode;
             }
-            console.log(this.queryParam.workcode);
-            this.loadData();
         },
         methods: {
             initTreeDataSimple() {
@@ -255,8 +307,11 @@
             onChangeMonth(date, dateString) {
                 this.salaryUploadDate = date;
             },
-            onChangeQueryMonth(date, dateString) {
-                this.queryParam.salaryMonth = dateString;
+            onChangeQueryStaMonth(date, dateString) {
+                this.queryParam.salarystamonth = dateString;
+            },
+            onChangeQueryEndMonth(date, dateString) {
+                this.queryParam.salaryendmonth = dateString;
             },
             handleRemoveFile(file) {
                 this.salaryUploadFileList = [];
@@ -277,44 +332,76 @@
                             this.salaryModalVisible = false;
                             this.salaryConfirmLoading = false;
                             this.salaryUploadFileList = [];
+                            this.loadData();
                         }, 1000);
                     }
                 }).catch((error) => {
                     this.salaryConfirmLoading = false
                 })
             },
-            onSearchUser(searchText) {
-                if (searchText) {
-                    getHrmResource(searchText).then(res => {
-                        if (res.data.code == 200) {
-                            this.userDatasourceId = []
-                            let dataSource = []
-                            res.data.data.forEach((value, key, arr) => {
-                                dataSource.push(value.LABEL)
-                                this.userDatasourceId.push(value.ID)
-                            })
-                            this.userDatasource = dataSource
-                        }
-                    })
-                } else {
-                    this.userDatasource = [];
+            resetParam(){
+                this.queryParam.dept='';
+                if(this.ismanager){
+                    this.queryParam.workcode='';
                 }
+                this.queryParam.salarystamonth='';
+                this.queryParam.salaryendmonth='';
             },
-            onSelectUser(value) {
-                this.queryParam.userId = this.userDatasource
-                this.userDatasource.forEach((v1, key, arr) => {
-                    if (value === v1) {
-                        this.queryParam.userId = this.userDatasourceId[key]
+            exportSalaryData(){
+                location.href=BASE_URL+'/salaryExport/export?dept='+this.queryParam.dept+'&workcode='+this.queryParam.workcode+'&salarystamonth='+this.queryParam.salarystamonth+'&salaryendmonth='+this.queryParam.salaryendmonth
+            },
+            commitCheckPassword(formName){
+                debugger
+                this.$refs[formName].validate(valid => {
+                    debugger
+                    if (valid) {
+                        const sha256 = require('js-sha256').sha256
+                        const sha256_password = sha256(this.checkForm.password)
+                        checkPassword(this.user.workcode, this.checkForm.mobile, sha256_password, this.checkForm.captcha).then(res=>{
+                            if (res.data.success) {
+                                this.loadData();
+                                this.checkPasswordModalVisible = false;
+                            }
+                        }).catch(function (error) {
+                            console.log(error)
+                        })
+
+                    } else {
+                        console.log('error submit!!');
+                        return false;
                     }
                 })
-                console.log('onSelect', value);
             },
-            onChangeUser(value) {
-                console.log('onChange', value);
-                if (!value) {
-                    this.queryParam.userId = ''
-                    this.userDatasource = [];
-                }
+            cancelCheckPassword(){
+                this.checkPasswordModalVisible = false;
+            },
+            sendMsg(formName){
+                let that = this;
+                debugger
+                this.$refs[formName].validateField("mobile",valid => {
+                    debugger
+                    if (!valid) {
+                        sendMobile(this.user.workcode, this.checkForm.mobile).then(res=>{
+                            this.buttonStatus = true
+                            this.button = 60
+                            this.buttonInterval = setInterval(()=>{
+                                this.button = this.button-1
+                                if(this.button==1){
+                                    this.button = '发送'
+                                    this.buttonStatus = false
+                                    clearInterval(this.buttonInterval)
+                                }
+                            }, 1000)
+                        }).catch(function (error) {
+                            console.log(error)
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
             },
         }
     }
