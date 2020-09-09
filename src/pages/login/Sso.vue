@@ -23,6 +23,10 @@
         },
         methods: {
             ...mapMutations('account', ['setUser', 'setPermissions', 'setRoles']),
+            isMobile() {
+                let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+                return flag;
+            },
             sso() {
                 debugger
                 let that = this
@@ -42,8 +46,12 @@
                         // 获取路由配置(使用本地配置)
                         let routesConfig = require('../../router/config').default
                         loadRoutes({router: this.$router, store: this.$store, i18n: this.$i18n}, routesConfig)
-                        this.$router.push('/index')
-                        this.$message.success(loginRes.message, 3)
+                        if(this.isMobile()){
+                            this.$router.push('/mobile/query')
+                        }else{
+                            this.$router.push('/index')
+                            this.$message.success(loginRes.message, 3)
+                        }
 
                     }
                 }).catch(function (error) {
