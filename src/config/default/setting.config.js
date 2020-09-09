@@ -13,7 +13,7 @@ module.exports = {
   fixedSideBar: true,                   //固定侧边栏，true:固定，false:不固定
   weekMode: false,                      //色弱模式，true:开启，false:不开启
   multiPage: false,                     //多页签模式，true:开启，false:不开启
-  hideSetting: false,                   //隐藏设置抽屉，true:隐藏，false:不隐藏
+  hideSetting: true,                   //隐藏设置抽屉，true:隐藏，false:不隐藏
   systemName: '薪资管理系统',         //系统名称
   copyright: '2020 All Right Reserved Tongfu Microelectronics Co., Ltd.',    //copyright
   asyncRoutes: false,                    //异步加载路由，true:开启，false:不开启

@@ -1,6 +1,8 @@
 <template>
   <a-config-provider :locale="locale">
-    <router-view/>
+    <keep-alive include="日志查询">
+      <router-view></router-view>
+    </keep-alive>
   </a-config-provider>
 </template>
 
@@ -25,6 +27,11 @@ export default {
   },
   mounted() {
    this.setWeekModeTheme(this.weekMode)
+    if(this.isMobile()) {
+      console.log("移动端")
+    }else {
+      console.log("PC端")
+    }
   },
   watch: {
     weekMode(val) {
@@ -50,6 +57,11 @@ export default {
     ...mapState('setting', ['theme', 'weekMode', 'lang'])
   },
   methods: {
+    // 添加判断方法
+    isMobile() {
+      let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+      return flag;
+    },
     setWeekModeTheme(weekMode) {
       if (weekMode) {
         document.body.classList.add('week-mode')

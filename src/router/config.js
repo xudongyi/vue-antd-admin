@@ -1,5 +1,4 @@
 import TabsView from '@/layouts/tabs/TabsView'
-import PageView from '@/layouts/PageView'
 
 // 路由配置(路由不设置则全部人能够看，设置了role 则只能)
 const options = {
@@ -18,6 +17,11 @@ const options = {
       path: '/403',
       name: '403',
       component: () => import('@/pages/exception/403'),
+    },
+    {
+      path: '/mobile/query',
+      name: 'mobileQuery',
+      component: () => import('@/pages/mobile/query'),
     },
     {
       path: '/sso/:loginid/:token',

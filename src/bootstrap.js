@@ -1,7 +1,5 @@
 import {loadRoutes, loginGuard, authorityGuard} from '@/utils/routerUtil'
 import routesConfig from '@/router/config'
-import {loginIgnore} from '@/router'
-import {checkAuthorization} from '@/utils/request'
 /**
  * 启动引导方法
  * 应用启动时需要执行的操作放在这里
