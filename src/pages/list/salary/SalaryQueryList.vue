@@ -145,8 +145,9 @@
     import {importSalaryExcel,checkPassword} from '@/services/salaryQuery'
     import {QueryMixIn} from '@/mixins/query'
     import {departMentAll} from '@/services/oa'
-    import {mapGetters, mapMutations} from 'vuex'
+    import {mapGetters} from 'vuex'
     import {sendMobile} from '@/services/user'
+    import {TabsView} from '@/layouts/tabs/TabsView'
 
 
     const columns = [
@@ -269,6 +270,7 @@
             }
         },
         created() {
+            this.checkPasswordModalVisible = true;
             if (this.user.roleId == 2) {
                 this.ismanager = true;
                 this.initTreeDataSimple();
@@ -374,6 +376,7 @@
             },
             cancelCheckPassword(){
                 this.checkPasswordModalVisible = false;
+                this.$emit('viewIn',"/query")
             },
             sendMsg(formName){
                 let that = this;

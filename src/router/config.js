@@ -57,6 +57,14 @@ const options = {
           component: () => import('@/pages/list/salary/SalaryQueryList'),
         },
         {
+          path: 'report',
+          name: '报表查询',
+          meta: {
+            icon: 'money-collect',
+          },
+          component: () => import('@/pages/list/salary/SalaryQueryReport'),
+        },
+        {
           path: 'log',
           name: '日志查询',
           meta: {
