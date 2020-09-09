@@ -17,7 +17,7 @@
     </a-tabs>
     <div class="tabs-view-content" :style="`margin-top: ${multiPage ? -24 : 0}px`">
       <page-toggle-transition :disabled="animate.disabled" :animate="animate.name" :direction="animate.direction">
-          <router-view />
+          <router-view v-on:viewIn="remove"/>
       </page-toggle-transition>
     </div>
   </admin-layout>
@@ -111,6 +111,7 @@ export default {
       this[action](key) // remove
     },
     remove (key) {
+      debugger
       if (this.pageList.length === 1) {
         return this.$message.warning(this.$t('warn'))
       }
