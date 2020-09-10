@@ -1,4 +1,4 @@
-import {IMPORT_SALARY_URL,CHECK_PASSWORD_URL} from '@/services/api'
+import {BASE_URL,IMPORT_SALARY_URL,CHECK_PASSWORD_URL} from '@/services/api'
 import {request, METHOD} from '@/utils/request'
 
 /**
@@ -17,4 +17,12 @@ function checkPassword(workcode,mobile,password,captcha) {
   })
 }
 
-export {importSalaryExcel,checkPassword}
+
+function querySalary(workcode,salaryDate) {
+  return request(BASE_URL+"/personnelSalary/querySalary", METHOD.POST, {
+    workcode: workcode,
+    salaryDate: salaryDate
+  })
+}
+
+export {importSalaryExcel,checkPassword,querySalary}

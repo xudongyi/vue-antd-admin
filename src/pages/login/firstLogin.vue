@@ -96,11 +96,13 @@
         },
         methods: {
             ...mapMutations('account', ['setUser']),
+            isMobile() {
+                let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+                return flag;
+            },
             sendMsg(formName){
                 let that = this;
-                debugger
                 this.$refs[formName].validateField("mobile",valid => {
-                    debugger
                     if (!valid) {
                         sendMobile(this.account.user.loginid, this.ruleForm.mobile).then(res=>{
                             this.buttonStatus = true
@@ -122,7 +124,6 @@
                 });
             },
             submitForm(formName) {
-                debugger
                 this.$refs[formName].validate(valid => {
                     if (valid) {
                         const sha256 = require('js-sha256').sha256
@@ -134,7 +135,11 @@
                               const userJson = JSON.parse(user)
                               userJson.first_login = 1
                               this.setUser(userJson)
-                              this.$router.push('/index')
+                              if(this.isMobile()){
+                                  this.$router.push('/mobile/query')
+                              }else{
+                                  this.$router.push('/index')
+                              }
                           }
                         }).catch(function (error) {
                             console.log(error)

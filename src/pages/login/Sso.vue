@@ -28,7 +28,6 @@
                 return flag;
             },
             sso() {
-                debugger
                 let that = this
                 const loginid = this.$route.params.loginid
                 const token = this.$route.params.token

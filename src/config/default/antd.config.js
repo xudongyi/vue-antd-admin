@@ -18,7 +18,7 @@ const ANTD = {
   theme: {
     dark: {
       'layout-body-background': '#f0f2f5',
-      'body-background': '#fff',
+      'body-background': '#f2f2f2',
       'component-background': '#fff',
       'heading-color': 'rgba(0, 0, 0, 0.85)',
       'text-color': 'rgba(0, 0, 0, 0.65)',
@@ -38,7 +38,7 @@ const ANTD = {
     },
     light: {
       'layout-body-background': '#f0f2f5',
-      'body-background': '#fff',
+      'body-background': '#f2f2f2',
       'component-background': '#fff',
       'heading-color': 'rgba(0, 0, 0, 0.85)',
       'text-color': 'rgba(0, 0, 0, 0.65)',

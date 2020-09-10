@@ -123,7 +123,7 @@ async  function loginGuard(router) {
     await  router.beforeEach((to, from, next) => {
         if (!loginIgnore.includes(to) && !checkAuthorization()) {
             next({path: '/login'})
-        } else if (to.path === '/login' || to.name==='sso') {
+        } else if (to.path === '/login' || to.name==='sso'|| to.name==='mobileQuery') {
             next()
         } else if (to.name != 'firstLogin') {
             checkUserIsFirstLogin(to).then(res=>{
@@ -151,7 +151,7 @@ async function checkUserIsFirstLogin(to) {
             let res = await checkSsoAsync(loginid,token);
             const loginRes = res.data
             if (loginRes.code == 200) {
-               if( loginRes.data.first_login>0){
+               if(loginRes.data.first_login>0){
                    result=false
                }
             }
