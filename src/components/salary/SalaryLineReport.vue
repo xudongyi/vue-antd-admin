@@ -4,6 +4,11 @@
 <script>
     export default {
         name: "SalaryLineReport",
+        data () {
+            return {
+                myChart: null,
+            };
+        },
         methods: {
             drawChart() {
                 // 基于准备好的dom，初始化echarts实例
@@ -34,6 +39,12 @@
             }
         },
         mounted() {
+            const that = this
+            window.onresize = () => {
+                return (() => {
+                    this.myChart.resize();
+                })()
+            }
             this.drawChart();
         }
     };

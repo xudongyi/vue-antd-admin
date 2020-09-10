@@ -4,10 +4,15 @@
 <script>
     export default {
         name: "SalaryBarReport",
+        data () {
+            return {
+                myChart: null,
+            };
+        },
         methods: {
             drawChart() {
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = this.$echarts.init(document.getElementById("SalaryBarId"));
+                 this.myChart = this.$echarts.init(document.getElementById("SalaryBarId"));
                 // 指定图表的配置项和数据
                 let option = {
                     title: {
@@ -30,10 +35,16 @@
                     ]
                 };
                 // 使用刚指定的配置项和数据显示图表。
-                myChart.setOption(option);
+                this.myChart.setOption(option);
             }
         },
         mounted() {
+            const that = this
+            window.onresize = () => {
+                return (() => {
+                    this.myChart.resize();
+                })()
+            }
             this.drawChart();
         }
     };
