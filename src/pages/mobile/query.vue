@@ -165,6 +165,7 @@
     import Vant from 'vant';
     import 'vant/lib/index.css';
     Vue.use(Vant);
+    import { Dialog } from 'vant';
     import {mapState,mapMutations} from "vuex"
     import {querySalary} from '@/services/salaryQuery'
     import {sendMobile,modifyPassword} from '@/services/user'

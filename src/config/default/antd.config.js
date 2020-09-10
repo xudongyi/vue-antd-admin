@@ -18,7 +18,7 @@ const ANTD = {
   theme: {
     dark: {
       'layout-body-background': '#f0f2f5',
-      'body-background': '#f2f2f2',
+      'body-background': '#fff',
       'component-background': '#fff',
       'heading-color': 'rgba(0, 0, 0, 0.85)',
       'text-color': 'rgba(0, 0, 0, 0.65)',
