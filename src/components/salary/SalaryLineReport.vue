@@ -1,23 +1,29 @@
 <template>
-            <div id="SalaryLineId" style=""></div>
+    <div id="SalaryLineId"  style="height:392px;width: 100%;"></div>
 </template>
 <script>
     export default {
         name: "SalaryLineReport",
         data () {
             return {
-                myChart: null,
+                salaryLineChart:null
             };
         },
         methods: {
             drawChart() {
                 // 基于准备好的dom，初始化echarts实例
-                let myChart = this.$echarts.init(document.getElementById("SalaryLineId"));
+                this.salaryLineChart = this.$echarts.init(document.getElementById("SalaryLineId"));
                 // 指定图表的配置项和数据
                 let option = {
                     title: {
-                        text: "薪资查询"
+                        text: "薪资查询",
+                        x:'center',
+                        textStyle:{
+                            fontSize: 12,
+                            fontWeight: 'normal',
+                        }
                     },
+                    color:'rgb(58,161,255)',
                     tooltip: {},
                     legend: {
                         data: ["元"]
@@ -35,18 +41,16 @@
                     ]
                 };
                 // 使用刚指定的配置项和数据显示图表。
-                myChart.setOption(option);
-            }
+                this.salaryLineChart.setOption(option);
+                setTimeout(()=>{
+                    this.salaryLineChart.resize();
+                })
+            },
         },
         mounted() {
-            const that = this
-            window.onresize = () => {
-                return (() => {
-                    this.myChart.resize();
-                })()
-            }
+            const that = this;
             this.drawChart();
-        }
+        },
     };
 </script>
 

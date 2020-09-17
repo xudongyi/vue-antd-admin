@@ -8,6 +8,9 @@ function importSalaryExcel(params){
   return request(IMPORT_SALARY_URL,METHOD.POST, params)
 }
 
+/**
+ * 校验密码
+ */
 function checkPassword(workcode,mobile,password,captcha) {
   return request(CHECK_PASSWORD_URL, METHOD.POST, {
     workcode: workcode,
@@ -17,7 +20,9 @@ function checkPassword(workcode,mobile,password,captcha) {
   })
 }
 
-
+/**
+ * 薪资查询
+ */
 function querySalary(workcode,salaryDate) {
   return request(BASE_URL+"/personnelSalary/querySalary", METHOD.POST, {
     workcode: workcode,
@@ -25,4 +30,12 @@ function querySalary(workcode,salaryDate) {
   })
 }
 
+/**
+ * 薪资报表查询
+ */
+function salaryReportQuery(){
+  return request(BASE_URL+"/personnelSalary/querySalary", METHOD.POST, {
+
+  })
+}
 export {importSalaryExcel,checkPassword,querySalary}
