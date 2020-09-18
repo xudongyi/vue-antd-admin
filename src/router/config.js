@@ -48,9 +48,9 @@ const options = {
           path: 'index',
           name: '首页',
           meta: {
-            icon: 'dashboard'
+            icon: 'money-collect',
           },
-          component: () => import('@/pages/dashboard/analysis'),
+          component: () => import('@/pages/list/salary/SalaryQueryReport'),
         },
         {
           path: 'query',
@@ -59,14 +59,6 @@ const options = {
             icon: 'money-collect',
           },
           component: () => import('@/pages/list/salary/SalaryQueryList'),
-        },
-        {
-          path: 'report',
-          name: '报表查询',
-          meta: {
-            icon: 'money-collect',
-          },
-          component: () => import('@/pages/list/salary/SalaryQueryReport'),
         },
         {
           path: 'log',

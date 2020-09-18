@@ -33,9 +33,11 @@ function querySalary(workcode,salaryDate) {
 /**
  * 薪资报表查询
  */
-function salaryReportQuery(){
-  return request(BASE_URL+"/personnelSalary/querySalary", METHOD.POST, {
-
-  })
+function queryReportHeader(){
+  return request(BASE_URL+"/personnelSalary/queryReportHeader", METHOD.POST, {})
 }
-export {importSalaryExcel,checkPassword,querySalary}
+
+function queryReportBody(params){
+  return request(BASE_URL+"/personnelSalary/queryReportBody", METHOD.POST, params)
+}
+export {importSalaryExcel,checkPassword,querySalary,queryReportHeader,queryReportBody}

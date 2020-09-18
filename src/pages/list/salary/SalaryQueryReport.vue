@@ -5,10 +5,10 @@
                 <a-card size="small" :bodyStyle="topCardBodyStyle">
                     <div class="card-header">当月导入薪资</div>
                     <div class="card-body">
-                        ￥ 189,345
+                        ￥ {{reportData.currentMonthSalary}}
                     </div>
                     <div class="card-footer">
-                        上月导入薪资 ￥ 189,345
+                        上月导入薪资 ￥ {{reportData.lastMonthSalary}}
                     </div>
                 </a-card>
             </a-col>
@@ -16,10 +16,10 @@
                 <a-card size="small" :bodyStyle="topCardBodyStyle">
                     <div class="card-header">当月导入人数</div>
                     <div class="card-body">
-                         189,345
+                        {{reportData.currentMonthImportNumber}}
                     </div>
                     <div class="card-footer">
-                        上月导入人数  189,345
+                        上月导入人数  {{reportData.lastMonthImportNumber}}
                     </div>
                 </a-card>
             </a-col>
@@ -27,10 +27,10 @@
                 <a-card size="small" :bodyStyle="topCardBodyStyle">
                     <div class="card-header">当月访问人数</div>
                     <div class="card-body">
-                         189,345
+                        {{reportData.currentMonthVisitTimes}}
                     </div>
                     <div class="card-footer">
-                        上月访问人数  189,345
+                        上月访问人数  {{reportData.lastMonthVisitTimes}}
                     </div>
                 </a-card>
             </a-col>
@@ -38,10 +38,10 @@
                 <a-card size="small" :bodyStyle="topCardBodyStyle">
                     <div class="card-header">当月短信条数</div>
                     <div class="card-body">
-                         189,345
+                        {{reportData.currentMonthNoteNumber}}
                     </div>
                     <div class="card-footer">
-                        上月短信条数  189,345
+                        上月短信条数  {{reportData.lastMonthNoteNumber}}
                     </div>
                 </a-card>
             </a-col>
@@ -66,20 +66,20 @@
                             </div>
                         </a-range-picker>
                     </div>
-                    <a-tab-pane :forceRender="true" loading="true" tab="薪资查询" key="1">
+                    <a-tab-pane :forceRender="true" loading="true" tab="薪资" key="1">
                         <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
                                 <SalaryBarReport ref='salaryBarReport'></SalaryBarReport>
                         </a-col>
                         <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                            <ranking-list :title="$ta('stores|sales|ranking', 'p')" :list="rankList"/>
+                            <ranking-list title="薪资部门排行" :list="reportData.salaryDepartmentRankList"/>
                         </a-col>
                     </a-tab-pane>
-                    <a-tab-pane :forceRender="true" tab="短信查询" key="2"><a-row>
+                    <a-tab-pane :forceRender="true" tab="短信" key="2"><a-row>
                         <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
                                 <SalaryLineReport ref='salaryLineReport'></SalaryLineReport>
                         </a-col>
                         <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                            <ranking-list :title="$ta('stores|sales|ranking', 'p')" :list="rankList"/>
+                            <ranking-list title="短信部门排行" :list="reportData.noteTimesDepartmentRankList"/>
                         </a-col>
                     </a-row></a-tab-pane>
                 </a-tabs>
@@ -90,7 +90,8 @@
 <script>
     import SalaryBarReport from '../../../components/salary/SalaryBarReport'
     import SalaryLineReport from '../../../components/salary/SalaryLineReport'
-    import RankingList from "../../../components/chart/RankingList";
+    import RankingList from "../../../components/chart/RankingList"
+    import {queryReportHeader,queryReportBody} from '@/services/salaryQuery'
 
     const rankList = []
 
@@ -119,7 +120,19 @@
                 rangePickerValue:[],
                 rangePickerMode:['month', 'month'],
                 rangePickerOpen:false,
-                tabsPanelActivityVal:1
+                tabsPanelActivityVal:1,
+                reportData:{
+                    lastMonthNoteNumber:'',
+                    lastMonthVisitTimes:'',
+                    currentMonthNoteNumber:'',
+                    currentMonthSalary:'',
+                    currentMonthVisitTimes:'',
+                    currentMonthImportNumber:'',
+                    lastMonthImportNumber:'',
+                    lastMonthSalary:'',
+                    salaryDepartmentRankList:[],
+                    noteTimesDepartmentRankList:[],
+                }
             };
         },
         methods: {
@@ -134,6 +147,7 @@
                 this.rangePickerOpen = status;
             },
             rangePickerCommit(){
+                this.loadBoayData(this.rangePickerValue[0].format("YYYY-MM"),this.rangePickerValue[1].format("YYYY-MM"));
                 this.rangePickerOpen = false;
             },
             tabPanelChange(av){
@@ -148,10 +162,60 @@
                         this.myChart.resize();
                     })()
                 }
+            },
+            loadHeaderData(){
+                queryReportHeader().then(res => {
+                    if (res.data.success) {
+                        this.reportData.currentMonthSalary = res.data.data.currentMonthSalary;
+                        this.reportData.lastMonthSalary = res.data.data.lastMonthSalary;
+                        this.reportData.currentMonthImportNumber = res.data.data.currentMonthImportNumber;
+                        this.reportData.lastMonthImportNumber = res.data.data.lastMonthImportNumber;
+                        this.reportData.currentMonthNoteNumber = res.data.data.currentMonthNoteNumber;
+                        this.reportData.lastMonthNoteNumber = res.data.data.lastMonthNoteNumber;
+                        this.reportData.currentMonthVisitTimes = res.data.data.currentMonthVisitTimes;
+                        this.reportData.lastMonthVisitTimes = res.data.data.lastMonthVisitTimes;
+                        this.reportData.salaryDepartmentRankList = res.data.data.salaryDepartmentRankList;
+                        this.reportData.noteTimesDepartmentRankList = res.data.data.noteTimesDepartmentRankList;
+                    }
+                }).catch((error) => {
+
+                })
+            },
+            loadBoayData(staDate,endDate){
+                const dateFormData = new FormData();
+                dateFormData.set("staDate", staDate);
+                dateFormData.set("endDate", endDate);
+                queryReportBody(dateFormData).then(res => {
+                    if (res.data.success) {
+                        const resultData = res.data.data;
+                        let salaryListDate = [];
+                        let salaryListData = [];
+                        for(let i=0;i<resultData.salaryList.length;i++){
+                            salaryListDate.push(resultData.salaryList[i].SALARY_DATE);
+                            salaryListData.push(resultData.salaryList[i].NET_SALARY);
+                        }
+                        let noteListDate = [];
+                        let noteListData = [];
+                        for(let i=0;i<resultData.noteTimesList.length;i++){
+                            noteListDate.push(resultData.noteTimesList[i].NOTE_DATE);
+                            noteListData.push(resultData.noteTimesList[i].NOTE_TIMES);
+                        }
+                        this.$refs.salaryBarReport.resetChart(salaryListDate,salaryListData);
+                        this.$refs.salaryLineReport.resetChart(noteListDate,noteListData);
+                    }
+                }).catch((error) => {
+
+                })
             }
+
+        },
+        created() {
+            this.loadHeaderData();
+            this.loadBoayData("","");
         },
         mounted() {
             this.myChart = this.$refs.salaryBarReport.salaryBarChart;
+            // this.$refs.salaryBarReport.testChild(123456);
             window.onresize = () => {
                 return (() => {
                     this.myChart.resize();

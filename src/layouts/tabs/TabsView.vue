@@ -111,7 +111,6 @@ export default {
       this[action](key) // remove
     },
     remove (key) {
-      debugger
       if (this.pageList.length === 1) {
         return this.$message.warning(this.$t('warn'))
       }

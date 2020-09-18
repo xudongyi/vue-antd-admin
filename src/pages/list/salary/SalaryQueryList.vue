@@ -48,7 +48,7 @@
                     </a-row>
                 </div>
                 <span style="float: right; margin-top: 3px;">
-          <a-button type="primary" @click="loadData">查询</a-button>
+          <a-button type="primary" @click="doSearch">查询</a-button>
           <a-button style="margin-left: 8px" @click="resetParam">重置</a-button>
         </span>
             </a-form>
@@ -147,7 +147,6 @@
     import {departMentAll} from '@/services/oa'
     import {mapGetters} from 'vuex'
     import {sendMobile} from '@/services/user'
-    import {TabsView} from '@/layouts/tabs/TabsView'
 
 
     const columns = [
@@ -267,6 +266,7 @@
                     labelCol: { span: 4 },
                     wrapperCol: { span: 14 },
                 },
+                hasCheckPassword:false
             }
         },
         created() {
@@ -353,7 +353,6 @@
                 location.href=BASE_URL+'/salaryExport/export?dept='+this.queryParam.dept+'&workcode='+this.queryParam.workcode+'&salarystamonth='+this.queryParam.salarystamonth+'&salaryendmonth='+this.queryParam.salaryendmonth
             },
             commitCheckPassword(formName){
-                debugger
                 this.$refs[formName].validate(valid => {
                     debugger
                     if (valid) {
@@ -363,6 +362,7 @@
                             if (res.data.success) {
                                 this.loadData();
                                 this.checkPasswordModalVisible = false;
+                                this.hasCheckPassword = true;
                             }
                         }).catch(function (error) {
                             console.log(error)
@@ -376,7 +376,7 @@
             },
             cancelCheckPassword(){
                 this.checkPasswordModalVisible = false;
-                this.$emit('viewIn',"/query")
+                // this.$emit('viewIn',"/query");
             },
             sendMsg(formName){
                 let that = this;
@@ -406,6 +406,13 @@
             resetForm(formName) {
                 this.$refs[formName].resetFields();
             },
+            doSearch(){
+                if(this.hasCheckPassword){
+                    this.loadData();
+                }else{
+                    this.checkPasswordModalVisible = true;
+                }
+            }
         }
     }
 </script>

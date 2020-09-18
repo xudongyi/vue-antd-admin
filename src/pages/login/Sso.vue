@@ -48,7 +48,11 @@
                         if(this.isMobile()){
                             this.$router.push('/mobile/query')
                         }else{
-                            this.$router.push('/index')
+                            if(user.roleId==2){
+                                this.$router.push('/index')
+                            }else{
+                                this.$router.push('/query')
+                            }
                             this.$message.success(loginRes.message, 3)
                         }
 

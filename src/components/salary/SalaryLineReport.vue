@@ -6,17 +6,10 @@
         name: "SalaryLineReport",
         data () {
             return {
-                salaryLineChart:null
-            };
-        },
-        methods: {
-            drawChart() {
-                // 基于准备好的dom，初始化echarts实例
-                this.salaryLineChart = this.$echarts.init(document.getElementById("SalaryLineId"));
-                // 指定图表的配置项和数据
-                let option = {
+                salaryLineChart:null,
+                option:{
                     title: {
-                        text: "薪资查询",
+                        text: "短信月份汇总",
                         x:'center',
                         textStyle:{
                             fontSize: 12,
@@ -39,10 +32,26 @@
                             data: [2500, 2500, 2500, 2500, 3000, 2800,2500, 2500, 2800, 2700, 2500, 3000]
                         }
                     ]
-                };
+                }
+
+            };
+        },
+        methods: {
+            drawChart() {
+                // 基于准备好的dom，初始化echarts实例
+                this.salaryLineChart = this.$echarts.init(document.getElementById("SalaryLineId"));
                 // 使用刚指定的配置项和数据显示图表。
-                this.salaryLineChart.setOption(option);
-                setTimeout(()=>{
+                this.salaryLineChart.setOption(this.option);
+                setTimeout(() => {
+                    this.salaryLineChart.resize();
+                })
+            },
+            resetChart(date,data) {
+                this.salaryLineChart.clear();
+                this.option.xAxis.data = date;
+                this.option.series[0].data = data;
+                this.salaryLineChart.setOption(this.option);
+                setTimeout(() => {
                     this.salaryLineChart.resize();
                 })
             },

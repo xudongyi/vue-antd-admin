@@ -1,52 +1,64 @@
 <template>
-            <div id="SalaryBarId" style=""></div>
+    <div id="SalaryBarId" style="height:392px;width: 100%;"></div>
 </template>
 <script>
     export default {
         name: "SalaryBarReport",
-        data () {
+        data() {
             return {
-                myChart: null,
-            };
-        },
-        methods: {
-            drawChart() {
-                // 基于准备好的dom，初始化echarts实例
-                 this.myChart = this.$echarts.init(document.getElementById("SalaryBarId"));
-                // 指定图表的配置项和数据
-                let option = {
+                salaryBarChart: null,
+                option: {
                     title: {
-                        text: "薪资查询"
+                        text: "薪资月份汇总",
+                        x: 'center',
+                        textStyle: {
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                        }
                     },
+                    color: 'rgb(58,161,255)',
                     tooltip: {},
                     legend: {
                         data: ["元"]
                     },
                     xAxis: {
-                        data: ["1月份", "2月份", "3月份", "4月份", "5月份", "6月份", "7月份", "8月份", "9月份", "10月份", "11月份", "12月份"]
+                        data: []
                     },
                     yAxis: {},
                     series: [
                         {
                             name: "工资",
                             type: "bar",
-                            data: [2500, 2500, 2500, 2500, 3000, 2800,2500, 2500, 2800, 2700, 2500, 3000]
+                            data: []
                         }
                     ]
-                };
+                }
+            };
+        },
+        methods: {
+            drawChart() {
+                // 基于准备好的dom，初始化echarts实例
+                this.salaryBarChart = this.$echarts.init(document.getElementById("SalaryBarId"));
                 // 使用刚指定的配置项和数据显示图表。
-                this.myChart.setOption(option);
-            }
+                this.salaryBarChart.setOption(this.option);
+                setTimeout(() => {
+                    this.salaryBarChart.resize();
+                })
+            },
+            resetChart(date,data) {
+                this.salaryBarChart.clear();
+                this.option.xAxis.data = date;
+                this.option.series[0].data = data;
+                this.salaryBarChart.setOption(this.option);
+                setTimeout(() => {
+                    this.salaryBarChart.resize();
+                })
+            },
         },
         mounted() {
-            const that = this
-            window.onresize = () => {
-                return (() => {
-                    this.myChart.resize();
-                })()
-            }
+            const that = this;
             this.drawChart();
-        }
+        },
     };
 </script>
 
