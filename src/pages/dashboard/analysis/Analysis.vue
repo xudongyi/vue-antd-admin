@@ -129,11 +129,29 @@ export default {
   data () {
     return {
       rankList,
-      loading: true
+      loading: true,
+      open: false,
+      value:[],
+      mode2: ['month', 'month'],
+      renderExtraFooter:"1111"
     }
   },
   created() {
     setTimeout(() => this.loading = !this.loading, 1000)
+  },
+  methods:{
+    handleChange(value) {
+      this.value = value;
+    },
+    handlePanelChange2(value, mode) {
+      this.value = value;
+      this.mode2 = [mode[0] === 'date' ? 'month' : mode[0], mode[1] === 'date' ? 'month' : mode[1]];
+      this.open = false
+
+    },
+    openChange(status){
+      this.open = status
+    }
   },
   components: {Trend, SalesData, HotSearch, RankingList, Bar, MiniProgress, MiniBar, MiniArea, ChartCard}
 }
@@ -159,5 +177,4 @@ export default {
       display: none;
     }
   }
-
 </style>
