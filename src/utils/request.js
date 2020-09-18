@@ -29,7 +29,6 @@ const service = axios.create({
   withCredentials: true
 })
 const err = (error) => {
-  debugger
   if (error.response) {
     const data = error.response.data
     if (error.response.status === 403) {

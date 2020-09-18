@@ -130,6 +130,7 @@
                       <li>塑封补贴:{{salaryDetail.plasticSealSubsidy}}</li>
                       <li>补贴:{{salaryDetail.subsidy}}</li>
                       <li>其他补贴:{{salaryDetail.otherSubsidy}}</li>
+                      <li>应发工资:{{salaryDetail.grossPay}}</li>
                   </ul>
               </div>
           </div>
@@ -156,7 +157,7 @@
           </div>
       </div>
        <div class="bottom-label">
-           应发工资：{{salaryDetail.grossPay}}
+           实发工资：{{salaryDetail.netSalary}}
           </div>
    </div>
 </template>

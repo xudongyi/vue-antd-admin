@@ -49,6 +49,7 @@ const options = {
           name: '首页',
           meta: {
             icon: 'money-collect',
+            authority:'2'
           },
           component: () => import('@/pages/list/salary/SalaryQueryReport'),
         },
