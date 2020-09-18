@@ -288,10 +288,14 @@
                 })
             },
             showUploadSalaryModal() {
-                this.salaryModalVisible = true;
-                this.salaryUploadFileList = [];
-                this.salaryUploadDate = null;
-                this.salaryConfirmLoading = false;
+                if(this.hasCheckPassword){
+                    this.salaryModalVisible = true;
+                    this.salaryUploadFileList = [];
+                    this.salaryUploadDate = null;
+                    this.salaryConfirmLoading = false;
+                }else{
+                    this.checkPasswordModalVisible = true;
+                }
             },
             commitUploadExcel(e) {
                 if (this.salaryUploadDate == null) {
@@ -350,7 +354,11 @@
                 this.queryParam.salaryendmonth='';
             },
             exportSalaryData(){
-                location.href=BASE_URL+'/salaryExport/export?dept='+this.queryParam.dept+'&workcode='+this.queryParam.workcode+'&salarystamonth='+this.queryParam.salarystamonth+'&salaryendmonth='+this.queryParam.salaryendmonth
+                if(this.hasCheckPassword){
+                    location.href=BASE_URL+'/salaryExport/export?dept='+this.queryParam.dept+'&workcode='+this.queryParam.workcode+'&salarystamonth='+this.queryParam.salarystamonth+'&salaryendmonth='+this.queryParam.salaryendmonth
+                }else{
+                    this.checkPasswordModalVisible = true;
+                }
             },
             commitCheckPassword(formName){
                 this.$refs[formName].validate(valid => {
