@@ -121,16 +121,16 @@
                 >
                     <div>
                         <a-form-model ref="checkForm" :model="checkForm" :rules="rules" v-bind="layout">
-                            <a-form-model-item label="手机号" prop="mobile" >
-                                <a-input-search validateStatus="false" v-model.number="checkForm.mobile"  @search="sendMsg('checkForm')">
-                                    <a-button :disabled="buttonStatus" slot="enterButton">
-                                        {{button}}
-                                    </a-button>
-                                </a-input-search>
-                            </a-form-model-item>
-                            <a-form-model-item has-feedback label="验证码" prop="captcha">
-                                <a-input v-model.number="checkForm.captcha" />
-                            </a-form-model-item>
+<!--                            <a-form-model-item label="手机号" prop="mobile" >-->
+<!--                                <a-input-search validateStatus="false" v-model.number="checkForm.mobile"  @search="sendMsg('checkForm')">-->
+<!--                                    <a-button :disabled="buttonStatus" slot="enterButton">-->
+<!--                                        {{button}}-->
+<!--                                    </a-button>-->
+<!--                                </a-input-search>-->
+<!--                            </a-form-model-item>-->
+<!--                            <a-form-model-item has-feedback label="验证码" prop="captcha">-->
+<!--                                <a-input v-model.number="checkForm.captcha" />-->
+<!--                            </a-form-model-item>-->
                             <a-form-model-item has-feedback label="密码" prop="password">
                                 <a-input-password v-model="checkForm.password" type="password" autocomplete="off" />
                             </a-form-model-item>
@@ -189,7 +189,11 @@
         {title: '失保', dataIndex: 'unemployInsurance', width: 100, align: 'center'},
         {title: '养保', dataIndex: 'endowmentInsurance', width: 100, align: 'center'},
         {title: '医保', dataIndex: 'medicalInsurance', width: 100, align: 'center'},
-        {title: '实发工资', dataIndex: 'netSalary', width: 100, align: 'center'}
+        {title: '实发工资', dataIndex: 'netSalary', width: 100, align: 'center'},
+        {title: '十三薪', dataIndex: 'welfareAmountSalaries', width: 100, align: 'center'},
+        {title: '年终奖', dataIndex: 'welfareAmountBonus', width: 100, align: 'center'},
+        {title: '福利', dataIndex: 'welfareAmountWeal', width: 100, align: 'center'}
+
         // { title: '查看次数', dataIndex: 'viewTimes',align:'center'},
     ];
 
@@ -232,7 +236,7 @@
             return {
                 disableMixinCreated: true,
                 columns: columns,
-                url: {list: '/personnelSalary/query'},
+                url: {list: '/personnelSalary/querySalary'},
                 isorter: {column: 'id', order: 'desc'},
                 queryParam: {
                     dept: '',
@@ -247,7 +251,7 @@
                 checkPasswordConfirmLoading: false,
                 salaryUploadDate: null,
                 salaryUploadFileList: [],
-                excelTemp: BASE_URL + "/downloadExcel/static/SalaryExcelModel.xlsx",
+                excelTemp: BASE_URL + "/downloadExcel/static/工资导入模板.xlsx",
                 treeDataSimple: [],
                 ismanager: false,
                 button:'发送',
@@ -302,7 +306,7 @@
                     return this.$message.warning("请选择薪资日期！", 2)
                 }
                 if (this.salaryUploadFileList.length == 0) {
-                    return this.$message.warning("请上传薪资文件！", 2)
+                    return this.$message.warning("请上传文件！", 2)
                 }
                 this.salaryConfirmLoading = true;
                 this.handleUpload();
@@ -362,11 +366,15 @@
             },
             commitCheckPassword(formName){
                 this.$refs[formName].validate(valid => {
-                    debugger
                     if (valid) {
                         const sha256 = require('js-sha256').sha256
                         const sha256_password = sha256(this.checkForm.password)
-                        checkPassword(this.user.workcode, this.checkForm.mobile, sha256_password, this.checkForm.captcha).then(res=>{
+                        checkPassword(
+                            this.user.workcode,
+                            // this.checkForm.mobile,
+                            sha256_password,
+                            // this.checkForm.captcha
+                        ).then(res=>{
                             if (res.data.success) {
                                 this.loadData();
                                 this.checkPasswordModalVisible = false;
@@ -384,7 +392,6 @@
             },
             cancelCheckPassword(){
                 this.checkPasswordModalVisible = false;
-                // this.$emit('viewIn',"/query");
             },
             sendMsg(formName){
                 let that = this;
@@ -410,9 +417,6 @@
                         return false;
                     }
                 });
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
             },
             doSearch(){
                 if(this.hasCheckPassword){

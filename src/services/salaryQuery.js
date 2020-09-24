@@ -1,22 +1,29 @@
-import {BASE_URL,IMPORT_SALARY_URL,CHECK_PASSWORD_URL} from '@/services/api'
+import {BASE_URL,CHECK_PASSWORD_URL} from '@/services/api'
 import {request, METHOD} from '@/utils/request'
 
 /**
  * 上传薪资数据
  */
 function importSalaryExcel(params){
-  return request(IMPORT_SALARY_URL,METHOD.POST, params)
+  return request(BASE_URL+"/import/salaryImport",METHOD.POST, params)
+}
+
+/**
+ * 上传薪资数据
+ */
+function importWelfareExcel(params){
+  return request(BASE_URL+"/import/welfareImport",METHOD.POST, params)
 }
 
 /**
  * 校验密码
  */
-function checkPassword(workcode,mobile,password,captcha) {
+function checkPassword(workcode,password) {
   return request(CHECK_PASSWORD_URL, METHOD.POST, {
     workcode: workcode,
-    mobile: mobile,
+    // mobile: mobile,
     password: password,
-    captcha: captcha
+    // captcha: captcha
   })
 }
 
@@ -40,4 +47,4 @@ function queryReportHeader(){
 function queryReportBody(params){
   return request(BASE_URL+"/personnelSalary/queryReportBody", METHOD.POST, params)
 }
-export {importSalaryExcel,checkPassword,querySalary,queryReportHeader,queryReportBody}
+export {importSalaryExcel,importWelfareExcel,checkPassword,querySalary,queryReportHeader,queryReportBody}
