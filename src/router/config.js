@@ -51,7 +51,7 @@ const options = {
             icon: 'money-collect',
             authority:'2'
           },
-          component: () => import('@/pages/list/salary/SalaryQueryReport'),
+          component: () => import('@/pages/list/salary/SalaryReport'),
         },
         {
           path: 'salary',

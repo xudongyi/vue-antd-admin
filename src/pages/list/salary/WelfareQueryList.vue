@@ -132,11 +132,11 @@
 
 
     const columns = [
-        {title: '姓名', dataIndex: 'lastname', key: 'lastname'},
+        {title: '姓名', dataIndex: 'hrName', key: 'hrName'},
         {title: '工号',  dataIndex: 'workcode', key: 'workcode', align: 'center'},
-        {title: '发放时间',  dataIndex: 'welfareTypeName', key: 'welfareTypeName', align: 'center'},
+        {title: '发放时间',  dataIndex: 'welfareDate', key: 'welfareDate', align: 'center'},
+        {title: '名称',  dataIndex: 'welfareTypeName', key: 'welfareTypeName', align: 'center'},
         {title: '金额',  dataIndex: 'welfareAmount', key: 'welfareAmount', align: 'center'},
-        {title: '发放时间',  dataIndex: 'welfareDate', key: 'welfareDate', align: 'center'}
     ];
 
     export default {

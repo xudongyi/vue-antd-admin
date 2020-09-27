@@ -150,7 +150,7 @@
 
 
     const columns = [
-        {title: '姓名', width: 100, dataIndex: 'lastname', key: 'lastname', fixed: 'left'},
+        {title: '姓名', width: 100, dataIndex: 'hrName', key: 'hrName', fixed: 'left'},
         {title: '工号', width: 100, dataIndex: 'workcode', key: 'workcode', fixed: 'left',align: 'center'},
         {title: '月份', width: 100, dataIndex: 'salaryDate', key: 'salaryDate', fixed: 'left',align: 'center'},
         {title: '基本工资', dataIndex: 'basePay', width: 100, align: 'center'},
@@ -359,6 +359,9 @@
             },
             exportSalaryData(){
                 if(this.hasCheckPassword){
+                    if(this.queryParam.salarystamonth==""||this.queryParam.salaryendmonth==""){
+                        return this.$message.warning("请选择薪资日期！", 2)
+                    }
                     location.href=BASE_URL+'/salaryExport/export?dept='+this.queryParam.dept+'&workcode='+this.queryParam.workcode+'&salarystamonth='+this.queryParam.salarystamonth+'&salaryendmonth='+this.queryParam.salaryendmonth
                 }else{
                     this.checkPasswordModalVisible = true;
