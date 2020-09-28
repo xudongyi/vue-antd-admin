@@ -7,28 +7,15 @@
                          tab-position="top"
                          :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
                     <div class="extra-wrap" slot="tabBarExtraContent">
-                        <div class="extra-item">
+                        <div class="extra-item" style="width:240px">
+                            <a-input-number placeholder="比率" v-model="rateNumberValue" style="width: 90px;margin-right: 18px;"/>
+                            <a-input-number placeholder="年份" id="yearNumber" style="width: 90px;margin-right: 10px;" v-model="yearNumberValue" :min="yearNumberMin" :max="yearNumberMax"/>
+                            <a-button shape="circle" icon="search" @click="doReportSearch" style="width: 28px;height: 28px;" size="small"/>
                         </div>
-                        <a-range-picker :style="{width: '256px'}" format="YYYY-MM"
-                                        :open="rangePickerOpen"
-                                        :mode="rangePickerMode"
-                                        :value="rangePickerValue"
-                                        @panelChange="rangePickerHandlePanelChange"
-                                        @change="rangePickerHandleChange"
-                                        @openChange="rangePickerOpenChange">
-                            <div slot="renderExtraFooter">
-                                <a-button size="small" type="primary" @click="rangePickerCommit" ghost>
-                                    确定
-                                </a-button>
-                            </div>
-                        </a-range-picker>
                     </div>
-<!--                    <a-tab-pane :forceRender="true" loading="true" tab="薪资" key="1">-->
-<!--                        <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">-->
-<!--                        </a-col>-->
-<!--                        <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">-->
-<!--                        </a-col>-->
-<!--                    </a-tab-pane>-->
+                    <a-tab-pane :forceRender="true" loading="true" tab="每月人工成本" key="1">
+                        <MonthlyLaborCostReport ref='monthlyLaborCostReport'></MonthlyLaborCostReport>
+                    </a-tab-pane>
 <!--                    <a-tab-pane :forceRender="true" tab="短信" key="2"><a-row>-->
 <!--                        <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">-->
 <!--                        </a-col>-->
@@ -36,61 +23,51 @@
 <!--                        </a-col>-->
 <!--                    </a-row>-->
 <!--                    </a-tab-pane>-->
-                    <a-tab-pane v-for="i in 30" :key="i" :tab="`Tab-${i}`"> Content of tab {{ i }} </a-tab-pane>
+<!--                    <a-tab-pane v-for="i in 30" :key="i" :tab="`Tab-${i}`"> Content of tab {{ i }} </a-tab-pane>-->
                 </a-tabs>
             </a-row>
         </a-card>
     </div>
 </template>
 <script>
+    import MonthlyLaborCostReport from '../../../components/salary/MonthlyLaborCostReport'
+
     export default {
         data () {
             return {
-                myChart:null,
-                myBarChart: null,
-                myLineChart:null,
-                topCardHeadStyle:{
-                    'color': 'rgba(0, 0, 0, 0.35)',
-                    'font-size':'14px',
-                    'font-weight':'normal'
-                },
-                topCardBodyStyle:{
-                    'height':'150px',
-                    'vertical':'middle'
-                },
-                rangePickerValue:[],
-                rangePickerMode:['month', 'month'],
-                rangePickerOpen:false,
-                tabsPanelActivityVal:1,
+                yearNumberValue:2020,
+                rateNumberValue:null,
+                yearNumberMin:1949,
+                yearNumberMax:2020,
             };
         },
         methods: {
-            rangePickerHandleChange(value) {
-                this.rangePickerValue = value;
-            },
-            rangePickerHandlePanelChange(value, mode) {
-                this.rangePickerValue = value;
-                this.rangePickerMode = [mode[0] === 'date' ? 'month' : mode[0], mode[1] === 'date' ? 'month' : mode[1]];
-            },
-            rangePickerOpenChange(status){
-                this.rangePickerOpen = status;
-            },
-            rangePickerCommit(){
-                this.rangePickerOpen = false;
-            },
             tabPanelChange(av){
 
-            }
+            },
+            exportData(){
 
+            },
+            doReportSearch(){
+                if(this.rateNumberValue==""||this.rateNumberValue==null||this.yearNumberValue==""||this.yearNumberValue==null){
+                    return;
+                }else{
+                    console.log("doReportSearch");
+                    this.$refs.monthlyLaborCostReport.getMonthlyLaborCost(this.yearNumberValue,this.rateNumberValue);
+                }
+            }
         },
         created() {
-
+            this.yearNumberMax = new Date().getFullYear()+1;
+            this.yearNumberValue = new Date().getFullYear();
+            // this.getMonthlyLaborCost();
+            // this.yearNumberMax = new Date().getFullYear+1
         },
         mounted() {
 
         },
         components: {
-
+            MonthlyLaborCostReport
         }
     }
 </script>
