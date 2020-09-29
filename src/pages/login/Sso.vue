@@ -51,7 +51,7 @@
                             if(user.roleId==2){
                                 this.$router.push('/index')
                             }else{
-                                this.$router.push('/query')
+                                this.$router.push('/salary')
                             }
                             this.$message.success(loginRes.message, 3)
                         }
