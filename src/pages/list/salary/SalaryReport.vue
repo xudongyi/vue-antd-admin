@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <a-tab-pane :forceRender="true" loading="true" tab="每月人工成本" key="1">
-                        <MonthlyLaborCostReport ref='monthlyLaborCostReport'></MonthlyLaborCostReport>
+                        <MonthlyLaborCostReport :year-number="yearNumberValue" :rate-number="rateNumberValue" ref='monthlyLaborCostReport'></MonthlyLaborCostReport>
                     </a-tab-pane>
 <!--                    <a-tab-pane :forceRender="true" tab="短信" key="2"><a-row>-->
 <!--                        <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">-->

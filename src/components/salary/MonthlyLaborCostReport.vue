@@ -11,6 +11,8 @@
 </template>
 <script>
     import {getMonthlyLaborCost} from '@/services/salaryReport'
+    import {BASE_URL} from '@/services/api'
+    import notification from 'ant-design-vue/es/notification'
 
     const columns = [
         {title: '月份', dataIndex: 'REMARK', key: 'REMARK'},
@@ -34,6 +36,7 @@
                 columns:columns,
             };
         },
+        props: ['yearNumber', 'rateNumber'],
         methods: {
             getMonthlyLaborCost(year,rate){
                 const formData = new FormData();
@@ -47,6 +50,13 @@
                 })
             },
             exportData(){
+                if(this.yearNumber==null || this.rateNumber==null || this.yearNumber=='' || this.rateNumber==''){
+                    notification.error({
+                        message: '请选择年份和汇率后进行导出！'
+                    })
+                    return
+                }
+                location.href=BASE_URL+'/salaryReport/directExportExcel?year='+this.yearNumber+'&rate='+this.rateNumber
 
             }
         },
