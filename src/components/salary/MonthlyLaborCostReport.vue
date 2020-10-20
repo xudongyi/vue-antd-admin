@@ -1,19 +1,26 @@
 <template>
     <div>
-        <div class="operator">
-            <a-button type="primary" icon="export" @click="exportData">报表导出</a-button>
-        </div>
-        <a-table :columns="columns"
-                 :pagination="false"
-                 :data-source="dataSource">
-        </a-table>
+        <a-spin :spinning="spinning" size="large">
+            <div class="search" style="display: inline-block;">
+                <a-input-number placeholder="比率" style="margin-right: 18px;" v-model="rate"/>
+                <a-input-number placeholder="年份" style="margin-right: 10px;"  v-model="year" :min="yearMin" :max="yearMax"/>
+                <a-button shape="circle" icon="search" @click="getMonthlyLaborCost" style="" size="small"/>
+            </div>
+            <div class="operator" style="display: inline-block;float:right;">
+                <a-button type="primary" icon="export" @click="exportData">报表导出</a-button>
+            </div>
+
+            <a-table :columns="columns"
+                     :pagination="false"
+                     :data-source="dataSource">
+            </a-table>
+        </a-spin>
     </div>
 </template>
 <script>
     import {getMonthlyLaborCost} from '@/services/salaryReport'
-    import {BASE_URL} from '@/services/api'
     import notification from 'ant-design-vue/es/notification'
-
+    import {BASE_URL} from '@/services/api'
     const columns = [
         {title: '月份', dataIndex: 'REMARK', key: 'REMARK'},
         {title: '人数',  dataIndex: 'HN', key: 'HN', align: 'center'},
@@ -34,34 +41,46 @@
             return {
                 dataSource:dataSource,
                 columns:columns,
+                year:2020,
+                rate:null,
+                yearMin:1949,
+                yearMax:2020,
+                spinning: false,
             };
         },
-        props: ['yearNumber', 'rateNumber'],
         methods: {
-            getMonthlyLaborCost(year,rate){
+            getMonthlyLaborCost(){
+                if(this.year==null || this.rate==null || this.year=='' || this.rate==''){
+                    notification.error({
+                        message: '请选择年份和比率后进行查询！'
+                    })
+                    return
+                }
+                this.spinning = true;
                 const formData = new FormData();
-                formData.set("year", year);
-                formData.set("rate", rate);
+                formData.set("year", this.year);
+                formData.set("rate", this.rate);
                 getMonthlyLaborCost(formData).then(res => {
                     if (res.data.success) {
                         this.dataSource = res.data.data;
+                        this.spinning = false;
                     }
                 }).catch((error) => {
                 })
             },
             exportData(){
-                if(this.yearNumber==null || this.rateNumber==null || this.yearNumber=='' || this.rateNumber==''){
+                if(this.year==null || this.rate==null || this.year=='' || this.rate==''){
                     notification.error({
-                        message: '请选择年份和汇率后进行导出！'
+                        message: '请选择年份和比率后进行导出！'
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/directExportExcel?year='+this.yearNumber+'&rate='+this.rateNumber
-
-            }
+                location.href=BASE_URL+'/salaryReport/directExportExcel?year='+this.year+'&rate='+this.rate
+            },
         },
         created() {
-            //this.getMonthlyLaborCost();
+            this.yearMax = new Date().getFullYear()+1;
+            this.year = new Date().getFullYear();
         },
     };
 </script>

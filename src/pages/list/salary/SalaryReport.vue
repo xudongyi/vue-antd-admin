@@ -6,15 +6,14 @@
                          @change="tabPanelChange"
                          tab-position="top"
                          :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
-                    <div class="extra-wrap" slot="tabBarExtraContent">
-                        <div class="extra-item" style="width:240px">
-                            <a-input-number placeholder="比率" v-model="rateNumberValue" style="width: 90px;margin-right: 18px;"/>
-                            <a-input-number placeholder="年份" id="yearNumber" style="width: 90px;margin-right: 10px;" v-model="yearNumberValue" :min="yearNumberMin" :max="yearNumberMax"/>
-                            <a-button shape="circle" icon="search" @click="doReportSearch" style="width: 28px;height: 28px;" size="small"/>
-                        </div>
-                    </div>
-                    <a-tab-pane :forceRender="true" loading="true" tab="每月人工成本" key="1">
-                        <MonthlyLaborCostReport :year-number="yearNumberValue" :rate-number="rateNumberValue" ref='monthlyLaborCostReport'></MonthlyLaborCostReport>
+                    <a-tab-pane :forceRender="true" loading="true" tab="制造部门每月人工成本" key="1">
+                        <MonthlyLaborCostByManufacturingDept></MonthlyLaborCostByManufacturingDept>
+                    </a-tab-pane>
+                    <a-tab-pane :forceRender="true" loading="true" tab="各部门每月人工成本" key="2">
+                        <MonthlyLaborCostByDeptReport></MonthlyLaborCostByDeptReport>
+                    </a-tab-pane>
+                    <a-tab-pane :forceRender="true" loading="true" tab="每月人工成本" key="3">
+                        <MonthlyLaborCostReport></MonthlyLaborCostReport>
                     </a-tab-pane>
 <!--                    <a-tab-pane :forceRender="true" tab="短信" key="2"><a-row>-->
 <!--                        <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">-->
@@ -30,44 +29,24 @@
     </div>
 </template>
 <script>
-    import MonthlyLaborCostReport from '../../../components/salary/MonthlyLaborCostReport'
+    import  MonthlyLaborCostReport from '../../../components/salary/MonthlyLaborCostReport'
+    import MonthlyLaborCostByDeptReport from '../../../components/salary/MonthlyLaborCostByDeptReport'
+    import MonthlyLaborCostByManufacturingDept from '../../../components/salary/MonthlyLaborCostByManufacturingDept'
 
     export default {
         data () {
             return {
-                yearNumberValue:2020,
-                rateNumberValue:null,
-                yearNumberMin:1949,
-                yearNumberMax:2020,
             };
         },
         methods: {
             tabPanelChange(av){
 
-            },
-            exportData(){
-
-            },
-            doReportSearch(){
-                if(this.rateNumberValue==""||this.rateNumberValue==null||this.yearNumberValue==""||this.yearNumberValue==null){
-                    return;
-                }else{
-                    console.log("doReportSearch");
-                    this.$refs.monthlyLaborCostReport.getMonthlyLaborCost(this.yearNumberValue,this.rateNumberValue);
-                }
             }
         },
-        created() {
-            this.yearNumberMax = new Date().getFullYear()+1;
-            this.yearNumberValue = new Date().getFullYear();
-            // this.getMonthlyLaborCost();
-            // this.yearNumberMax = new Date().getFullYear+1
-        },
-        mounted() {
-
-        },
         components: {
-            MonthlyLaborCostReport
+            MonthlyLaborCostReport,
+            MonthlyLaborCostByDeptReport,
+            MonthlyLaborCostByManufacturingDept
         }
     }
 </script>
