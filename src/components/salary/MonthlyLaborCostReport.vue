@@ -30,7 +30,6 @@
         {title: '13、14月工资',  dataIndex: 'WAS', key: 'WAS', align: 'center'},
         {title: '福利',  dataIndex: 'WAW', key: 'WAW', align: 'center'},
         {title: '合计',  dataIndex: 'TOTAL', key: 'TOTAL', align: 'center'},
-
     ];
 
     const dataSource = [];
@@ -66,6 +65,7 @@
                         this.spinning = false;
                     }
                 }).catch((error) => {
+
                 })
             },
             exportData(){
