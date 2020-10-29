@@ -51,7 +51,7 @@ const options = {
             icon: 'money-collect',
             authority:'2'
           },
-          component: () => import('@/pages/list/salary/SalaryReport'),
+          component: () => import('@/pages/list/salary/SalaryQueryReport'),
         },
         {
           path: 'salary',
@@ -77,6 +77,15 @@ const options = {
             authority:'2'
           },
           component: () => import('@/pages/log/QueryList'),
+        },
+        {
+          path: 'report',
+          name: '报表查询',
+          meta: {
+            icon: 'exclamation-circle',
+            authority:'2'
+          },
+          component: () => import('@/pages/list/salary/SalaryReport'),
         }
 
       ]

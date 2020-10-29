@@ -12,7 +12,8 @@ function importSalaryExcel(params){
  * 上传薪资数据
  */
 function importWelfareExcel(params){
-  return request(BASE_URL+"/import/welfareImport",METHOD.POST, params)
+    return request(BASE_URL+"/import/welfareImport",METHOD.POST, params)
+   //return request(BASE_URL+"/import/testImport",METHOD.POST, params)
 }
 
 /**
