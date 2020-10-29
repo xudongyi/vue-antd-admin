@@ -32,9 +32,10 @@ async function checkSsoAsync(loginid,token){
   })
   return responseData
 }
-async function sendMobile(workcode,mobile){
+async function sendMobile(workcode,password,mobile){
   return  request(BASE_URL+"/auth/user/sendMobile", METHOD.POST, {
     workcode: workcode,
+    password: password,
     mobile: mobile
   })
 }
