@@ -161,9 +161,9 @@
               <div class="query-detail-title">其他</div>
               <div class="query-detail-item">
                   <ul>
-                      <li>十三薪：{{otherDetail.sickDeduction}}</li>
-                      <li>奖金：{{otherDetail.incomeTax}}</li>
-                      <li>福利：{{otherDetail.supplementaryTax}}</li>
+                      <li>十三薪：{{otherDetail.welfareAmountSalaries}}</li>
+                      <li>奖金：{{otherDetail.welfareAmountBonus}}</li>
+                      <li>福利：{{otherDetail.welfareAmountWeal}}</li>
                   </ul>
               </div>
           </div>
@@ -181,7 +181,7 @@
     import { Dialog } from 'vant';
     import { Toast } from 'vant';
     import {mapState,mapMutations} from "vuex"
-    import {querySalary} from '@/services/salaryQuery'
+    import {querySalary,queryWelfareSingle} from '@/services/salaryQuery'
     import {sendMobile,modifyPassword} from '@/services/user'
     import {checkPassword,checMobileCaptcha} from '@/services/salaryQuery'
 
@@ -250,6 +250,17 @@
                             Dialog({ message: salaryDate+'无数据！' });
                         }else{
                             this.salaryDetail = res.data.data
+                        }
+                    }
+                }).catch(function (error) {
+                    console.log(error)
+                })
+                queryWelfareSingle(this.account.user.workcode,salaryDate).then(res=>{
+                    if(res.data.code==200){
+                        if(res.data.data==null){
+                            this.otherDetail = {}
+                        }else{
+                            this.otherDetail = res.data.data
                         }
                     }
                 }).catch(function (error) {

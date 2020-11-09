@@ -49,6 +49,16 @@ function querySalary(workcode,salaryDate) {
 }
 
 /**
+ * 薪资福利查询
+ */
+function queryWelfareSingle(workcode,salaryDate) {
+  return request(BASE_URL+"/personnelSalary/queryWelfareSingle", METHOD.POST, {
+    workcode: workcode,
+    welfareDate: salaryDate
+  })
+}
+
+/**
  * 薪资报表查询
  */
 function queryReportHeader(){
@@ -58,4 +68,4 @@ function queryReportHeader(){
 function queryReportBody(params){
   return request(BASE_URL+"/personnelSalary/queryReportBody", METHOD.POST, params)
 }
-export {importSalaryExcel,importWelfareExcel,checkPassword,checMobileCaptcha,querySalary,queryReportHeader,queryReportBody}
+export {importSalaryExcel,importWelfareExcel,checkPassword,checMobileCaptcha,querySalary,queryWelfareSingle,queryReportHeader,queryReportBody}

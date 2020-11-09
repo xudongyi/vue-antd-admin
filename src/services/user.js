@@ -1,5 +1,6 @@
 import {BASE_URL,LOGIN, ROUTES,CHECKSSO} from '@/services/api'
 import {request, METHOD, removeAuthorization} from '@/utils/request'
+import Cookie from "js-cookie";
 
 /**
  * 登录服务
@@ -49,6 +50,14 @@ async function modifyPassword(workcode,mobile,password,checkPass,captcha){
     captcha: captcha
   })
 }
+
+async function loginInfo(workcode,type){
+  return  request(BASE_URL+"/log/loginInfo", METHOD.GET, {
+    userId: workcode,
+    operateType: type
+  })
+}
+
 /**
  * 退出登录
  */
@@ -58,6 +67,7 @@ function logout() {
   localStorage.removeItem(process.env.VUE_APP_ROLES_KEY)
   localStorage.removeItem(process.env.VUE_APP_TABS)
   removeAuthorization()
+  Cookie.remove('login-info')
 }
 
-export {login, logout,checkSso, checkSsoAsync,getRoutesConfig,sendMobile,modifyPassword}
+export {login, logout,checkSso, checkSsoAsync,getRoutesConfig,loginInfo,sendMobile,modifyPassword}

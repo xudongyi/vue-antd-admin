@@ -32,14 +32,51 @@
     import  MonthlyLaborCostReport from '../../../components/salary/MonthlyLaborCostReport'
     import MonthlyLaborCostByDeptReport from '../../../components/salary/MonthlyLaborCostByDeptReport'
     import MonthlyLaborCostByManufacturingDept from '../../../components/salary/MonthlyLaborCostByManufacturingDept'
+    import {loginInfo} from '@/services/user.js'
+    import {mapGetters} from 'vuex'
+    import Cookie from 'js-cookie'
 
     export default {
         data () {
             return {
             };
         },
+        created(){
+
+            this.loginInfo()
+        },
+        computed: {
+            ...mapGetters('account', ['user']),
+        },
         methods: {
             tabPanelChange(av){
+
+            },
+            loginInfo(){
+                if (!Cookie.get('login-info')) {
+                    loginInfo(
+                        this.user.workcode,0
+                    ).then(res=>{
+                        if (res.data.success) {
+                            if(res.data.data.length>1){
+                                const h = this.$createElement;
+                                this.$info({
+                                    title: '登录提示',
+                                    content: h('div', {}, [
+                                        h('p', '上次登陆时间：'+res.data.data[1].operateTime),
+                                        h('p', '上次登录IP：'+res.data.data[1].ip)
+                                    ]),
+                                    onOk() {},
+                                });
+
+                                Cookie.set("login-info", 'true', 3600)
+                            }
+                        }
+                    }).catch(function (error) {
+                        console.log(error)
+                    })
+                }
+
 
             }
         },
