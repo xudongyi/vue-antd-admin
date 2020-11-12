@@ -40,6 +40,7 @@
                         user.lastname = loginRes.data.lastname
                         user.roleId = loginRes.data.roleId
                         user.first_login = loginRes.data.first_login
+                        user.site = loginRes.data.site
                         this.setUser(user)
                         setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireTime)})
                         // 获取路由配置(使用本地配置)

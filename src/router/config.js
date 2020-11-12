@@ -86,7 +86,16 @@ const options = {
             authority:'2'
           },
           component: () => import('@/pages/list/salary/SalaryReport'),
-        }
+        },
+          {
+              path: 'salaryConfig',
+              name: '部门配置',
+              meta: {
+                  icon: 'exclamation-circle',
+                  authority:'2'
+              },
+              component: () => import('@/pages/salaryConfig/SalaryReportConfig'),
+          }
 
       ]
     }
