@@ -6,13 +6,16 @@
                          @change="tabPanelChange"
                          tab-position="top"
                          :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
-                    <a-tab-pane :forceRender="true" loading="true" tab="制造部门每月人工成本" key="1">
+                    <a-tab-pane :forceRender="true" loading="true" tab="按人员类别统计" key="1">
+                        <MonthlyLaborCostByTypeReport></MonthlyLaborCostByTypeReport>
+                    </a-tab-pane>
+                    <a-tab-pane :forceRender="true" loading="true" tab="制造部门每月人工成本" key="3">
                         <MonthlyLaborCostByManufacturingDept></MonthlyLaborCostByManufacturingDept>
                     </a-tab-pane>
-                    <a-tab-pane :forceRender="true" loading="true" tab="各部门每月人工成本" key="2">
+                    <a-tab-pane :forceRender="true" loading="true" tab="各部门每月人工成本" key="4">
                         <MonthlyLaborCostByDeptReport></MonthlyLaborCostByDeptReport>
                     </a-tab-pane>
-                    <a-tab-pane :forceRender="true" loading="true" tab="每月人工成本" key="3">
+                    <a-tab-pane :forceRender="true" loading="true" tab="每月人工成本" key="5">
                         <MonthlyLaborCostReport></MonthlyLaborCostReport>
                     </a-tab-pane>
 <!--                    <a-tab-pane :forceRender="true" tab="短信" key="2"><a-row>-->
@@ -31,6 +34,7 @@
 <script>
     import  MonthlyLaborCostReport from '../../../components/salary/MonthlyLaborCostReport'
     import MonthlyLaborCostByDeptReport from '../../../components/salary/MonthlyLaborCostByDeptReport'
+    import MonthlyLaborCostByTypeReport from '../../../components/salary/MonthlyLaborCostByTypeReport'
     import MonthlyLaborCostByManufacturingDept from '../../../components/salary/MonthlyLaborCostByManufacturingDept'
     import {loginInfo} from '@/services/user.js'
     import {mapGetters} from 'vuex'
@@ -83,6 +87,7 @@
         components: {
             MonthlyLaborCostReport,
             MonthlyLaborCostByDeptReport,
+            MonthlyLaborCostByTypeReport,
             MonthlyLaborCostByManufacturingDept
         }
     }

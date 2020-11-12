@@ -23,12 +23,12 @@
     import {BASE_URL} from '@/services/api'
     const columns = [
         {title: '月份', dataIndex: 'REMARK', key: 'REMARK'},
-        {title: '人数',  dataIndex: 'HN', key: 'HN', align: 'center'},
-        {title: '应发工资',  dataIndex: 'GP', key: 'GP', align: 'center'},
-        {title: '保险公积金',  dataIndex: 'IAF', key: 'IAF', align: 'center'},
-        {title: '年终奖',  dataIndex: 'WAB', key: 'WAB', align: 'center'},
-        {title: '13、14月工资',  dataIndex: 'WAS', key: 'WAS', align: 'center'},
-        {title: '福利',  dataIndex: 'WAW', key: 'WAW', align: 'center'},
+        {title: '人数',  dataIndex: 'RS', key: 'RS', align: 'center'},
+        {title: '应发工资',  dataIndex: 'YFGZ', key: 'YFGZ', align: 'center'},
+        {title: '保险公积金',  dataIndex: 'GJJ', key: 'GJJ', align: 'center'},
+        {title: '年终奖',  dataIndex: 'JJ', key: 'JJ', align: 'center'},
+        {title: '13、14月工资',  dataIndex: 'SSX', key: 'SSX', align: 'center'},
+        {title: '福利',  dataIndex: 'FL', key: 'FL', align: 'center'},
         {title: '合计',  dataIndex: 'TOTAL', key: 'TOTAL', align: 'center'},
     ];
 
@@ -59,6 +59,8 @@
                 const formData = new FormData();
                 formData.set("year", this.year);
                 formData.set("rate", this.rate);
+                formData.set("site", "A");
+
                 getMonthlyLaborCost(formData).then(res => {
                     if (res.data.success) {
                         this.dataSource = res.data.data;
@@ -75,7 +77,7 @@
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/directExportExcel?year='+this.year+'&rate='+this.rate
+                location.href=BASE_URL+'/salaryReport/directExportExcel?year='+this.year+'&rate='+this.rate+'&site='+"A"
             },
         },
         created() {

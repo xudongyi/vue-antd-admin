@@ -139,6 +139,8 @@
                 const formData = new FormData();
                 formData.set("year", this.year);
                 formData.set("rate", this.rate);
+                formData.set("tabId", '3');
+                formData.set("site", 'A');
                 getMonthlyLaborCostByManufacturingDept(formData).then(res => {
                     if (res.data.success) {
                         this.dataSource = res.data.data;
@@ -154,7 +156,7 @@
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByManufacturingDeptExportExcel?year='+this.year+'&rate='+this.rate
+                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByManufacturingDeptExportExcel?year='+this.year+'&rate='+this.rate+'&site='+"A"+'&tabId='+"3";
             },
         },
         created() {

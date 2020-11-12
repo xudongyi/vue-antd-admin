@@ -12,10 +12,9 @@
                 </div>
             </div>
             <a-table :columns="columns"
-                     :pagination="ipagination"
+                     :pagination="false"
                      :scroll="{ x: 4000}"
                      bordered
-                     @change="handleTableChange"
                      :data-source="dataSource">
             </a-table>
         </a-spin>
@@ -222,12 +221,11 @@
                 const formData = new FormData();
                 formData.set("year", this.year);
                 formData.set("rate", this.rate);
-                formData.set("pageNo", this.ipagination.current);
-                formData.set("pageSize", this.ipagination.pageSize);
+                formData.set("tabId", '4');
+                formData.set("site", 'A');
                 getMonthlyLaborCostByDept(formData).then(res => {
                     if (res.data.success) {
-                        this.dataSource = res.data.data.records;
-                        this.ipagination.total = res.data.data.total;
+                        this.dataSource = res.data.data;
                         this.spinning = false;
                     }
                 }).catch((error) => {
@@ -240,12 +238,8 @@
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByDeptExportExcel?year='+this.year+'&rate='+this.rate
+                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByDeptExportExcel?year='+this.year+'&rate='+this.rate+'&site='+"A"+'&tabId='+"3";
             },
-            handleTableChange(pagination, filters, sorter) {
-                this.ipagination = pagination;
-                this.getMonthlyLaborCostByDept();
-            }
         },
         created() {
             this.yearMax = new Date().getFullYear()+1;
