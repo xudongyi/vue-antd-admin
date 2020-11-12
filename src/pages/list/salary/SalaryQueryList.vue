@@ -400,7 +400,6 @@
                 let that = this;
                 debugger
                 this.$refs[formName].validateField("mobile",valid => {
-                    debugger
                     if (!valid) {
                         sendMobile(this.user.workcode, this.checkForm.mobile).then(res=>{
                             this.buttonStatus = true

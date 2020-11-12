@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import {loginIgnore} from '@/router'
 import {checkAuthorization} from '@/utils/request'
 import {checkSsoAsync} from '@/services'
+import {logout} from '@/services'
 
 
 /**
@@ -122,6 +123,7 @@ function mergeRoutes(target, source) {
 async  function loginGuard(router) {
     await  router.beforeEach((to, from, next) => {
         if (!loginIgnore.includes(to) && !checkAuthorization()) {
+            logout()
             next({path: '/login'})
         } else if (to.path === '/login' || to.name==='sso'|| to.name==='mobileQuery') {
             next()
@@ -172,6 +174,7 @@ function authorityGuard(router, store) {
         const permissions = store.getters['account/permissions']
         const user = localStorage.getItem(process.env.VUE_APP_USER_KEY)
         if (!loginIgnore.includes(to) && !checkAuthorization()) {
+            logout()
             next({path: '/login'})
         }
         let userObject = JSON.parse(user)

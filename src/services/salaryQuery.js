@@ -29,12 +29,33 @@ function checkPassword(workcode,password) {
 }
 
 /**
+ * 校验密码
+ */
+function checMobileCaptcha(workcode,mobile,captcha) {
+  return request(BASE_URL+"/personnelSalary/checMobileCaptcha", METHOD.POST, {
+    workcode: workcode,
+    mobile: mobile,
+    captcha: captcha
+  })
+}
+
+/**
  * 薪资查询
  */
 function querySalary(workcode,salaryDate) {
   return request(BASE_URL+"/personnelSalary/querySalary", METHOD.POST, {
     workcode: workcode,
     salaryDate: salaryDate
+  })
+}
+
+/**
+ * 薪资福利查询
+ */
+function queryWelfareSingle(workcode,salaryDate) {
+  return request(BASE_URL+"/personnelSalary/queryWelfareSingle", METHOD.POST, {
+    workcode: workcode,
+    welfareDate: salaryDate
   })
 }
 
@@ -48,4 +69,4 @@ function queryReportHeader(){
 function queryReportBody(params){
   return request(BASE_URL+"/personnelSalary/queryReportBody", METHOD.POST, params)
 }
-export {importSalaryExcel,importWelfareExcel,checkPassword,querySalary,queryReportHeader,queryReportBody}
+export {importSalaryExcel,importWelfareExcel,checkPassword,checMobileCaptcha,querySalary,queryWelfareSingle,queryReportHeader,queryReportBody}

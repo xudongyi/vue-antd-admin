@@ -59,6 +59,13 @@
                       <van-form ref="checkPwdForm" @submit="submitCheckForm">
                           <div class="first-title">请输入密码进行薪资查询</div>
                           <van-field
+                                  v-model="fill.password"
+                                  name="password"
+                                  type="password"
+                                  label="密码"
+                                  :rules="[{ required: true, message: '请填写密码' }]"
+                          />
+                          <van-field
                                   v-model="fill.mobile"
                                   name="fillmobile"
                                   label="手机号"
@@ -76,12 +83,7 @@
                                   <van-button native-type="button" size="small" type="primary" @click="sendMsg('fillmobile')" :disabled="buttonStatus">{{button}}</van-button>
                               </template>
                           </van-field>
-                          <van-field
-                                  v-model="fill.password"
-                                  type="password"
-                                  label="密码"
-                                  :rules="[{ required: true, message: '请填写密码' }]"
-                          />
+
                           <div style="margin: 16px;">
                               <van-button round block type="info" native-type="submit">
                                   提交
@@ -155,6 +157,16 @@
                   </ul>
               </div>
           </div>
+          <div class="query-detail">
+              <div class="query-detail-title">其他</div>
+              <div class="query-detail-item">
+                  <ul>
+                      <li>十三薪：{{otherDetail.welfareAmountSalaries}}</li>
+                      <li>奖金：{{otherDetail.welfareAmountBonus}}</li>
+                      <li>福利：{{otherDetail.welfareAmountWeal}}</li>
+                  </ul>
+              </div>
+          </div>
       </div>
        <div class="bottom-label">
            实发工资：{{salaryDetail.netSalary}}
@@ -167,10 +179,11 @@
     import 'vant/lib/index.css';
     Vue.use(Vant);
     import { Dialog } from 'vant';
+    import { Toast } from 'vant';
     import {mapState,mapMutations} from "vuex"
-    import {querySalary} from '@/services/salaryQuery'
+    import {querySalary,queryWelfareSingle} from '@/services/salaryQuery'
     import {sendMobile,modifyPassword} from '@/services/user'
-    import {checkPassword} from '@/services/salaryQuery'
+    import {checkPassword,checMobileCaptcha} from '@/services/salaryQuery'
 
     export default {
         data() {
@@ -184,6 +197,7 @@
                 isFirstLogin:false,
                 isInputPwd:false,
                 salaryDetail:{},
+                otherDetail:{},
                 password: '',
                 checkPass: '',
                 mobile: '',
@@ -241,6 +255,17 @@
                 }).catch(function (error) {
                     console.log(error)
                 })
+                queryWelfareSingle(this.account.user.workcode,salaryDate).then(res=>{
+                    if(res.data.code==200){
+                        if(res.data.data==null){
+                            this.otherDetail = {}
+                        }else{
+                            this.otherDetail = res.data.data
+                        }
+                    }
+                }).catch(function (error) {
+                    console.log(error)
+                })
             },
             sendMsg(field){
                 let ruleForm = this.$refs.ruleForm
@@ -249,22 +274,28 @@
                     checkMobile = this.fill.mobile
                     ruleForm = this.$refs.checkPwdForm
                 }
-                ruleForm.validate(field).then(()=>{
-                    sendMobile(this.account.user.loginid, checkMobile).then(res=>{
-                        this.buttonStatus = true
-                        this.button = 60
-                        this.buttonInterval = setInterval(()=>{
-                            this.button = this.button-1
-                            if(this.button==1){
-                                this.button = '发送'
-                                this.buttonStatus = false
-                                clearInterval(this.buttonInterval)
-                            }
-                        }, 1000)
-                    }).catch(function (error) {
-                        console.log(error)
-                    })
+                ruleForm.validate("password").then(()=>{
+                    ruleForm.validate(field).then(()=>{
+                        const sha256 = require('js-sha256').sha256
+                        const sha256_password = sha256(this.fill.password)
+                        sendMobile(this.account.user.loginid, sha256_password,checkMobile).then(res=>{
+                            Toast(res.data.message)
+                            this.buttonStatus = true
+                            this.button = 60
+                            this.buttonInterval = setInterval(()=>{
+                                this.button = this.button-1
+                                if(this.button==1){
+                                    this.button = '发送'
+                                    this.buttonStatus = false
+                                    clearInterval(this.buttonInterval)
+                                }
+                            }, 1000)
+                        }).catch(function (error) {
+                            console.log(error)
+                        })
+                    });
                 });
+
 
             },
             submitForm() {
@@ -290,14 +321,21 @@
             submitCheckForm(){
                 const sha256 = require('js-sha256').sha256
                 const sha256_password = sha256(this.fill.password)
-                checkPassword(this.account.user.workcode, this.fill.mobile, sha256_password, this.fill.captcha).then(res=>{
+                checMobileCaptcha(this.account.user.workcode,  this.fill.mobile, this.fill.captcha).then(res=>{
                     if (res.data.success) {
-                        this.loadData(this.currentDateYear+"-"+this.currentDateMonth);
-                        this.isInputPwd = true;
+                        checkPassword(this.account.user.workcode, sha256_password).then(res1=>{
+                            if (res1.data.success) {
+                                this.loadData(this.currentDateYear+"-"+this.currentDateMonth);
+                                this.isInputPwd = true;
+                            }
+                        }).catch(function (error) {
+                            console.log(error)
+                        })
                     }
                 }).catch(function (error) {
                     console.log(error)
                 })
+
             }
         },
 
