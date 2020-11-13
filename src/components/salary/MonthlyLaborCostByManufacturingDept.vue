@@ -62,7 +62,10 @@
     import {BASE_URL} from '@/services/api'
 
     const dataSource = [];
-    const columns = [
+    let parDepartNameTag=null
+    let parDepartNameCount=1
+    let parDepartNameCountCache = {}
+    let columns = [
         {title: '月份', dataIndex: 'salaryDate', key: 'salaryDate',
             customRender: (value, row, index) => {
                 const obj = {
@@ -143,10 +146,104 @@
                 formData.set("site", 'A');
                 getMonthlyLaborCostByManufacturingDept(formData).then(res => {
                     if (res.data.success) {
+                        parDepartNameTag =res.data.data[0].salaryDate+"_"+res.data.data[0].parDepartName
+                        for(let i =1;i<res.data.data.length;i++){
+                            let dataSourceSingle = res.data.data[i];
+                            if((dataSourceSingle.salaryDate+"_"+dataSourceSingle.parDepartName)==parDepartNameTag){
+                                parDepartNameCount++;
+                            }else{
+                                parDepartNameCountCache[parDepartNameTag] = {index:i-parDepartNameCount,count:parDepartNameCount}
+                                parDepartNameTag = res.data.data[i].salaryDate+"_"+res.data.data[i].parDepartName;
+                                parDepartNameCount = 1
+                            }
+                            if(i==res.data.data.length){
+                                parDepartNameCountCache[parDepartNameTag] = {index:i-parDepartNameCount,count:parDepartNameCount}
+                                parDepartNameTag =res.data.data[i].salaryDate+"_"+res.data.data[i].parDepartName;
+                            }
+
+                        }
+                        console.log(parDepartNameCountCache)
+                        //重新计算
+                        this.columns = [
+                            {title: '月份', dataIndex: 'salaryDate', key: 'salaryDate',
+                                customRender: (value, row, index) => {
+                                    const obj = {
+                                        children: value,
+                                        attrs: {},
+                                    };
+                                    let key0 = Object.keys(parDepartNameCountCache)[0].split('_')[0]
+                                    let countAll = 0
+                                    for(let key in parDepartNameCountCache){
+                                        if(key.indexOf(key0)>-1){
+                                            countAll+=parDepartNameCountCache[key].count
+                                        }
+                                    }
+                                    if (index%countAll === 0) {
+                                        obj.attrs.rowSpan = countAll;
+                                    }else{
+                                        obj.attrs.rowSpan = 0;
+                                    }
+                                    return obj;
+                                },
+                            },
+                            {title: '分期',  dataIndex: 'parDepartName', key: 'parDepartName', align: 'center',
+                                customRender: (value, row, index) => {
+                                    const obj = {
+                                        children: value,
+                                        attrs: {},
+                                    };
+                                    let i = 0;
+                                    for(let key in parDepartNameCountCache){
+                                        let indexCache =parDepartNameCountCache[key].index
+                                        let count =parDepartNameCountCache[key].count
+                                        if(index==indexCache){
+                                            if(count>1){
+                                                obj.attrs.rowSpan = count;
+                                            }else{
+                                                obj.attrs.colSpan = 2;
+                                            }
+                                            break;
+                                        }
+                                        i++;
+                                        if(Object.keys(parDepartNameCountCache).length==i){
+                                            obj.attrs.rowSpan = 0;
+                                        }
+                                    }
+                                    return obj;
+                                },
+                            },
+                            {title: '部门',  dataIndex: 'departName', key: 'departName', align: 'center',
+                                customRender: (value, row, index) => {
+                                    const obj = {
+                                        children: value,
+                                        attrs: {},
+                                    };
+                                    for(let key in parDepartNameCountCache){
+                                        let indexCache =parDepartNameCountCache[key].index
+                                        let count =parDepartNameCountCache[key].count
+                                        if(index==indexCache){
+                                            if(count==1){
+                                                obj.attrs.colSpan = 0;
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    return obj;
+                                },
+                            },
+                            {title: '人数',  dataIndex: 'userCount', key: 'userCount', align: 'center'},
+                            {title: '金额',  dataIndex: 'salary', key: 'salary', align: 'center'},
+                            {title: '福利费',  dataIndex: 'flf', key: 'flf', align: 'center'},
+                            {title: '保险公积金',  dataIndex: 'gjj', key: 'gjj', align: 'center'},
+                            {title: '13、14月工资',  dataIndex: 'otherSalary', key: 'otherSalary', align: 'center'},
+                            {title: '年终奖',  dataIndex: 'yearTotal', key: 'yearTotal', align: 'center'},
+                            {title: '小计',  dataIndex: 'total', key: 'total', align: 'center'},
+                        ];
                         this.dataSource = res.data.data;
                         this.spinning = false;
                     }
                 }).catch((error) => {
+                    console.log(error)
                 })
             },
             exportData(){
