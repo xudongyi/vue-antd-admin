@@ -89,7 +89,7 @@ const options = {
         },
           {
               path: 'salaryConfig',
-              name: '部门配置',
+              name: '报表配置',
               meta: {
                   icon: 'exclamation-circle',
                   authority:'2'

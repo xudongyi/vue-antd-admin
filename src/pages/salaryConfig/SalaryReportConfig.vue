@@ -11,7 +11,6 @@
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
                                 <a-tree-select
-                                        disabled
                                         allow-clear
                                         show-search
                                         tree-node-filter-prop="title"
@@ -92,7 +91,6 @@
             >
                 <a-form-model-item has-feedback label="分部" prop="site">
                     <a-tree-select
-                            disabled
                             allow-clear
                             show-search
                             tree-node-filter-prop="title"
@@ -155,19 +153,19 @@
                 labelCol: { span: 6 },
                 wrapperCol: { span: 17 },
                 tabIdConfig :[{
-                    value:"0",
+                    value:"1",
                     label:'按人员类别统计'
                 },{
-                    value:"1",
+                    value:"2",
                     label:'管技人员按部门统计'
                 },{
-                    value:"2",
+                    value:"3",
                     label:'制造部门'
                 },{
-                    value:"3",
+                    value:"4",
                     label:'各部门每月人工成本'
                 },{
-                    value:"4",
+                    value:"5",
                     label:'每月人工成本'
                 }],
                 columns: [
@@ -270,7 +268,7 @@
                 }
             },
             tabIdChange(value, option){
-                if(value==="2"){
+                if(value==="3"){
                     this.rules.stage[0].required = true;
                 }else{
                     this.rules.stage[0].required = false;
