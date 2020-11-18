@@ -13,7 +13,7 @@
             </div>
 <!--            <table border="1px solid #ccc">-->
 <!--                <tr>-->
-<!--                    <th>月份</th><th>分期</th><th>部门</th><th>人数</th><th>金额</th><th>福利费</th><th>保险公积金</th><th>13、14月工资</th><th>年终奖</th><th>小计</th>-->
+<!--                    <th>月份</th><th>分期</th><th>部门</th><th>人数</th><th>金额</th><th>福利费</th><th>保险公积金</th><th>13、14月工资</th><th>奖金</th><th>小计</th>-->
 <!--                </tr>-->
 <!--                <tr>-->
 <!--                    <td rowspan="11">2020-01</td><td rowspan="3">A1</td><td>组装一期</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td>-->
@@ -60,6 +60,7 @@
     import {getMonthlyLaborCostByManufacturingDept} from '@/services/salaryReport'
     import notification from 'ant-design-vue/es/notification'
     import {BASE_URL} from '@/services/api'
+    import {mapGetters} from "vuex";
 
     const dataSource = [];
     let parDepartNameTag=null
@@ -113,10 +114,10 @@
         {title: '福利费',  dataIndex: 'flf', key: 'flf', align: 'center'},
         {title: '保险公积金',  dataIndex: 'gjj', key: 'gjj', align: 'center'},
         {title: '13、14月工资',  dataIndex: 'otherSalary', key: 'otherSalary', align: 'center'},
-        {title: '年终奖',  dataIndex: 'yearTotal', key: 'yearTotal', align: 'center'},
+        {title: '奖金',  dataIndex: 'yearTotal', key: 'yearTotal', align: 'center'},
         {title: '小计',  dataIndex: 'total', key: 'total', align: 'center'},
     ];
-    // <th>月份</th><th>分期</th><th>部门</th><th>人数</th><th>金额</th><th>福利费</th><th>保险公积金</th><th>13、14月工资</th><th>年终奖</th><th>小计</th>-->
+    // <th>月份</th><th>分期</th><th>部门</th><th>人数</th><th>金额</th><th>福利费</th><th>保险公积金</th><th>13、14月工资</th><th>奖金</th><th>小计</th>-->
     export default {
         name: "MonthlyLaborCostByDeptReport",
         data() {
@@ -129,6 +130,9 @@
                 dataSource:dataSource,
                 columns:columns,
             };
+        },
+        computed: {
+            ...mapGetters('account', ['user']),
         },
         methods: {
             getMonthlyLaborCostByManufacturingDept(){
@@ -143,7 +147,7 @@
                 formData.set("year", this.year);
                 formData.set("rate", this.rate);
                 formData.set("tabId", '3');
-                formData.set("site", 'A');
+                formData.set("site", this.user.site);
                 getMonthlyLaborCostByManufacturingDept(formData).then(res => {
                     if (res.data.success) {
                         parDepartNameTag =res.data.data[0].salaryDate+"_"+res.data.data[0].parDepartName
@@ -236,7 +240,7 @@
                             {title: '福利费',  dataIndex: 'flf', key: 'flf', align: 'center'},
                             {title: '保险公积金',  dataIndex: 'gjj', key: 'gjj', align: 'center'},
                             {title: '13、14月工资',  dataIndex: 'otherSalary', key: 'otherSalary', align: 'center'},
-                            {title: '年终奖',  dataIndex: 'yearTotal', key: 'yearTotal', align: 'center'},
+                            {title: '奖金',  dataIndex: 'yearTotal', key: 'yearTotal', align: 'center'},
                             {title: '小计',  dataIndex: 'total', key: 'total', align: 'center'},
                         ];
                         this.dataSource = res.data.data;

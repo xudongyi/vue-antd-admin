@@ -191,7 +191,7 @@
         {title: '医保', dataIndex: 'medicalInsurance', width: 100, align: 'center'},
         {title: '实发工资', dataIndex: 'netSalary', width: 100, align: 'center'},
         {title: '十三薪', dataIndex: 'welfareAmountSalaries', width: 100, align: 'center'},
-        {title: '年终奖', dataIndex: 'welfareAmountBonus', width: 100, align: 'center'},
+        {title: '奖金', dataIndex: 'welfareAmountBonus', width: 100, align: 'center'},
         {title: '福利', dataIndex: 'welfareAmountWeal', width: 100, align: 'center'}
 
         // { title: '查看次数', dataIndex: 'viewTimes',align:'center'},
@@ -241,6 +241,7 @@
                 queryParam: {
                     dept: '',
                     workcode: '',
+                    site:'',
                     salarystamonth: '',
                     salaryendmonth: ''
                 },
@@ -275,6 +276,7 @@
         },
         created() {
             this.checkPasswordModalVisible = true;
+            this.queryParam.site = this.user.site;
             if (this.user.roleId == 2) {
                 this.ismanager = true;
                 this.initTreeDataSimple();

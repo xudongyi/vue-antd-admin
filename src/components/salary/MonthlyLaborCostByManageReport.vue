@@ -21,7 +21,7 @@
     </div>
 </template>
 <script>
-    import {getMonthlyLaborCostByDept} from '@/services/salaryReport'
+    import {getMonthlyLaborCostByManage} from '@/services/salaryReport'
     import notification from 'ant-design-vue/es/notification'
     import {BASE_URL} from '@/services/api'
     import {mapGetters} from "vuex";
@@ -92,17 +92,6 @@
                 {title: '13、14月工资', dataIndex: 'junWelfareAmountSalaries', key: 'junWelfareAmountSalaries', width: 200},
                 {title: '奖金', dataIndex: 'junWelfareAmountBonus', key: 'junWelfareAmountBonus', width: 100},
                 {title: '小计', dataIndex: 'junSubtotal', key: 'junSubtotal', width: 100},
-            ],
-        },
-        {title: '1-6月',
-            children: [
-                {title: '人数', dataIndex: 'halfHrmNumber', key: 'halfHrmNumber', width: 100},
-                {title: '金额', dataIndex: 'halfGrossPay', key: 'halfGrossPay', width: 100},
-                {title: '福利费', dataIndex: 'halfWelfareAmountWeal', key: 'halfWelfareAmountWeal', width: 100},
-                {title: '保险公积金', dataIndex: 'halfIaf', key: 'halfIaf', width: 200},
-                {title: '13、14月工资', dataIndex: 'halfWelfareAmountSalaries', key: 'halfWelfareAmountSalaries', width: 200},
-                {title: '奖金', dataIndex: 'halfWelfareAmountBonus', key: 'halfWelfareAmountBonus', width: 100},
-                {title: '小计', dataIndex: 'halfSubtotal', key: 'halfSubtotal', width: 100},
             ],
         },
         {title: '7月',
@@ -187,7 +176,7 @@
     const dataSource = [];
 
     export default {
-        name: "MonthlyLaborCostByDeptReport",
+        name: "MonthlyLaborCostByManageReport",
         data() {
             return {
                 dataSource:dataSource,
@@ -197,17 +186,6 @@
                 yearMin:1949,
                 yearMax:2020,
                 spinning: false,
-                ipagination:{
-                    current: 1,
-                    pageSize: 10,
-                    pageSizeOptions: ['10', '20', '30','50','100'],
-                    showTotal: (total, range) => {
-                        return range[0] + "-" + range[1] + " 共" + total + "条"
-                    },
-                    showQuickJumper: true,
-                    showSizeChanger: true,
-                    total: 0
-                },
             };
         },
         computed: {
@@ -225,9 +203,11 @@
                 const formData = new FormData();
                 formData.set("year", this.year);
                 formData.set("rate", this.rate);
-                formData.set("tabId", '4');
+                formData.set("tabId", '2');
                 formData.set("site", this.user.site);
-                getMonthlyLaborCostByDept(formData).then(res => {
+                formData.set("typeIds", '01,02');
+
+                getMonthlyLaborCostByManage(formData).then(res => {
                     if (res.data.success) {
                         this.dataSource = res.data.data;
                         this.spinning = false;
@@ -242,7 +222,7 @@
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByDeptExportExcel?year='+this.year+'&rate='+this.rate+'&site='+"A"+'&tabId='+"4";
+                location.href=BASE_URL+'/salaryReport/typeLaborCostByDateExportExcel?year='+this.year+'&rate='+this.rate+'&site='+"A"+'&tabId='+"2"+'&typeIds=01,02';
             },
         },
         created() {

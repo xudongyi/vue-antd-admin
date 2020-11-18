@@ -24,6 +24,7 @@
     import {getMonthlyLaborCostByType} from '@/services/salaryReport'
     import notification from 'ant-design-vue/es/notification'
     import {BASE_URL} from '@/services/api'
+    import {mapGetters} from "vuex";
 
     const columns = [
         {title: '部门', dataIndex: 'departName', key: 'departName',fixed: 'left',width:200},
@@ -36,7 +37,7 @@
                 {title: '失保', dataIndex: 'mtLoi', key: 'mtLoi', width: 100},
                 {title: '保险公积金', dataIndex: 'mtIaf', key: 'mtIaf', width: 200},
                 {title: '13、14月工资', dataIndex: 'mtWelfareAmountSalaries', key: 'mtWelfareAmountSalaries', width: 200},
-                {title: '年终奖', dataIndex: 'mtWelfareAmountBonus', key: 'mtWelfareAmountBonus', width: 100},
+                {title: '奖金', dataIndex: 'mtWelfareAmountBonus', key: 'mtWelfareAmountBonus', width: 100},
                 {title: '小计', dataIndex: 'mtSubtotal', key: 'mtSubtotal', width: 100},
             ],
         },
@@ -49,7 +50,7 @@
                 {title: '失保', dataIndex: 'etLoi', key: 'etLoi', width: 100},
                 {title: '保险公积金', dataIndex: 'etIaf', key: 'etIaf', width: 200},
                 {title: '13、14月工资', dataIndex: 'etWelfareAmountSalaries', key: 'etWelfareAmountSalaries', width: 200},
-                {title: '年终奖', dataIndex: 'etWelfareAmountBonus', key: 'etWelfareAmountBonus', width: 100},
+                {title: '奖金', dataIndex: 'etWelfareAmountBonus', key: 'etWelfareAmountBonus', width: 100},
                 {title: '小计', dataIndex: 'etSubtotal', key: 'etSubtotal', width: 100},
             ],
         },
@@ -62,7 +63,7 @@
                 {title: '失保', dataIndex: 'mtTotalLoi', key: 'mtTotalLoi', width: 100},
                 {title: '保险公积金', dataIndex: 'mtTotalIaf', key: 'mtTotalIaf', width: 200},
                 {title: '13、14月工资', dataIndex: 'mtTotalWelfareAmountSalaries', key: 'mtTotalWelfareAmountSalaries', width: 200},
-                {title: '年终奖', dataIndex: 'mtTotalWelfareAmountBonus', key: 'mtTotalWelfareAmountBonus', width: 100},
+                {title: '奖金', dataIndex: 'mtTotalWelfareAmountBonus', key: 'mtTotalWelfareAmountBonus', width: 100},
                 {title: '小计', dataIndex: 'mtTotalSubtotal', key: 'mtTotalSubtotal', width: 100},
             ],
         },
@@ -75,7 +76,7 @@
                 {title: '失保', dataIndex: 'prodLoi', key: 'prodLoi', width: 100},
                 {title: '保险公积金', dataIndex: 'prodIaf', key: 'prodIaf', width: 200},
                 {title: '13、14月工资', dataIndex: 'prodWelfareAmountSalaries', key: 'prodWelfareAmountSalaries', width: 200},
-                {title: '年终奖', dataIndex: 'prodWelfareAmountBonus', key: 'prodWelfareAmountBonus', width: 100},
+                {title: '奖金', dataIndex: 'prodWelfareAmountBonus', key: 'prodWelfareAmountBonus', width: 100},
                 {title: '小计', dataIndex: 'prodSubtotal', key: 'prodSubtotal', width: 100},
             ],
         },
@@ -88,7 +89,7 @@
                 {title: '失保', dataIndex: 'logisLoi', key: 'logisLoi', width: 100},
                 {title: '保险公积金', dataIndex: 'logisIaf', key: 'logisIaf', width: 200},
                 {title: '13、14月工资', dataIndex: 'logisWelfareAmountSalaries', key: 'logisWelfareAmountSalaries', width: 200},
-                {title: '年终奖', dataIndex: 'logisWelfareAmountBonus', key: 'logisWelfareAmountBonus', width: 100},
+                {title: '奖金', dataIndex: 'logisWelfareAmountBonus', key: 'logisWelfareAmountBonus', width: 100},
                 {title: '小计', dataIndex: 'logisSubtotal', key: 'logisSubtotal', width: 100},
             ],
         },
@@ -101,7 +102,7 @@
                 {title: '失保', dataIndex: 'qiLoi', key: 'qiLoi', width: 100},
                 {title: '保险公积金', dataIndex: 'qiIaf', key: 'qiIaf', width: 200},
                 {title: '13、14月工资', dataIndex: 'qiWelfareAmountSalaries', key: 'qiWelfareAmountSalaries', width: 200},
-                {title: '年终奖', dataIndex: 'qiWelfareAmountBonus', key: 'qiWelfareAmountBonus', width: 100},
+                {title: '奖金', dataIndex: 'qiWelfareAmountBonus', key: 'qiWelfareAmountBonus', width: 100},
                 {title: '小计', dataIndex: 'qiSubtotal', key: 'qiSubtotal', width: 100},
             ],
         },
@@ -114,7 +115,7 @@
                 {title: '失保', dataIndex: 'psLoi', key: 'psLoi', width: 100},
                 {title: '保险公积金', dataIndex: 'psIaf', key: 'psIaf', width: 200},
                 {title: '13、14月工资', dataIndex: 'psWelfareAmountSalaries', key: 'psWelfareAmountSalaries', width: 200},
-                {title: '年终奖', dataIndex: 'psWelfareAmountBonus', key: 'psWelfareAmountBonus', width: 100},
+                {title: '奖金', dataIndex: 'psWelfareAmountBonus', key: 'psWelfareAmountBonus', width: 100},
                 {title: '小计', dataIndex: 'psSubtotal', key: 'psSubtotal', width: 100},
             ],
         },
@@ -127,7 +128,7 @@
                 {title: '失保', dataIndex: 'totalLoi', key: 'totalLoi', width: 100},
                 {title: '保险公积金', dataIndex: 'totalIaf', key: 'totalIaf', width: 200},
                 {title: '13、14月工资', dataIndex: 'totalWelfareAmountSalaries', key: 'totalWelfareAmountSalaries', width: 200},
-                {title: '年终奖', dataIndex: 'totalWelfareAmountBonus', key: 'totalWelfareAmountBonus', width: 100},
+                {title: '奖金', dataIndex: 'totalWelfareAmountBonus', key: 'totalWelfareAmountBonus', width: 100},
                 {title: '小计', dataIndex: 'totalSubtotal', key: 'totalSubtotal', width: 100},
             ],
         }
@@ -157,6 +158,9 @@
                 },
             };
         },
+        computed: {
+            ...mapGetters('account', ['user']),
+        },
         methods: {
             getMonthlyLaborCostByType(){
                 if(this.month==null || this.rate==null || this.month=='' || this.rate==''){
@@ -170,7 +174,7 @@
                 formData.set("month", this.month);
                 formData.set("rate", this.rate);
                 formData.set("tabId", '1');
-                formData.set("site", 'A');
+                formData.set("site", this.user.site);
                 getMonthlyLaborCostByType(formData).then(res => {
                     if (res.data.success) {
                         this.dataSource = res.data.data;
@@ -185,15 +189,18 @@
             exportData(){
                 if(this.month==null || this.rate==null || this.month=='' || this.rate==''){
                     notification.error({
-                        message: '请选择年份和比率后进行导出！'
+                        message: '请选择月份和比率后进行导出！'
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByDeptExportExcel?year='+this.month+'&rate='+this.rate+'&site='+"A"+'&tabId='+"3";
+                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByTypeExportExcel?month='+this.month+'&rate='+this.rate+'&site='+"A"+'&tabId='+"1";
             },
         },
         created() {
-
+            let currentDate = new Date();
+            let currentYear = currentDate.getFullYear();
+            let currentMonth = (currentDate.getMonth()+1).length==1?"0"+(currentDate.getMonth()+1):currentDate.getMonth()+1;
+            this.month = currentYear+"-"+currentMonth;
         },
     };
 </script>

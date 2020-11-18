@@ -16,8 +16,12 @@ function getMonthlyLaborCostByType(params){
   return request(BASE_URL+"/salaryReport/getMonthlyLaborCostByType",METHOD.POST, params)
 }
 
+function getMonthlyLaborCostByManage(params){
+  return request(BASE_URL+"/salaryReport/getTypeLaborCostByDate",METHOD.POST, params)
+}
+
 function getMonthlyLaborCostByManufacturingDept(params){
   return request(BASE_URL+"/salaryReport/getMonthlyLaborCostByManufacturingDept",METHOD.POST, params)
 }
 
-export {getMonthlyLaborCost,getMonthlyLaborCostByDept,getMonthlyLaborCostByType,getMonthlyLaborCostByManufacturingDept}
+export {getMonthlyLaborCost,getMonthlyLaborCostByDept,getMonthlyLaborCostByType,getMonthlyLaborCostByManage,getMonthlyLaborCostByManufacturingDept}

@@ -165,7 +165,8 @@
                     dept: '',
                     workcode: '',
                     welfarestamonth: '',
-                    welfareendmonth: ''
+                    welfareendmonth: '',
+                    site:''
                 },
                 selectedRows: [],
                 welfareModalVisible: false,
@@ -193,6 +194,7 @@
         },
         created() {
             this.checkPasswordModalVisible = true;
+            this.queryParam.site = this.user.site;
             if (this.user.roleId == 2) {
                 this.ismanager = true;
                 this.initTreeDataSimple();

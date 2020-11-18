@@ -21,12 +21,13 @@
     import {getMonthlyLaborCost} from '@/services/salaryReport'
     import notification from 'ant-design-vue/es/notification'
     import {BASE_URL} from '@/services/api'
+    import {mapGetters} from "vuex";
     const columns = [
         {title: '月份', dataIndex: 'REMARK', key: 'REMARK'},
         {title: '人数',  dataIndex: 'RS', key: 'RS', align: 'center'},
         {title: '应发工资',  dataIndex: 'YFGZ', key: 'YFGZ', align: 'center'},
         {title: '保险公积金',  dataIndex: 'GJJ', key: 'GJJ', align: 'center'},
-        {title: '年终奖',  dataIndex: 'JJ', key: 'JJ', align: 'center'},
+        {title: '奖金',  dataIndex: 'JJ', key: 'JJ', align: 'center'},
         {title: '13、14月工资',  dataIndex: 'SSX', key: 'SSX', align: 'center'},
         {title: '福利',  dataIndex: 'FL', key: 'FL', align: 'center'},
         {title: '合计',  dataIndex: 'TOTAL', key: 'TOTAL', align: 'center'},
@@ -47,6 +48,9 @@
                 spinning: false,
             };
         },
+        computed: {
+            ...mapGetters('account', ['user']),
+        },
         methods: {
             getMonthlyLaborCost(){
                 if(this.year==null || this.rate==null || this.year=='' || this.rate==''){
@@ -59,7 +63,7 @@
                 const formData = new FormData();
                 formData.set("year", this.year);
                 formData.set("rate", this.rate);
-                formData.set("site", "A");
+                formData.set("site", this.user.site);
 
                 getMonthlyLaborCost(formData).then(res => {
                     if (res.data.success) {

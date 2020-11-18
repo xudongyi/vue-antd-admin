@@ -42,7 +42,7 @@ function checMobileCaptcha(workcode,mobile,captcha) {
 /**
  * 薪资查询
  */
-function querySalary(workcode,salaryDate) {
+function querySalary(workcode,site,salaryDate) {
   return request(BASE_URL+"/personnelSalary/querySalary", METHOD.POST, {
     workcode: workcode,
     salaryDate: salaryDate
