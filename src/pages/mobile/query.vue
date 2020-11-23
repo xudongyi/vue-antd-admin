@@ -169,7 +169,7 @@
           </div>
       </div>
        <div class="bottom-label">
-           实发工资：{{salaryDetail.netSalary}}
+           实发工资（不含其它）：{{salaryDetail.netSalary}}
           </div>
    </div>
 </template>
