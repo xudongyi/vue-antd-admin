@@ -115,7 +115,17 @@
             <div>
                 <a-form-model ref="checkForm" :model="checkForm" :rules="rules" v-bind="layout">
                     <a-form-model-item has-feedback label="密码" prop="password">
-                        <a-input-password v-model="checkForm.password" type="password" autocomplete="off"/>
+                        <a-input-password v-model="checkForm.password" type="password" autocomplete="off" />
+                    </a-form-model-item>
+                    <a-form-model-item label="手机号" prop="mobile" >
+                        <a-input-search validateStatus="false" v-model.number="checkForm.mobile"  @search="sendMsg('checkForm')">
+                            <a-button :disabled="buttonStatus" slot="enterButton">
+                                {{button}}
+                            </a-button>
+                        </a-input-search>
+                    </a-form-model-item>
+                    <a-form-model-item has-feedback label="验证码" prop="captcha">
+                        <a-input v-model.number="checkForm.captcha" />
                     </a-form-model-item>
                 </a-form-model>
             </div>
@@ -129,6 +139,7 @@
     import {QueryMixIn} from '@/mixins/query'
     import {departMentAll} from '@/services/oa'
     import {mapGetters} from 'vuex'
+    import {sendMobile} from '@/services/user'
 
 
     const columns = [
@@ -146,6 +157,25 @@
         },
         mixins: [QueryMixIn],
         data() {
+            let checkMobile = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入手机号'));
+                }else if(!(/^1[3456789]\d{9}$/.test(this.checkForm.mobile))){
+                    callback(new Error("手机号码格式错误"));
+                }else{
+                    callback();
+                }
+            };
+
+
+            let validateCaptcha = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入验证码'));
+                } else {
+                    callback();
+                }
+            };
+
             let validatePass = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入密码'));
@@ -181,9 +211,13 @@
                 buttonStatus: false,
                 checkForm: {
                     password: '',
+                    mobile: '',
+                    captcha: '',
                 },
                 rules: {
-                    password: [{validator: validatePass, trigger: 'blur'}],
+                    password: [{ validator: validatePass, trigger: 'blur' }],
+                    mobile: [{ validator: checkMobile, trigger: 'blur' }],
+                    captcha: [{ validator: validateCaptcha, trigger: 'blur' }],
                 },
                 layout: {
                     labelCol: {span: 4},
@@ -269,7 +303,7 @@
                 this.queryParam.welfarestamonth = '';
                 this.queryParam.welfareendmonth = '';
             },
-            commitCheckPassword(formName) {
+            commitCheckPassword(formName){
                 this.$refs[formName].validate(valid => {
                     if (valid) {
                         const sha256 = require('js-sha256').sha256
@@ -277,7 +311,9 @@
                         checkPassword(
                             this.user.workcode,
                             sha256_password,
-                        ).then(res => {
+                            this.checkForm.mobile,
+                            this.checkForm.captcha
+                        ).then(res=>{
                             if (res.data.success) {
                                 this.loadData();
                                 this.checkPasswordModalVisible = false;
@@ -292,6 +328,37 @@
                         return false;
                     }
                 })
+            },
+            sendMsg(formName){
+                this.$refs[formName].validateField("password",valid1 => {
+                    if (!valid1) {
+                        this.$refs[formName].validateField("mobile",valid => {
+                            if (!valid) {
+                                const sha256 = require('js-sha256').sha256
+                                const sha256_password = sha256(this.checkForm.password)
+                                sendMobile(this.user.workcode,sha256_password, this.checkForm.mobile).then(res=>{
+                                    this.buttonStatus = true
+                                    this.button = 60
+                                    this.buttonInterval = setInterval(()=>{
+                                        this.button = this.button-1
+                                        if(this.button==1){
+                                            this.button = '发送'
+                                            this.buttonStatus = false
+                                            clearInterval(this.buttonInterval)
+                                        }
+                                    }, 1000)
+                                }).catch(function (error) {
+                                    console.log(error)
+                                })
+                            } else {
+                                return false;
+                            }
+                        });
+                    } else {
+                        return false;
+                    }
+                });
+
             },
             cancelCheckPassword() {
                 this.checkPasswordModalVisible = false;

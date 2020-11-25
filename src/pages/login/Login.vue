@@ -32,6 +32,10 @@
                 </a-form-item>
                 <div>
                     <a-checkbox :checked="true">自动登录</a-checkbox>
+                    <a-button @click="forgetPwd" type="link">
+                        忘记密码
+                    </a-button>
+
                 </div>
                 <a-form-item>
                     <a-button :loading="logging" style="width: 100%;margin-top: 24px" size="large" htmlType="submit"
@@ -168,18 +172,13 @@
                     this.user.loginid = loginRes.data.loginid
                     this.user.workcode = loginRes.data.workcode
                     this.user.roleId = loginRes.data.roleId
-                    if(!this.isSendMessageToday){
-                        this.checkPasswordModalVisible = true
+                    if(this.user.roleId==2){
+                        this.$router.push('/index')
                     }else{
-                        if(this.user.roleId==2){
-                            this.$router.push('/index')
-                        }else{
-                            this.$router.push('/salary')
-                        }
-                        this.loginInfo(this.user)
-                        this.$message.success(res.data.message, 3)
-                        this.checkPasswordModalVisible = false;
+                        this.$router.push('/salary')
                     }
+                    this.loginInfo(this.user)
+                    this.$message.success(res.data.message, 3)
                 }
             },
             loginInfo(user){
@@ -207,6 +206,9 @@
                         console.log(error)
                     })
                 }
+            },
+            forgetPwd(){
+                this.$router.push('/forgetPwd')
             },
             sendMsg(formName){
                 this.$refs[formName].validateField("mobile",valid => {

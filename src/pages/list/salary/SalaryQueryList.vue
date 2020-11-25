@@ -121,18 +121,18 @@
                 >
                     <div>
                         <a-form-model ref="checkForm" :model="checkForm" :rules="rules" v-bind="layout">
-<!--                            <a-form-model-item label="手机号" prop="mobile" >-->
-<!--                                <a-input-search validateStatus="false" v-model.number="checkForm.mobile"  @search="sendMsg('checkForm')">-->
-<!--                                    <a-button :disabled="buttonStatus" slot="enterButton">-->
-<!--                                        {{button}}-->
-<!--                                    </a-button>-->
-<!--                                </a-input-search>-->
-<!--                            </a-form-model-item>-->
-<!--                            <a-form-model-item has-feedback label="验证码" prop="captcha">-->
-<!--                                <a-input v-model.number="checkForm.captcha" />-->
-<!--                            </a-form-model-item>-->
                             <a-form-model-item has-feedback label="密码" prop="password">
                                 <a-input-password v-model="checkForm.password" type="password" autocomplete="off" />
+                            </a-form-model-item>
+                            <a-form-model-item label="手机号" prop="mobile" >
+                                <a-input-search validateStatus="false" v-model.number="checkForm.mobile"  @search="sendMsg('checkForm')">
+                                    <a-button :disabled="buttonStatus" slot="enterButton">
+                                        {{button}}
+                                    </a-button>
+                                </a-input-search>
+                            </a-form-model-item>
+                            <a-form-model-item has-feedback label="验证码" prop="captcha">
+                                <a-input v-model.number="checkForm.captcha" />
                             </a-form-model-item>
                         </a-form-model>
                     </div>
@@ -376,9 +376,9 @@
                         const sha256_password = sha256(this.checkForm.password)
                         checkPassword(
                             this.user.workcode,
-                            // this.checkForm.mobile,
                             sha256_password,
-                            // this.checkForm.captcha
+                            this.checkForm.mobile,
+                            this.checkForm.captcha
                         ).then(res=>{
                             if (res.data.success) {
                                 this.loadData();
@@ -399,28 +399,35 @@
                 this.checkPasswordModalVisible = false;
             },
             sendMsg(formName){
-                let that = this;
-                debugger
-                this.$refs[formName].validateField("mobile",valid => {
-                    if (!valid) {
-                        sendMobile(this.user.workcode, this.checkForm.mobile).then(res=>{
-                            this.buttonStatus = true
-                            this.button = 60
-                            this.buttonInterval = setInterval(()=>{
-                                this.button = this.button-1
-                                if(this.button==1){
-                                    this.button = '发送'
-                                    this.buttonStatus = false
-                                    clearInterval(this.buttonInterval)
-                                }
-                            }, 1000)
-                        }).catch(function (error) {
-                            console.log(error)
-                        })
+                this.$refs[formName].validateField("password",valid1 => {
+                    if (!valid1) {
+                        this.$refs[formName].validateField("mobile",valid => {
+                            if (!valid) {
+                                const sha256 = require('js-sha256').sha256
+                                const sha256_password = sha256(this.checkForm.password)
+                                sendMobile(this.user.workcode,sha256_password, this.checkForm.mobile).then(res=>{
+                                    this.buttonStatus = true
+                                    this.button = 60
+                                    this.buttonInterval = setInterval(()=>{
+                                        this.button = this.button-1
+                                        if(this.button==1){
+                                            this.button = '发送'
+                                            this.buttonStatus = false
+                                            clearInterval(this.buttonInterval)
+                                        }
+                                    }, 1000)
+                                }).catch(function (error) {
+                                    console.log(error)
+                                })
+                            } else {
+                                return false;
+                            }
+                        });
                     } else {
                         return false;
                     }
                 });
+
             },
             doSearch(){
                 if(this.hasCheckPassword){
