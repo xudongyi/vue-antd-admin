@@ -19,19 +19,19 @@ function importWelfareExcel(params){
 /**
  * 校验密码
  */
-function checkPassword(workcode,password) {
+function checkPassword(workcode,password,mobile,captcha) {
   return request(CHECK_PASSWORD_URL, METHOD.POST, {
     workcode: workcode,
-    // mobile: mobile,
     password: password,
-    // captcha: captcha
+    mobile: mobile,
+   captcha: captcha
   })
 }
 
 /**
  * 校验密码
  */
-function checMobileCaptcha(workcode,mobile,captcha) {
+function checMobileCaptcha(workcode,mobile,password,captcha) {
   return request(BASE_URL+"/personnelSalary/checMobileCaptcha", METHOD.POST, {
     workcode: workcode,
     mobile: mobile,

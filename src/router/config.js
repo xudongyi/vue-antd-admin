@@ -34,8 +34,13 @@ const options = {
       component: () => import('@/pages/login/firstLogin'),
     },
     {
+      path: '/forgetPwd',
+      name: 'forgetPwd',
+      component: () => import('@/pages/login/forgetPwd'),
+    },
+    {
       path: '/modifypwd',
-      name: 'modifypwd.vue',
+      name: 'modifypwd',
       component: () => import('@/pages/user/modifypwd'),
     },
     {

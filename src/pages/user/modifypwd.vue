@@ -101,7 +101,7 @@
                 let that = this;
                 this.$refs[formName].validateField("mobile",valid => {
                     if (!valid) {
-                        sendMobile(this.account.user.workcode, this.ruleForm.mobile).then(res=>{
+                        sendMobile(this.account.user.workcode,"-1", this.ruleForm.mobile).then(res=>{
                             this.buttonStatus = true
                             this.button = 60
                             this.buttonInterval = setInterval(()=>{

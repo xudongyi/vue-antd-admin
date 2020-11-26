@@ -66,57 +66,7 @@
     let parDepartNameTag=null
     let parDepartNameCount=1
     let parDepartNameCountCache = {}
-    let columns = [
-        {title: '月份', dataIndex: 'salaryDate', key: 'salaryDate',
-            customRender: (value, row, index) => {
-                const obj = {
-                    children: value,
-                    attrs: {},
-                };
-                if (index%11 === 0) {
-                    obj.attrs.rowSpan = 11;
-                }else{
-                    obj.attrs.rowSpan = 0;
-                }
-                return obj;
-            },
-        },
-        {title: '分期',  dataIndex: 'parDepartName', key: 'parDepartName', align: 'center',
-            customRender: (value, row, index) => {
-                const obj = {
-                    children: value,
-                    attrs: {},
-                };
-                if (index%11 === 0||index%11 === 3||index%11 === 6) {
-                    obj.attrs.rowSpan = 3;
-                }else if(index%11 === 9||index%11 === 10){
-                    obj.attrs.colSpan = 2;
-                }else{
-                    obj.attrs.rowSpan = 0;
-                }
-                return obj;
-            },
-        },
-        {title: '部门',  dataIndex: 'departName', key: 'departName', align: 'center',
-            customRender: (value, row, index) => {
-                const obj = {
-                    children: value,
-                    attrs: {},
-                };
-                if(index%11 === 9||index%11 === 10){
-                    obj.attrs.colSpan = 0;
-                }
-                return obj;
-            },
-        },
-        {title: '人数',  dataIndex: 'userCount', key: 'userCount', align: 'center'},
-        {title: '金额',  dataIndex: 'salary', key: 'salary', align: 'center'},
-        {title: '福利费',  dataIndex: 'flf', key: 'flf', align: 'center'},
-        {title: '保险公积金',  dataIndex: 'gjj', key: 'gjj', align: 'center'},
-        {title: '13、14月工资',  dataIndex: 'otherSalary', key: 'otherSalary', align: 'center'},
-        {title: '奖金',  dataIndex: 'yearTotal', key: 'yearTotal', align: 'center'},
-        {title: '小计',  dataIndex: 'total', key: 'total', align: 'center'},
-    ];
+    let columns = [];
     // <th>月份</th><th>分期</th><th>部门</th><th>人数</th><th>金额</th><th>福利费</th><th>保险公积金</th><th>13、14月工资</th><th>奖金</th><th>小计</th>-->
     export default {
         name: "MonthlyLaborCostByDeptReport",
@@ -150,6 +100,11 @@
                 formData.set("site", this.user.site);
                 getMonthlyLaborCostByManufacturingDept(formData).then(res => {
                     if (res.data.success) {
+                        //清空缓存
+                        parDepartNameTag=null
+                        parDepartNameCount=1
+                        parDepartNameCountCache = {}
+                        columns = [];
                         parDepartNameTag =res.data.data[0].salaryDate+"_"+res.data.data[0].parDepartName
                         for(let i =1;i<res.data.data.length;i++){
                             let dataSourceSingle = res.data.data[i];
@@ -160,9 +115,15 @@
                                 parDepartNameTag = res.data.data[i].salaryDate+"_"+res.data.data[i].parDepartName;
                                 parDepartNameCount = 1
                             }
-                            if(i==res.data.data.length){
-                                parDepartNameCountCache[parDepartNameTag] = {index:i-parDepartNameCount,count:parDepartNameCount}
-                                parDepartNameTag =res.data.data[i].salaryDate+"_"+res.data.data[i].parDepartName;
+                            if(i==res.data.data.length-1){
+                                if(parDepartNameCount==1){
+                                    parDepartNameCountCache[parDepartNameTag] = {index:i,count:parDepartNameCount}
+                                    parDepartNameTag =res.data.data[i].salaryDate+"_"+res.data.data[i].parDepartName;
+                                }else{
+                                    parDepartNameCountCache[parDepartNameTag] = {index:i-parDepartNameCount+1,count:parDepartNameCount}
+                                    parDepartNameTag =res.data.data[i].salaryDate+"_"+res.data.data[i].parDepartName;
+                                }
+
                             }
 
                         }
@@ -204,7 +165,7 @@
                                             if(count>1){
                                                 obj.attrs.rowSpan = count;
                                             }else{
-                                                obj.attrs.colSpan = 2;
+                                                //obj.attrs.colSpan = 2;
                                             }
                                             break;
                                         }
@@ -227,7 +188,7 @@
                                         let count =parDepartNameCountCache[key].count
                                         if(index==indexCache){
                                             if(count==1){
-                                                obj.attrs.colSpan = 0;
+                                                //obj.attrs.colSpan = 0;
                                             }
                                             break;
                                         }

@@ -125,7 +125,7 @@ async  function loginGuard(router) {
         if (!loginIgnore.includes(to) && !checkAuthorization()) {
             logout()
             next({path: '/login'})
-        } else if (to.path === '/login' || to.name==='sso'|| to.name==='mobileQuery') {
+        } else if (to.path === '/login' || to.name==='sso'|| to.name==='mobileQuery'||to.name==='forgetPwd') {
             next()
         } else if (to.name != 'firstLogin') {
             checkUserIsFirstLogin(to).then(res=>{
