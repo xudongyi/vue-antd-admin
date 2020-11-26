@@ -218,7 +218,7 @@
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByManufacturingDeptExportExcel?year='+this.year+'&rate='+this.rate+'&site='+"A"+'&tabId='+"3";
+                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByManufacturingDeptExportExcel?year='+this.year+'&rate='+this.rate+'&site='+this.user.site+'&tabId='+"3";
             },
         },
         created() {

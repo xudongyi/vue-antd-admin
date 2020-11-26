@@ -81,7 +81,7 @@
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/directExportExcel?year='+this.year+'&rate='+this.rate+'&site='+"A"
+                location.href=BASE_URL+'/salaryReport/directExportExcel?year='+this.year+'&rate='+this.rate+'&site='+this.user.site
             },
         },
         created() {

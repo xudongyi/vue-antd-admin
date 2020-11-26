@@ -242,7 +242,7 @@
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByDeptExportExcel?year='+this.year+'&rate='+this.rate+'&site='+"A"+'&tabId='+"4";
+                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByDeptExportExcel?year='+this.year+'&rate='+this.rate+'&site='+this.user.site+'&tabId='+"4";
             },
         },
         created() {

@@ -193,7 +193,7 @@
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByTypeExportExcel?month='+this.month+'&rate='+this.rate+'&site='+"A"+'&tabId='+"1";
+                location.href=BASE_URL+'/salaryReport/monthlyLaborCostByTypeExportExcel?month='+this.month+'&rate='+this.rate+'&site='+this.user.site+'&tabId='+"1";
             },
         },
         created() {

@@ -222,7 +222,7 @@
                     })
                     return
                 }
-                location.href=BASE_URL+'/salaryReport/typeLaborCostByDateExportExcel?year='+this.year+'&rate='+this.rate+'&site='+"A"+'&tabId='+"2"+'&typeIds=01,02';
+                location.href=BASE_URL+'/salaryReport/typeLaborCostByDateExportExcel?year='+this.year+'&rate='+this.rate+'&site='+this.user.site+'&tabId='+"2"+'&typeIds=01,02';
             },
         },
         created() {
