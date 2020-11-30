@@ -92,6 +92,7 @@
     import SalaryLineReport from '../../../components/salary/SalaryLineReport'
     import RankingList from "../../../components/chart/RankingList"
     import {queryReportHeader,queryReportBody} from '@/services/salaryQuery'
+    import {mapGetters} from "vuex";
 
     const rankList = []
 
@@ -135,6 +136,9 @@
                 }
             };
         },
+        computed: {
+            ...mapGetters('account', ['user']),
+        },
         methods: {
             rangePickerHandleChange(value) {
                 this.rangePickerValue = value;
@@ -164,7 +168,7 @@
                 }
             },
             loadHeaderData(){
-                queryReportHeader().then(res => {
+                queryReportHeader(this.user.site).then(res => {
                     if (res.data.success) {
                         this.reportData.currentMonthSalary = res.data.data.currentMonthSalary;
                         this.reportData.lastMonthSalary = res.data.data.lastMonthSalary;
@@ -185,6 +189,7 @@
                 const dateFormData = new FormData();
                 dateFormData.set("staDate", staDate);
                 dateFormData.set("endDate", endDate);
+                dateFormData.set("site", this.user.site);
                 queryReportBody(dateFormData).then(res => {
                     if (res.data.success) {
                         const resultData = res.data.data;
@@ -192,7 +197,7 @@
                         let salaryListData = [];
                         for(let i=0;i<resultData.salaryList.length;i++){
                             salaryListDate.push(resultData.salaryList[i].SALARY_DATE);
-                            salaryListData.push(resultData.salaryList[i].NET_SALARY);
+                            salaryListData.push(resultData.salaryList[i].GROSS_PAY);
                         }
                         let noteListDate = [];
                         let noteListData = [];
