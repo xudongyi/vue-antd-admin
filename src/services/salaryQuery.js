@@ -24,7 +24,7 @@ function checkPassword(workcode,password,mobile,captcha) {
     workcode: workcode,
     password: password,
     mobile: mobile,
-   captcha: captcha
+    captcha: captcha
   })
 }
 

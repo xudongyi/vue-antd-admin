@@ -117,16 +117,18 @@
                     <a-form-model-item has-feedback label="密码" prop="password">
                         <a-input-password v-model="checkForm.password" type="password" autocomplete="off" />
                     </a-form-model-item>
-                    <a-form-model-item label="手机号" prop="mobile" >
-                        <a-input-search validateStatus="false" v-model.number="checkForm.mobile"  @search="sendMsg('checkForm')">
-                            <a-button :disabled="buttonStatus" slot="enterButton">
-                                {{button}}
-                            </a-button>
-                        </a-input-search>
-                    </a-form-model-item>
-                    <a-form-model-item has-feedback label="验证码" prop="captcha">
-                        <a-input v-model.number="checkForm.captcha" />
-                    </a-form-model-item>
+                    <slot v-if="user.roleId==1">
+                        <a-form-model-item label="手机号" prop="mobile" >
+                            <a-input-search validateStatus="false" v-model.number="checkForm.mobile"  @search="sendMsg('checkForm')">
+                                <a-button :disabled="buttonStatus" slot="enterButton">
+                                    {{button}}
+                                </a-button>
+                            </a-input-search>
+                        </a-form-model-item>
+                        <a-form-model-item has-feedback label="验证码" prop="captcha">
+                            <a-input v-model.number="checkForm.captcha" />
+                        </a-form-model-item>
+                    </slot>
                 </a-form-model>
             </div>
         </a-modal>
