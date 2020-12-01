@@ -62,8 +62,8 @@ function queryWelfareSingle(workcode,salaryDate) {
 /**
  * 薪资报表查询
  */
-function queryReportHeader(){
-  return request(BASE_URL+"/personnelSalary/queryReportHeader", METHOD.POST, {})
+function queryReportHeader(site){
+  return request(BASE_URL+"/personnelSalary/queryReportHeader", METHOD.GET, {site:site})
 }
 
 function queryReportBody(params){
