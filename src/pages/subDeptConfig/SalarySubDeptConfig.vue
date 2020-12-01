@@ -87,10 +87,9 @@
 
 <script>
     import {QueryMixIn} from '@/mixins/query'
-    import {departMentAllBySub} from '@/services/oa'
+    import {departMentAllBySubHR} from '@/services/oa'
     import {saveConfig,removeConfig,getConfig} from '@/services/subDeptConfig'
     import {mapGetters} from 'vuex'
-
     export default {
         name: 'QueryList',
         mixins: [QueryMixIn],
@@ -151,7 +150,7 @@
 
         methods: {
             initDepartMentDataSimple() {
-                departMentAllBySub().then(res => {
+                departMentAllBySubHR().then(res => {
                     if (res.data.code == 200) {
                         this.departmentDataSimple = res.data.data
                     }

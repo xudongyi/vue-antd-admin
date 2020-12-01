@@ -13,7 +13,7 @@ async function subDepartMentAll(departMentName){
     })
 }
 
-async function departMentAllBySub(subid){
+async function departMentAllBySubHR(subid){
     return  request(BASE_URL+"/hr/departMentAllBySub", METHOD.GET, {
         subid: subid
     })
@@ -25,4 +25,4 @@ async function getHrmResource(lastname){
     })
 }
 
-export {departMentAll,subDepartMentAll,departMentAllBySub,getHrmResource}
+export {departMentAll,subDepartMentAll,departMentAllBySubHR,getHrmResource}

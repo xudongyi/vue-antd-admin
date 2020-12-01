@@ -21,4 +21,13 @@ function getConfig(id){
   return request(BASE_URL+"/subdept/config/getSalarySubDeptConfig",METHOD.GET, {id:id})
 }
 
-export {saveConfig,removeConfig,getConfig}
+
+function queryList(){
+  return request(BASE_URL+"/subdept/config/queryList",METHOD.GET)
+}
+
+function departMentAllBySub(id){
+  return request(BASE_URL+"/subdept/config/departMentAllBySub",METHOD.GET, {id:id})
+}
+
+export {saveConfig,removeConfig,getConfig,queryList,departMentAllBySub}

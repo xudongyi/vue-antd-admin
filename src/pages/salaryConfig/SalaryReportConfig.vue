@@ -140,8 +140,8 @@
 
 <script>
     import {QueryMixIn} from '@/mixins/query'
-    import {departMentAll,subDepartMentAll,departMentAllBySub, getHrmResource} from '@/services/oa'
     import {saveConfig,removeConfig,getConfig} from '@/services/salaryConfig'
+    import {queryList,departMentAllBySub} from '@/services/subDeptConfig'
     import {mapGetters} from 'vuex'
 
     export default {
@@ -248,7 +248,7 @@
 
         methods: {
             initTreeDataSimple() {
-                subDepartMentAll().then(res => {
+                queryList().then(res => {
                     if (res.data.code == 200) {
                         this.treeDataSimple = res.data.data
                     }
@@ -334,7 +334,7 @@
             },
             handleTreeDataChange(value, label, extra){
                 if(value!=null){
-                    this.initDepartMentDataSimple(value.split("_")[0])
+                    this.initDepartMentDataSimple(value)
                 }else{
                     this.departmentDataSimple = []
                 }
