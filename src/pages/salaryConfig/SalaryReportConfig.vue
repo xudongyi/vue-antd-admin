@@ -126,6 +126,7 @@
                             style="width: 100%"
                             :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
                             :tree-data="departmentDataSimple"
+                            :show-checked-strategy="SHOW_ALL"
                     >
                     </a-tree-select>
                 </a-form-model-item>
@@ -143,6 +144,7 @@
     import {saveConfig,removeConfig,getConfig} from '@/services/salaryConfig'
     import {queryList,departMentAllBySub} from '@/services/subDeptConfig'
     import {mapGetters} from 'vuex'
+    import { TreeSelect } from 'ant-design-vue';
 
     export default {
         name: 'QueryList',
@@ -150,6 +152,7 @@
         data() {
             return {
                 description: '薪资统计配置',
+                SHOW_ALL:TreeSelect.SHOW_ALL,
                 labelCol: { span: 6 },
                 wrapperCol: { span: 17 },
                 tabIdConfig :[{

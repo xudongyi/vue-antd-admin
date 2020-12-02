@@ -31,7 +31,7 @@ function checkPassword(workcode,password,mobile,captcha) {
 /**
  * 校验密码
  */
-function checMobileCaptcha(workcode,mobile,password,captcha) {
+function checMobileCaptcha(workcode,mobile,captcha) {
   return request(BASE_URL+"/personnelSalary/checMobileCaptcha", METHOD.POST, {
     workcode: workcode,
     mobile: mobile,
