@@ -34,7 +34,7 @@
                         </a-col>
                         <a-col :md="8" :sm="24">
                             <a-form-item
-                                    label="薪资日期"
+                                    label="发放日期"
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >

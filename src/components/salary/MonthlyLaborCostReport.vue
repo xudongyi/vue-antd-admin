@@ -28,7 +28,7 @@
         {title: '应发工资',  dataIndex: 'YFGZ', key: 'YFGZ', align: 'center'},
         {title: '保险公积金',  dataIndex: 'GJJ', key: 'GJJ', align: 'center'},
         {title: '奖金',  dataIndex: 'JJ', key: 'JJ', align: 'center'},
-        {title: '13、14月工资',  dataIndex: 'SSX', key: 'SSX', align: 'center'},
+        {title: '13月工资',  dataIndex: 'SSX', key: 'SSX', align: 'center'},
         {title: '福利',  dataIndex: 'FL', key: 'FL', align: 'center'},
         {title: '合计',  dataIndex: 'TOTAL', key: 'TOTAL', align: 'center'},
     ];

@@ -200,7 +200,7 @@
                             {title: '金额',  dataIndex: 'salary', key: 'salary', align: 'center'},
                             {title: '福利费',  dataIndex: 'flf', key: 'flf', align: 'center'},
                             {title: '保险公积金',  dataIndex: 'gjj', key: 'gjj', align: 'center'},
-                            {title: '13、14月工资',  dataIndex: 'otherSalary', key: 'otherSalary', align: 'center'},
+                            {title: '13月工资',  dataIndex: 'otherSalary', key: 'otherSalary', align: 'center'},
                             {title: '奖金',  dataIndex: 'yearTotal', key: 'yearTotal', align: 'center'},
                             {title: '小计',  dataIndex: 'total', key: 'total', align: 'center'},
                         ];

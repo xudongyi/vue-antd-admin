@@ -34,7 +34,7 @@
                         </a-col>
                         <a-col :md="8" :sm="24">
                             <a-form-item
-                                    label="薪资日期"
+                                    label="发放日期"
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
@@ -70,9 +70,16 @@
                             <a-form-item label="薪资日期"
                                          :label-col="{span: 4}"
                                          :wrapper-col="{span: 20}">
-                                <a-month-picker style="width:100%" :value="salaryUploadDate" placeholder="选择薪资月份"
-                                                @change="onChangeMonth"/>
+                                <a-month-picker style="width:100%" :value="salaryBelongDate" placeholder="选择薪资日期"
+                                                @change="onChangeBelongDate"/>
                             </a-form-item>
+                            <a-form-item label="发放日期"
+                                         :label-col="{span: 4}"
+                                         :wrapper-col="{span: 20}">
+                                <a-month-picker style="width:100%" :value="salaryGrantDate" placeholder="选择发放日期"
+                                                @change="onChangeGrantDate"/>
+                            </a-form-item>
+
                             <a-form-item label="选择文件"
                                          :label-col="{span: 4}"
                                          :wrapper-col="{span: 20}">
@@ -155,7 +162,8 @@
     const columns = [
         {title: '姓名', width: 100, dataIndex: 'hrName', key: 'hrName', fixed: 'left'},
         {title: '工号', width: 100, dataIndex: 'workcode', key: 'workcode', fixed: 'left',align: 'center'},
-        {title: '月份', width: 100, dataIndex: 'salaryDate', key: 'salaryDate', fixed: 'left',align: 'center'},
+        {title: '薪资日期', width: 100, dataIndex: 'belongDate', key: 'belongDate', fixed: 'left',align: 'center'},
+        {title: '发放日期', width: 100, dataIndex: 'salaryDate', key: 'salaryDate', fixed: 'left',align: 'center'},
         {title: '基本工资', dataIndex: 'basePay', width: 100, align: 'center'},
         {title: '考核工资', dataIndex: 'assessmentPay', width: 100, align: 'center'},
         {title: '加班工资', dataIndex: 'overtimePay', width: 100, align: 'center'},
@@ -253,7 +261,8 @@
                 checkPasswordModalVisible: true,
                 salaryConfirmLoading: false,
                 checkPasswordConfirmLoading: false,
-                salaryUploadDate: null,
+                salaryGrantDate: null,
+                salaryBelongDate: null,
                 salaryUploadFileList: [],
                 excelTemp: BASE_URL + "/downloadExcel/static/工资导入模板.xlsx",
                 treeDataSimple: [],
@@ -300,15 +309,19 @@
                 if(this.hasCheckPassword){
                     this.salaryModalVisible = true;
                     this.salaryUploadFileList = [];
-                    this.salaryUploadDate = null;
+                    this.salaryBelongDate = null;
+                    this.salaryGrantDate = null;
                     this.salaryConfirmLoading = false;
                 }else{
                     this.checkPasswordModalVisible = true;
                 }
             },
             commitUploadExcel(e) {
-                if (this.salaryUploadDate == null) {
+                if (this.salaryBelongDate == null) {
                     return this.$message.warning("请选择薪资日期！", 2)
+                }
+                if (this.salaryGrantDate == null) {
+                    return this.$message.warning("请选择发放日期！", 2)
                 }
                 if (this.salaryUploadFileList.length == 0) {
                     return this.$message.warning("请上传文件！", 2)
@@ -319,8 +332,11 @@
             cancelUploadExcel(e) {
                 this.salaryModalVisible = false;
             },
-            onChangeMonth(date, dateString) {
-                this.salaryUploadDate = date;
+            onChangeBelongDate(date, dateString) {
+                this.salaryBelongDate = date;
+            },
+            onChangeGrantDate(date, dateString) {
+                this.salaryGrantDate = date;
             },
             onChangeQueryStaMonth(date, dateString) {
                 this.queryParam.salarystamonth = dateString;
@@ -339,7 +355,9 @@
                 const {salaryUploadFileList} = this;
                 const fileFormData = new FormData();
                 fileFormData.set("file", salaryUploadFileList[0]);
-                fileFormData.set("uploadDate", this.salaryUploadDate.format('YYYY-MM'));
+                fileFormData.set("belongDate", this.salaryBelongDate.format('YYYY-MM'));
+                fileFormData.set("grantDate", this.salaryGrantDate.format('YYYY-MM'));
+
                 importSalaryExcel(fileFormData).then(res => {
                     if (res.data.success) {
                         this.$message.success('上传成功.');
