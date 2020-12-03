@@ -98,6 +98,7 @@ service.interceptors.response.use((response) => {
  * @returns {Promise<AxiosResponse<T>>}
  */
 async function request(url, method, params) {
+  url = url+'?temm=' + new Date().getTime()
   switch (method) {
     case METHOD.GET:
       return service.get(url, {params})
@@ -109,6 +110,7 @@ async function request(url, method, params) {
 }
 
 async function requestAsync(url, method, params) {
+  url = url+'?temm=' + new Date().getTime()
   switch (method) {
     case METHOD.GET:
       return await service.get(url, {params})

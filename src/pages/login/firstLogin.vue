@@ -106,7 +106,7 @@
                 let that = this;
                 this.$refs[formName].validateField("mobile",valid => {
                     if (!valid) {
-                        sendMobile(this.account.user.loginid, this.ruleForm.mobile).then(res=>{
+                        sendMobile(this.account.user.loginid,"-1",this.ruleForm.mobile).then(res=>{
                             notification.open({
                                 message: '提醒',
                                 description:res.data.message,
