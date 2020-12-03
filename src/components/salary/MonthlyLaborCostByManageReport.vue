@@ -201,11 +201,11 @@
                 }
                 this.spinning = true;
                 const formData = new FormData();
-                formData.set("year", this.year);
-                formData.set("rate", this.rate);
-                formData.set("tabId", '2');
-                formData.set("site", this.user.site);
-                formData.set("typeIds", '01,02');
+                formData.append("year", this.year);
+                formData.append("rate", this.rate);
+                formData.append("tabId", '2');
+                formData.append("site", this.user.site);
+                formData.append("typeIds", '01,02');
 
                 getMonthlyLaborCostByManage(formData).then(res => {
                     if (res.data.success) {

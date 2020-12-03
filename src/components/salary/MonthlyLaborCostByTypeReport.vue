@@ -171,10 +171,10 @@
                 }
                 this.spinning = true;
                 const formData = new FormData();
-                formData.set("month", this.month);
-                formData.set("rate", this.rate);
-                formData.set("tabId", '1');
-                formData.set("site", this.user.site);
+                formData.append("month", this.month);
+                formData.append("rate", this.rate);
+                formData.append("tabId", '1');
+                formData.append("site", this.user.site);
                 getMonthlyLaborCostByType(formData).then(res => {
                     if (res.data.success) {
                         this.dataSource = res.data.data;

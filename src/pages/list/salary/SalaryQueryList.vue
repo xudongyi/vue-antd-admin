@@ -354,9 +354,9 @@
             handleUpload() {
                 const {salaryUploadFileList} = this;
                 const fileFormData = new FormData();
-                fileFormData.set("file", salaryUploadFileList[0]);
-                fileFormData.set("belongDate", this.salaryBelongDate.format('YYYY-MM'));
-                fileFormData.set("grantDate", this.salaryGrantDate.format('YYYY-MM'));
+                fileFormData.append("file", salaryUploadFileList[0]);
+                fileFormData.append("belongDate", this.salaryBelongDate.format('YYYY-MM'));
+                fileFormData.append("grantDate", this.salaryGrantDate.format('YYYY-MM'));
 
                 importSalaryExcel(fileFormData).then(res => {
                     if (res.data.success) {

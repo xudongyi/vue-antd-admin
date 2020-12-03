@@ -187,9 +187,9 @@
             },
             loadBoayData(staDate,endDate){
                 const dateFormData = new FormData();
-                dateFormData.set("staDate", staDate);
-                dateFormData.set("endDate", endDate);
-                dateFormData.set("site", this.user.site);
+                dateFormData.append("staDate", staDate);
+                dateFormData.append("endDate", endDate);
+                dateFormData.append("site", this.user.site);
                 queryReportBody(dateFormData).then(res => {
                     if (res.data.success) {
                         const resultData = res.data.data;

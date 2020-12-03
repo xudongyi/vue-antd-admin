@@ -94,11 +94,12 @@
                 }
                 this.spinning = true;
                 const formData = new FormData();
-                formData.set("year", this.year);
-                formData.set("rate", this.rate);
-                formData.set("tabId", '3');
-                formData.set("site", this.user.site);
+                formData.append("year", this.year);
+                formData.append("rate", this.rate);
+                formData.append("tabId", '3');
+                formData.append("site", this.user.site);
                 getMonthlyLaborCostByManufacturingDept(formData).then(res => {
+
                     if (res.data.success) {
                         //清空缓存
                         parDepartNameTag=null

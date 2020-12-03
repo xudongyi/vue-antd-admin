@@ -282,7 +282,7 @@
             handleUpload() {
                 const {welfareUploadFileList} = this;
                 const fileFormData = new FormData();
-                fileFormData.set("file", welfareUploadFileList[0]);
+                fileFormData.append("file", welfareUploadFileList[0]);
                 importWelfareExcel(fileFormData).then(res => {
                     if (res.data.success) {
                         this.$message.success('上传成功.');

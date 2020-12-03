@@ -223,10 +223,10 @@
                 }
                 this.spinning = true;
                 const formData = new FormData();
-                formData.set("year", this.year);
-                formData.set("rate", this.rate);
-                formData.set("tabId", '4');
-                formData.set("site", this.user.site);
+                formData.append("year", this.year);
+                formData.append("rate", this.rate);
+                formData.append("tabId", '4');
+                formData.append("site", this.user.site);
                 getMonthlyLaborCostByDept(formData).then(res => {
                     if (res.data.success) {
                         this.dataSource = res.data.data;
