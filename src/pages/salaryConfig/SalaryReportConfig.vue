@@ -112,6 +112,7 @@
                     <a-input v-model="checkForm.stage"
                     />
                 </a-form-model-item>
+
                 <a-form-model-item label="部门名称" prop="departName">
                     <a-input v-model="checkForm.departName" />
                 </a-form-model-item>
@@ -126,7 +127,7 @@
                             style="width: 100%"
                             :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
                             :tree-data="departmentDataSimple"
-                            :show-checked-strategy="SHOW_ALL"
+                            :tree-check-strictly="true"
                     >
                     </a-tree-select>
                 </a-form-model-item>
@@ -302,7 +303,7 @@
                         console.log(this.checkForm)
                         let detailsArray = []
                         for (let item of this.checkForm.detail) {
-                          let details = {"subDepart":item}
+                          let details = {"subDepartLabel":item,"subDepart":item.value}
                           detailsArray.push(details)
                         }
                         this.checkForm.details = detailsArray
