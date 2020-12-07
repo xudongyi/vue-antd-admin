@@ -41,7 +41,7 @@ module.exports = {
     // development server port 8000
     port: 8000,
     proxy: {
-      // change xxx-api/login => mock/login
+      // change xxx-api/login => mock/loginchainWebpack
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       '/salary': {
         target: `http://127.0.0.1:8888/`,

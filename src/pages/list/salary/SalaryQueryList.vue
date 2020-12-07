@@ -99,7 +99,7 @@
                 </a-modal>
             </div>
             <a-table
-                    style="margin-top: 18px;"
+                    style="margin-top: 18px;-ms-overflow-style: scrollbar !important;"
                     ref="table"
                     size="middle"
                     bordered
@@ -109,7 +109,7 @@
                     :pagination="ipagination"
                     :loading="loading"
                     @change="handleTableChange"
-                    :scroll="{ x: 1500}">
+                    :scroll="{ x: 600}">
                 <!-- 字符串超长截取省略号显示-->
                 <span slot="templateContent" slot-scope="text">
                     <j-ellipsis :value="text" :length="25"/>
@@ -160,10 +160,10 @@
 
 
     const columns = [
-        {title: '姓名', width: 100, dataIndex: 'hrName', key: 'hrName', fixed: 'left'},
-        {title: '工号', width: 100, dataIndex: 'workcode', key: 'workcode', fixed: 'left',align: 'center'},
-        {title: '薪资日期', width: 100, dataIndex: 'belongDate', key: 'belongDate', fixed: 'left',align: 'center'},
-        {title: '发放日期', width: 100, dataIndex: 'salaryDate', key: 'salaryDate', fixed: 'left',align: 'center'},
+        {title: '姓名', width: 100, dataIndex: 'hrName',fixed: 'left', key: 'hrName'},
+        {title: '工号', width: 100, dataIndex: 'workcode', key: 'workcode',fixed: 'left',align: 'center'},
+        {title: '薪资日期', width: 100, dataIndex: 'belongDate', key: 'belongDate',fixed: 'left',align: 'center'},
+        {title: '发放日期', width: 100, dataIndex: 'salaryDate', key: 'salaryDate',fixed: 'left',align: 'center'},
         {title: '基本工资', dataIndex: 'basePay', width: 100, align: 'center'},
         {title: '考核工资', dataIndex: 'assessmentPay', width: 100, align: 'center'},
         {title: '加班工资', dataIndex: 'overtimePay', width: 100, align: 'center'},
