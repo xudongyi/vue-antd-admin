@@ -312,7 +312,7 @@
                                 this.config.visible = false
                                 this.$refs.checkForm.resetFields();
                                 this.$message.success('保存成功');
-                                this.loadData();
+                                this.loadData(1);
                             }
                         }).catch(function (error) {
                             console.log(error)
@@ -330,7 +330,7 @@
                 removeConfig(id).then(res=>{
                     if (res.data.code == 200) {
                         this.$message.success('删除成功');
-                        this.loadData();
+                        this.loadData(1);
                     }
                 }).catch(function (error) {
                     console.log(error)

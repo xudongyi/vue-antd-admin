@@ -79,7 +79,7 @@
                         user.lastname = loginRes.data.lastname
                         user.roleId = loginRes.data.roleId
                         user.first_login = loginRes.data.first_login
-                        user.site = loginRes.data.site
+                        user.site = loginRes.data.site==null?"":loginRes.data.site
                         this.setUser(user)
                         setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireTime)})
                         this.user.loginid = loginRes.data.loginid

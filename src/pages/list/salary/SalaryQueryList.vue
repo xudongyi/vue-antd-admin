@@ -365,7 +365,7 @@
                             this.salaryModalVisible = false;
                             this.salaryConfirmLoading = false;
                             this.salaryUploadFileList = [];
-                            this.loadData();
+                            this.loadData(1);
                         }, 1000);
                     }
                 }).catch((error) => {
@@ -402,7 +402,7 @@
                             this.checkForm.captcha
                         ).then(res=>{
                             if (res.data.success) {
-                                this.loadData();
+                                this.loadData(1);
                                 this.checkPasswordModalVisible = false;
                                 this.hasCheckPassword = true;
                             }
@@ -452,7 +452,7 @@
             },
             doSearch(){
                 if(this.hasCheckPassword){
-                    this.loadData();
+                    this.loadData(1);
                 }else{
                     this.checkPasswordModalVisible = true;
                 }
