@@ -11,7 +11,8 @@
                     <a-button type="primary" icon="export" @click="exportData">报表导出</a-button>
                 </div>
             </div>
-            <a-table :columns="columns"
+            <a-table style="-ms-overflow-style: scrollbar !important;"
+                     :columns="columns"
                      :pagination="false"
                      :scroll="{ x: 4000}"
                      bordered

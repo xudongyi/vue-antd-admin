@@ -109,7 +109,7 @@
                     :pagination="ipagination"
                     :loading="loading"
                     @change="handleTableChange"
-                    :scroll="{ x: 600}">
+                    :scroll="{ x: 4000}">
                 <!-- 字符串超长截取省略号显示-->
                 <span slot="templateContent" slot-scope="text">
                     <j-ellipsis :value="text" :length="25"/>
