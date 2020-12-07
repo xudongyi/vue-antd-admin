@@ -131,6 +131,11 @@
                     >
                     </a-tree-select>
                 </a-form-model-item>
+                <a-form-model-item v-if="showIstotal"  label="是否合计" prop="isTotal">
+                    <a-select
+                        allowClear v-model="checkForm.isTotal"  placeholder="请选择" :options="isTotalConfig">
+                    </a-select>
+                </a-form-model-item>
 
                 <a-form-model-item has-feedback label="排序" prop="sort">
                     <a-input-number  v-model="checkForm.sort"/>
@@ -154,6 +159,7 @@
             return {
                 description: '薪资统计配置',
                 SHOW_ALL:TreeSelect.SHOW_ALL,
+                showIstotal:false,
                 labelCol: { span: 6 },
                 wrapperCol: { span: 17 },
                 tabIdConfig :[{
@@ -172,6 +178,13 @@
                     value:"5",
                     label:'每月人工成本'
                 }],
+                isTotalConfig :[{
+                    value:0,
+                    label:'否'
+                },{
+                    value:1,
+                    label:'是'
+                }],
                 columns: [
                     {
                         title: '分部',
@@ -188,6 +201,10 @@
                     {
                         title: '排序号',
                         dataIndex: 'sort',
+                    },
+                    {
+                        title: '是否合计',
+                        dataIndex: 'isTotal',
                     },
                     {
                         title: '统计类型',
@@ -216,14 +233,16 @@
                     departName:null,
                     tabId:null,
                     detail:null,
-                    sort:null
+                    sort:null,
+                    isTotal:null
                 },
                 rules: {
                     site: [{ required: true, message: '请选择分部', trigger: ['change', 'blur'] },],
-                    stage: [{ required: false, message: '请选择分部', trigger: ['change', 'blur'] },],
+                    stage: [{ required: false, message: '请填写期别', trigger: ['change', 'blur'] },],
                     tabId: [{ required: true, message: '请选择统计类型', trigger: ['change', 'blur'] }],
                     departName: [{ required: true, message: '请填写统计部门名称', trigger: ['change', 'blur']}],
                     detail: [{ required: true, message: '请选择统计部门范围', trigger: ['change', 'blur'] }],
+                    isTotal: [{ required: true, message: '请选择是否需要合计', trigger: ['change', 'blur'] }],
                     sort: [{ required: true, message: '请输入排序号', trigger: ['change', 'blur'] }]
                 },
                 config:{
@@ -272,11 +291,17 @@
                 }
             },
             tabIdChange(value, option){
-                if(value==="3"){
+                if(value==='1'){
+                    this.rules.isTotal[0].required = true;
+                    this.showIstotal = true
+                }else if(value==='3'){
+                    this.showIstotal = false
+                    this.rules.isTotal[0].required = false;
                     this.rules.stage[0].required = true;
                 }else{
+                    this.showIstotal = false
                     this.rules.stage[0].required = false;
-
+                    this.rules.isTotal[0].required = false;
                 }
             },
             addData(){
@@ -293,6 +318,7 @@
                     if (res.data.code == 200) {
                         this.initDepartMentDataSimple(res.data.data.site)
                         this.checkForm = res.data.data;
+                        this.showIstotal = this.checkForm.tabId==="1"?true:false;
                         console.log(this.checkForm)
                     }
                 })
