@@ -4,13 +4,10 @@
 </template>
 <script>
     import {checkSso} from '@/services'
-    import {logout} from '@/services'
     import {setAuthorization} from '@/utils/request'
     import {loadRoutes} from '@/utils/routerUtil'
-    import {checMobileCaptcha} from '@/services/salaryQuery'
     import {mapMutations} from 'vuex'
     import {loginInfo} from '@/services/user'
-    import {sendMobile} from '@/services/user'
     import Cookie from 'js-cookie'
     export default {
         name: 'Sso',

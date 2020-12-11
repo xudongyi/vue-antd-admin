@@ -194,7 +194,7 @@
                 currentDateYear: new Date().getFullYear(),
                 currentDateMonth:((new Date().getMonth()+1)<10 ? "0"+(new Date().getMonth()+1):new Date().getMonth()+1),
                 show:false,
-                isFirstLogin:false,
+                isFirstLogin:true,
                 isInputPwd:false,
                 salaryDetail:{},
                 otherDetail:{},
@@ -273,12 +273,30 @@
                 if(field==='fillmobile'){
                     checkMobile = this.fill.mobile
                     ruleForm = this.$refs.checkPwdForm
-                }
-                ruleForm.validate("password").then(()=>{
+                    ruleForm.validate("password").then(()=>{
+                        ruleForm.validate(field).then(()=>{
+                            const sha256 = require('js-sha256').sha256
+                            const sha256_password = sha256(this.fill.password)
+                            sendMobile(this.account.user.loginid, sha256_password,checkMobile).then(res=>{
+                                Toast(res.data.message)
+                                this.buttonStatus = true
+                                this.button = 60
+                                this.buttonInterval = setInterval(()=>{
+                                    this.button = this.button-1
+                                    if(this.button==1){
+                                        this.button = '发送'
+                                        this.buttonStatus = false
+                                        clearInterval(this.buttonInterval)
+                                    }
+                                }, 1000)
+                            }).catch(function (error) {
+                                console.log(error)
+                            })
+                        });
+                    });
+                }else{
                     ruleForm.validate(field).then(()=>{
-                        const sha256 = require('js-sha256').sha256
-                        const sha256_password = sha256(this.fill.password)
-                        sendMobile(this.account.user.loginid, sha256_password,checkMobile).then(res=>{
+                        sendMobile(this.account.user.loginid, '-1',checkMobile).then(res=>{
                             Toast(res.data.message)
                             this.buttonStatus = true
                             this.button = 60
@@ -294,9 +312,7 @@
                             console.log(error)
                         })
                     });
-                });
-
-
+                }
             },
             submitForm() {
                 if(this.password!=this.checkPass){
@@ -321,21 +337,19 @@
             submitCheckForm(){
                 const sha256 = require('js-sha256').sha256
                 const sha256_password = sha256(this.fill.password)
-                checMobileCaptcha(this.account.user.workcode,  this.fill.mobile, this.fill.captcha).then(res=>{
+                checkPassword(
+                    this.account.user.workcode,
+                    sha256_password,
+                    this.fill.mobile,
+                    this.fill.captcha
+                ).then(res=>{
                     if (res.data.success) {
-                        checkPassword(this.account.user.workcode, sha256_password).then(res1=>{
-                            if (res1.data.success) {
-                                this.loadData(this.currentDateYear+"-"+this.currentDateMonth);
-                                this.isInputPwd = true;
-                            }
-                        }).catch(function (error) {
-                            console.log(error)
-                        })
+                        this.loadData(this.currentDateYear+"-"+this.currentDateMonth);
+                        this.isInputPwd = true;
                     }
                 }).catch(function (error) {
                     console.log(error)
                 })
-
             }
         },
 
