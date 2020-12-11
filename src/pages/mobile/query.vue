@@ -194,7 +194,7 @@
                 currentDateYear: new Date().getFullYear(),
                 currentDateMonth:((new Date().getMonth()+1)<10 ? "0"+(new Date().getMonth()+1):new Date().getMonth()+1),
                 show:false,
-                isFirstLogin:true,
+                isFirstLogin:false,
                 isInputPwd:false,
                 salaryDetail:{},
                 otherDetail:{},
