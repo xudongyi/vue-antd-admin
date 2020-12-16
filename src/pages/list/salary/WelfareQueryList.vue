@@ -126,7 +126,7 @@
                             </a-input-search>
                         </a-form-model-item>
                         <a-form-model-item has-feedback label="验证码" prop="captcha">
-                            <a-input v-model.number="checkForm.captcha" />
+                            <a-input v-model="checkForm.captcha" />
                         </a-form-model-item>
                     </slot>
                 </a-form-model>
