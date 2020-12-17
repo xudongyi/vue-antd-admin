@@ -385,7 +385,7 @@
                     if(this.queryParam.salarystamonth==""||this.queryParam.salaryendmonth==""){
                         return this.$message.warning("请选择薪资日期！", 2)
                     }
-                    location.href=BASE_URL+'/salaryExport/export?dept='+this.queryParam.dept+'&workcode='+this.queryParam.workcode+'&salarystamonth='+this.queryParam.salarystamonth+'&salaryendmonth='+this.queryParam.salaryendmonth
+                    location.href=BASE_URL+'/salaryExport/export?site='+this.user.site+'&dept='+this.queryParam.dept+'&workcode='+this.queryParam.workcode+'&salarystamonth='+this.queryParam.salarystamonth+'&salaryendmonth='+this.queryParam.salaryendmonth
                 }else{
                     this.checkPasswordModalVisible = true;
                 }
