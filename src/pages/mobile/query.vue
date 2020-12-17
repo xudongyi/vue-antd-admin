@@ -315,8 +315,10 @@
                 }
             },
             submitForm() {
-                if(this.password!=this.checkPass){
-                    Dialog({ message: '两次密码不一致' });
+                if(this.password!=this.checkPass) {
+                    Dialog({message: '两次密码不一致'});
+                }else if(!(/^\d{6}$/.test(this.password))){
+                    Dialog({ message: '密码为6位数字' });
                 }else{
                     const sha256 = require('js-sha256').sha256
                     const sha256_password = sha256(this.password)

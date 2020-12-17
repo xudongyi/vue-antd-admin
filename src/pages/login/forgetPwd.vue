@@ -14,7 +14,7 @@
         <a-form-model-item has-feedback label="验证码" prop="captcha">
             <a-input v-model.number="ruleForm.captcha" />
         </a-form-model-item>
-        <a-form-model-item has-feedback label="密码" prop="password">
+        <a-form-model-item has-feedback label="新密码" prop="password">
             <a-input-password v-model="ruleForm.password" type="password" autocomplete="off" />
         </a-form-model-item>
         <a-form-model-item has-feedback label="确认密码" prop="checkPass">

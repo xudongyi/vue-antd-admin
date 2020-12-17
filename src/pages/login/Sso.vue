@@ -3,7 +3,7 @@
     </div>
 </template>
 <script>
-    import {checkSso} from '@/services'
+    import {checkSso,logout} from '@/services'
     import {setAuthorization} from '@/utils/request'
     import {loadRoutes} from '@/utils/routerUtil'
     import {mapMutations} from 'vuex'
@@ -56,6 +56,7 @@
         },
         created () {
             //1.获取路由参数
+            logout()
             this.sso()
         },
         methods: {
