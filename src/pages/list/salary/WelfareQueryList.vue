@@ -142,6 +142,7 @@
     import {departMentAll} from '@/services/oa'
     import {mapGetters} from 'vuex'
     import {sendMobile} from '@/services/user'
+    import notification from 'ant-design-vue/es/notification'
 
 
     const columns = [
@@ -339,6 +340,11 @@
                                 const sha256 = require('js-sha256').sha256
                                 const sha256_password = sha256(this.checkForm.password)
                                 sendMobile(this.user.workcode,sha256_password, this.checkForm.mobile).then(res=>{
+                                    notification.open({
+                                        message: '提醒',
+                                        description:res.data.message,
+                                        duration: 3,
+                                    });
                                     this.buttonStatus = true
                                     this.button = 60
                                     this.buttonInterval = setInterval(()=>{

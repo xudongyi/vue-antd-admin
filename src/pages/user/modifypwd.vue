@@ -32,6 +32,8 @@
     import {mapState,mapMutations} from "vuex"
     import {logout} from '@/services'
     import {sendMobile,modifyPassword} from '@/services/user'
+    import notification from 'ant-design-vue/es/notification'
+
     export default {
         data() {
             let checkPending;
@@ -104,6 +106,11 @@
                 this.$refs[formName].validateField("mobile",valid => {
                     if (!valid) {
                         sendMobile(this.account.user.workcode,"-1", this.ruleForm.mobile).then(res=>{
+                            notification.open({
+                                message: '提醒',
+                                description:res.data.message,
+                                duration: 3,
+                            });
                             this.buttonStatus = true
                             this.button = 60
                             this.buttonInterval = setInterval(()=>{

@@ -233,7 +233,6 @@
                 let year=val.getFullYear();
                 let month=val.getMonth()+1;
                 month =(month<10 ? "0"+month:month);
-                console.log(year+"-"+month)
                 this.loadData(year+"-"+month)
                 this.currentDateYear = year
                 this.currentDateMonth = month
@@ -329,10 +328,10 @@
                             const userJson = JSON.parse(user)
                             userJson.first_login = 1
                             this.setUser(userJson)
-                            this.$router.go(0)
+                            location.reload()
                         }
                     }).catch(function (error) {
-                        console.log(error)
+                        alert.log(error)
                     })
                 }
             },

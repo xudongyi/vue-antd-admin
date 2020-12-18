@@ -12,7 +12,7 @@
         </a-form-model-item>
 
         <a-form-model-item has-feedback label="验证码" prop="captcha">
-            <a-input v-model.number="ruleForm.captcha" />
+            <a-input v-model="ruleForm.captcha" />
         </a-form-model-item>
         <a-form-model-item has-feedback label="密码" prop="password">
             <a-input-password v-model="ruleForm.password" type="password" autocomplete="off" />
