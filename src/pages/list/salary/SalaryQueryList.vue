@@ -161,8 +161,8 @@
 
 
     const columns = [
-        {title: '姓名', width: 100, dataIndex: 'hrName',fixed: 'left', key: 'hrName'},
         {title: '工号', width: 100, dataIndex: 'workcode', key: 'workcode',fixed: 'left',align: 'center'},
+        {title: '姓名', width: 100, dataIndex: 'hrName',fixed: 'left', key: 'hrName'},
         {title: '薪资日期', width: 100, dataIndex: 'belongDate', key: 'belongDate',fixed: 'left',align: 'center'},
         {title: '发放日期', width: 100, dataIndex: 'salaryDate', key: 'salaryDate',fixed: 'left',align: 'center'},
         {title: '基本工资', dataIndex: 'basePay', width: 100, align: 'center'},
