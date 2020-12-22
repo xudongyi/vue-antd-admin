@@ -58,6 +58,13 @@ async function loginInfo(workcode,type){
   })
 }
 
+async function checkSite(site){
+  let responseData = await request(BASE_URL+"/auth/admin/checkSite", METHOD.POST, {
+    site: site,
+  })
+  return responseData
+}
+
 /**
  * 退出登录
  */
@@ -70,4 +77,4 @@ function logout() {
   Cookie.remove('login-info')
 }
 
-export {login, logout,checkSso, checkSsoAsync,getRoutesConfig,loginInfo,sendMobile,modifyPassword}
+export {login, logout,checkSso, checkSsoAsync,getRoutesConfig,checkSite,loginInfo,sendMobile,modifyPassword}

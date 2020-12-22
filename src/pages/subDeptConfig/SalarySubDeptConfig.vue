@@ -90,6 +90,7 @@
     import {QueryMixIn} from '@/mixins/query'
     import {departMentAllBySubHR} from '@/services/oa'
     import {saveConfig,removeConfig,getConfig} from '@/services/subDeptConfig'
+    import {checkSite} from '@/services/user'
     import {mapGetters} from 'vuex'
     import { TreeSelect } from 'ant-design-vue';
     export default {
@@ -212,14 +213,22 @@
                 this.$refs.checkForm.resetFields();
             },
             deleteData(id){
-                removeConfig(id).then(res=>{
-                    if (res.data.code == 200) {
-                        this.$message.success('删除成功');
-                        this.loadData(1);
+                checkSite(id).then(res=>{
+                    if(res.data.data.length>=1){
+                        this.$message.error(`分部已在人员中进行了绑定，无法删除分部！`)
+                    }else{
+                        removeConfig(id).then(res1=>{
+                            if (res1.data.code == 200) {
+                                this.$message.success('删除成功');
+                                this.loadData(1);
+                            }
+                        }).catch(function (error) {
+                            console.log(error)
+                        })
                     }
-                }).catch(function (error) {
-                    console.log(error)
+
                 })
+
             }
         }
     }
