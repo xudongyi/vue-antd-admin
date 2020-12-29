@@ -80,6 +80,18 @@
                                                 @change="onChangeGrantDate"/>
                             </a-form-item>
 
+                            <a-form-item label="导入方式"
+                                         :label-col="{span: 4}"
+                                         :wrapper-col="{span: 20}">
+                                <a-select v-model="importType" @change="handleImportTypeChange">
+                                    <a-select-option :value="0">
+                                        全量导入
+                                    </a-select-option>
+                                    <a-select-option :value="1">
+                                        增量导入
+                                    </a-select-option>
+                                </a-select>
+                            </a-form-item>
                             <a-form-item label="选择文件"
                                          :label-col="{span: 4}"
                                          :wrapper-col="{span: 20}">
@@ -264,6 +276,7 @@
                 checkPasswordConfirmLoading: false,
                 salaryGrantDate: null,
                 salaryBelongDate: null,
+                importType: 0,
                 salaryUploadFileList: [],
                 excelTemp: BASE_URL + "/downloadExcel/static/工资导入模板.xlsx",
                 treeDataSimple: [],
@@ -352,12 +365,17 @@
                 this.salaryUploadFileList = [file];
                 return false;
             },
+            handleImportTypeChange(val){
+                this.importType = val;
+            },
             handleUpload() {
                 const {salaryUploadFileList} = this;
                 const fileFormData = new FormData();
                 fileFormData.append("file", salaryUploadFileList[0]);
                 fileFormData.append("belongDate", this.salaryBelongDate.format('YYYY-MM'));
                 fileFormData.append("grantDate", this.salaryGrantDate.format('YYYY-MM'));
+                fileFormData.append("importType", this.importType);
+                fileFormData.append("site", this.user.site);
 
                 importSalaryExcel(fileFormData).then(res => {
                     if (res.data.success) {
