@@ -73,7 +73,7 @@
                             style="width: 100%"
                             :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
                             :tree-data="departmentDataSimple"
-                            :show-checked-strategy="SHOW_ALL"
+                            :tree-check-strictly="true"
                     >
                     </a-tree-select>
                 </a-form-model-item>
@@ -189,8 +189,8 @@
                         console.log(this.checkForm)
                         let detailsArray = []
                         for (let item of this.checkForm.detail) {
-                          let details = {"subDepart":item}
-                          detailsArray.push(details)
+                            let details = {"subDepartLabel":item,"subDepart":item.value}
+                            detailsArray.push(details)
                         }
                         this.checkForm.details = detailsArray
                         saveConfig(this.checkForm).then(res=>{

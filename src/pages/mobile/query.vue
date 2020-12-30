@@ -2,7 +2,10 @@
    <div class="query-body">
        <div class="top-label">
            <div class="top-label-left">姓名：{{account.user.lastname}}（{{account.user.workcode}}）</div>
-           <div class="top-label-right" @click="selectMonth()">{{currentDateYear}}年{{currentDateMonth}}月份工资单</div>
+           <div class="top-label-right" @click="selectMonth()"> {{currentDateYear}}年{{currentDateMonth}}月份
+               <svg t="1608865839041" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1184" width="20" height="20"><path d="M358.3 597c0 11-9 20-20 20h-63.8c-11 0-20-9-20-20v-63.8c0-11 9-20 20-20h63.8c11 0 20 9 20 20V597zM358.3 804.6c0 11-9 20-20 20h-63.8c-11 0-20-9-20-20v-63.8c0-11 9-20 20-20h63.8c11 0 20 9 20 20v63.8zM564.9 597c0 11-9 20-20 20h-63.8c-11 0-20-9-20-20v-63.8c0-11 9-20 20-20h63.8c11 0 20 9 20 20V597zM564.9 804.6c0 11-9 20-20 20h-63.8c-11 0-20-9-20-20v-63.8c0-11 9-20 20-20h63.8c11 0 20 9 20 20v63.8zM772.2 597c0 11-9 20-20 20h-63.8c-11 0-20-9-20-20v-63.8c0-11 9-20 20-20h63.8c11 0 20 9 20 20V597zM772.2 804.6c0 11-9 20-20 20h-63.8c-11 0-20-9-20-20v-63.8c0-11 9-20 20-20h63.8c11 0 20 9 20 20v63.8zM361 344.9c0 11-9 20-20 20h-15c-11 0-20-9-20-20V119.3c0-11 9-20 20-20h15c11 0 20 9 20 20v225.6zM720 344.9c0 11-9 20-20 20h-15c-11 0-20-9-20-20V119.3c0-11 9-20 20-20h15c11 0 20 9 20 20v225.6z" fill="#ffffff" p-id="1185"></path><path d="M118 202.4c-11 0-20 9-20 20v685.5c0 11 9 20 20 20h790c11 0 20-9 20-20V222.4c0-11-9-20-20-20H118z m755 650.5c0 11-9 20-20 20H173c-11 0-20-9-20-20V277.3c0-11 9-20 20-20h680c11 0 20 9 20 20v575.6z" fill="#ffffff" p-id="1186"></path><path d="M118.7 410.5h790.5v55H118.7z" fill="#ffffff" p-id="1187"></path></svg>
+           </div>
+
        </div>
       <div class="query-content">
           <van-overlay :show="isFirstLogin" >
@@ -108,7 +111,7 @@
               />
           </van-popup>
           <div class="query-detail">
-              <div class="query-detail-title">工资明细</div>
+              <div class="query-detail-title">工资明细(右上角可选择月份)</div>
               <div class="query-detail-item">
                   <ul>
                       <li>基本工资:{{salaryDetail.basePay}}</li>
@@ -158,7 +161,7 @@
               </div>
           </div>
           <div class="query-detail">
-              <div class="query-detail-title">其他</div>
+              <div class="query-detail-title">其它</div>
               <div class="query-detail-item">
                   <ul>
                       <li>十三薪：{{otherDetail.welfareAmountSalaries}}</li>
@@ -397,7 +400,12 @@
     }
     .top-label-right{
         float: right;
-        padding: 0 17px 0 0
+        padding: 0 17px 0 0;
+        color:#fff !important;
+    }
+    .top-label-right svg{
+        vertical-align: middle;
+        margin-top:-4px;
     }
     .query-detail{
         width: 95%;

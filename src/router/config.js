@@ -109,6 +109,15 @@ const options = {
             authority:'2'
           },
           component: () => import('@/pages/subDeptConfig/SalarySubDeptConfig'),
+        },
+        {
+          path: 'employeeSync',
+          name: '人员同步',
+          meta: {
+            icon: 'exclamation-circle',
+            authority:'2'
+          },
+          component: () => import('@/pages/employeeSync/employeeSyncList'),
         }
 
       ]

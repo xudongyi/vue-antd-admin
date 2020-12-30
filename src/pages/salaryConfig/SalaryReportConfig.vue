@@ -205,6 +205,7 @@
                     {
                         title: '是否合计',
                         dataIndex: 'isTotal',
+                        customRender: (text) => text===1?"是":"否"
                     },
                     {
                         title: '统计类型',
