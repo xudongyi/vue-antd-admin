@@ -12,7 +12,7 @@
               <div class="wrapper" @click.stop>
                   <div class="form-content">
                       <van-form ref="ruleForm" @submit="submitForm">
-                          <div class="first-title">首次登陆</div>
+                          <div class="first-title">首次登录</div>
                           <van-field
                                   v-model="mobile"
                                   name="mobile"
