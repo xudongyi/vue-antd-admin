@@ -85,7 +85,7 @@
                 </a-modal>
             </div>
             <a-table
-                    style="margin-top: 18px;"
+                    style="margin-top: 18px;-ms-overflow-style: scrollbar !important;"
                     ref="table"
                     size="middle"
                     bordered
@@ -95,7 +95,7 @@
                     :pagination="ipagination"
                     :loading="loading"
                     @change="handleTableChange"
-                    :scroll="{ x: 1500}">
+                    >
                 <!-- 字符串超长截取省略号显示-->
                 <span slot="templateContent" slot-scope="text">
                     <j-ellipsis :value="text" :length="25"/>

@@ -384,6 +384,7 @@
     .query-content{
         margin-top: 45px;
         margin-bottom: 45px;
+        padding-bottom: 45px;
     }
     .top-label{
         position:fixed;

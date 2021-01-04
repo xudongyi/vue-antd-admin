@@ -6,7 +6,7 @@
                     <a-row v-if="toggleSearchStatus">
                         <a-col :md="8" :sm="24">
                             <a-form-item
-                                    label="同步日期"
+                                    label="同步月份"
                                     :labelCol="{span: 5}"
                                     :wrapperCol="{span: 18, offset: 1}"
                             >
@@ -81,7 +81,7 @@
                             >
                         </a-tree-select>
                     </a-form-model-item>
-                    <a-form-model-item label="同步时间" prop="syncDate">
+                    <a-form-model-item label="同步月份" prop="syncDate">
                         <a-month-picker v-model="checkForm.syncDate" @change="onChangeDate"/>
                     </a-form-model-item>
                 </a-form-model>
@@ -155,7 +155,7 @@
                 },
                 rules: {
                     site: [{required: true, message: '请选择分部名称', trigger: ['change', 'blur']}],
-                    syncDate: [{required: true, message: '请选择同步年月', trigger: ['change', 'blur']}],
+                    syncDate: [{required: true, message: '请选择同步月份', trigger: ['change', 'blur']}],
                 },
                 treeDataSimple: [],
             }
