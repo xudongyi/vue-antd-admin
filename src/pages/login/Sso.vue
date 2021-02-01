@@ -84,7 +84,7 @@
                         this.user.workcode = loginRes.data.workcode
                         this.user.roleId = loginRes.data.roleId
                         // 获取路由配置(使用本地配置)
-                        let routesConfig = require('../../router/config').default
+                        let routesConfig = process.env.VUE_NODE_ENV === 'prod'?require('../../router/config-prod').default:require('../../router/config').default
                         loadRoutes({router: this.$router, store: this.$store, i18n: this.$i18n}, routesConfig)
                         if(this.isMobile()){
                             this.$router.push('/mobile/query')

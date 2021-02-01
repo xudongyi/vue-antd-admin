@@ -78,22 +78,29 @@ function filterRouter(store, routesConfig) {
     store.commit('account/setUser', userObject)
     let filterRouterConfig = []
     const roleId = userObject.roleId
+    const site = userObject.site
     routesConfig.routes.forEach(item => {
         let routerItem = {}
         if (hasRole(item, roleId)) {
-            if (item.path) routerItem.path = item.path
-            if (item.name) routerItem.name = item.name
-            if (item.component) routerItem.component = item.component
-            if (item.redirect) routerItem.redirect = item.redirect
-            if (item.children) routerItem.children = item.children
-            if (item.meta) routerItem.meta = item.meta
+            if (hasSite(item, site)) {
+                if (item.path) routerItem.path = item.path
+                if (item.name) routerItem.name = item.name
+                if (item.component) routerItem.component = item.component
+                if (item.redirect) routerItem.redirect = item.redirect
+                if (item.children) routerItem.children = item.children
+                if (item.meta) routerItem.meta = item.meta
+            }
+
         }
         if (item.children) {
             let children = []
             item.children.forEach(item1 => {
                 if (hasRole(item1, roleId)) {
-                    children.push(item1)
+                    if (hasSite(item1, site)) {
+                        children.push(item1)
+                    }
                 }
+
             })
             routerItem.children = children
         }
@@ -215,6 +222,23 @@ function hasRole(route, roles) {
         required = authority.permission
     }
     return authority === '*' || authority.permission === '*' || required == roles
+}
+
+/**
+ * 判断是否有路由需要的角色
+ * @param route 路由
+ * @param roles 用户角色集合
+ */
+function hasSite(route, site) {
+    const siteMenu = route.meta.site || '*'
+    let required = undefined
+    if (typeof siteMenu === 'string') {
+        required = siteMenu
+    }
+    if (typeof siteMenu === 'object') {
+        required = authority.permission
+    }
+    return siteMenu === '*' || siteMenu.permission === '*' || required == site
 }
 
 /**
