@@ -106,7 +106,6 @@
                         parDepartNameCount=1
                         parDepartNameCountCache = {}
                         columns = [];
-                        parDepartNameTag =res.data.data[0].salaryDate+"_"+res.data.data[0].parDepartName
                         for(let i =1;i<res.data.data.length;i++){
                             let dataSourceSingle = res.data.data[i];
                             if((dataSourceSingle.salaryDate+"_"+dataSourceSingle.parDepartName)==parDepartNameTag){
@@ -124,9 +123,7 @@
                                     parDepartNameCountCache[parDepartNameTag] = {index:i-parDepartNameCount+1,count:parDepartNameCount}
                                     parDepartNameTag =res.data.data[i].salaryDate+"_"+res.data.data[i].parDepartName;
                                 }
-
                             }
-
                         }
                         console.log(parDepartNameCountCache)
                         //重新计算

@@ -65,7 +65,7 @@ const options = {
             icon: 'money-collect',
             site: '21',
           },
-          component: () => import('@/pages/list/salary/SalaryQueryList'),
+          component: () => import('@/pages/list/salary/SalaryQueryChList'),
         },
         {
           path: 'salaryST',
@@ -74,7 +74,7 @@ const options = {
             icon: 'money-collect',
             site: '41',
           },
-          component: () => import('@/pages/list/salary/SalaryQueryList'),
+          component: () => import('@/pages/list/salary/SalaryQueryStList'),
         },
         {
           path: 'welfare',
