@@ -108,7 +108,8 @@ const options = {
           name: '报表查询',
           meta: {
             icon: 'exclamation-circle',
-            authority:'2'
+            authority:'2',
+            site: '21'
           },
           component: () => import('@/pages/list/salary/SalaryReport'),
         },
@@ -117,7 +118,8 @@ const options = {
               name: '报表配置',
               meta: {
                   icon: 'exclamation-circle',
-                  authority:'2'
+                  authority:'2',
+                  site: '21'
               },
               component: () => import('@/pages/salaryConfig/SalaryReportConfig'),
           },

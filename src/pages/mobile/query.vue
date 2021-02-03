@@ -110,70 +110,136 @@
                       @cancel="cancelDate"
               />
           </van-popup>
-          <div class="query-detail">
-              <div class="query-detail-title">工资明细(右上角可选择月份)</div>
-              <div class="query-detail-item">
-                  <ul>
-                      <li>基本工资:{{salaryDetail.basePay}}</li>
-                      <li>考核工资:{{salaryDetail.assessmentPay}}</li>
-                      <li>加班工资:{{salaryDetail.overtimePay}}</li>
-                      <li>计件工资:{{salaryDetail.pieceRatePay}}</li>
-                      <li>计加班工资:{{salaryDetail.pieceOverPay}}</li>
-                      <li>上岗工资:{{salaryDetail.ondutyPay}}</li>
-                      <li>技能工资:{{salaryDetail.skillPay}}</li>
-                      <li>交通补贴:{{salaryDetail.trafficSubsidy}}</li>
-                      <li>增日工资:{{salaryDetail.increasingDayPay}}</li>
-                      <li>三班倒工龄工资:{{salaryDetail.threeShiftsPay}}</li>
-                      <li>带徒津贴:{{salaryDetail.apprenticeSubsidy}}</li>
-                      <li>大学生补贴:{{salaryDetail.collegeSubsidy}}</li>
-                      <li>组长补贴:{{salaryDetail.groupLeaderSubsidy}}</li>
-                      <li>中夜班费及补贴:{{salaryDetail.nightShiftSubsidy}}</li>
-                      <li>病假工资:{{salaryDetail.sickPay}}</li>
-                      <li>增补:{{salaryDetail.supplementPay}}</li>
-                      <li>净化费:{{salaryDetail.purificationSubsidy}}</li>
-                      <li>质量奖:{{salaryDetail.qualityAward}}</li>
-                      <li>塑封补贴:{{salaryDetail.plasticSealSubsidy}}</li>
-                      <li>补贴:{{salaryDetail.subsidy}}</li>
-                      <li>其他补贴:{{salaryDetail.otherSubsidy}}</li>
-                      <li>应发工资:{{salaryDetail.grossPay}}</li>
-                  </ul>
+          <!--崇川-->
+          <slot  v-if="account.user.site===processEnv.VUE_APP_SITE_CH">
+              <div class="query-detail">
+                  <div class="query-detail-title">工资明细(右上角可选择月份)</div>
+                  <div class="query-detail-item">
+                      <ul>
+                          <li>基本工资:{{salaryDetail.basePay}}</li>
+                          <li>考核工资:{{salaryDetail.assessmentPay}}</li>
+                          <li>加班工资:{{salaryDetail.overtimePay}}</li>
+                          <li>计件工资:{{salaryDetail.pieceRatePay}}</li>
+                          <li>计加班工资:{{salaryDetail.pieceOverPay}}</li>
+                          <li>上岗工资:{{salaryDetail.ondutyPay}}</li>
+                          <li>技能工资:{{salaryDetail.skillPay}}</li>
+                          <li>交通补贴:{{salaryDetail.trafficSubsidy}}</li>
+                          <li>增日工资:{{salaryDetail.increasingDayPay}}</li>
+                          <li>三班倒工龄工资:{{salaryDetail.threeShiftsPay}}</li>
+                          <li>带徒津贴:{{salaryDetail.apprenticeSubsidy}}</li>
+                          <li>大学生补贴:{{salaryDetail.collegeSubsidy}}</li>
+                          <li>组长补贴:{{salaryDetail.groupLeaderSubsidy}}</li>
+                          <li>中夜班费及补贴:{{salaryDetail.nightShiftSubsidy}}</li>
+                          <li>病假工资:{{salaryDetail.sickPay}}</li>
+                          <li>增补:{{salaryDetail.supplementPay}}</li>
+                          <li>净化费:{{salaryDetail.purificationSubsidy}}</li>
+                          <li>质量奖:{{salaryDetail.qualityAward}}</li>
+                          <li>塑封补贴:{{salaryDetail.plasticSealSubsidy}}</li>
+                          <li>补贴:{{salaryDetail.subsidy}}</li>
+                          <li>其他补贴:{{salaryDetail.otherSubsidy}}</li>
+                          <li>应发工资:{{salaryDetail.grossPay}}</li>
+                      </ul>
+                  </div>
               </div>
-          </div>
-          <div class="query-detail">
-              <div class="query-detail-title">税收及扣减项</div>
-              <div class="query-detail-item">
-                  <ul>
-                      <li>病假扣款：{{salaryDetail.sickDeduction}}</li>
-                      <li>个税：{{salaryDetail.incomeTax}}</li>
-                      <li>补扣税：{{salaryDetail.supplementaryTax}}</li>
-                      <li>住宿费：{{salaryDetail.accommondationFee}}</li>
-                      <li>水电费：{{salaryDetail.waterElectricFee}}</li>
-                      <li>社保手续费：{{salaryDetail.socialServiceFee}}</li>
-                      <li>会费：{{salaryDetail.membershipFee}}</li>
-                      <li>通讯费：{{salaryDetail.communicationFee}}</li>
-                      <li>行政还款：{{salaryDetail.adminRepay}}</li>
-                      <li>其他工资扣款：{{salaryDetail.otherDeduction}}</li>
-                      <li>公积金：{{salaryDetail.housepovidentFund}}</li>
-                      <li>失保：{{salaryDetail.unemployInsurance}}</li>
-                      <li>养保：{{salaryDetail.endowmentInsurance}}</li>
-                      <li>医保：{{salaryDetail.medicalInsurance}}</li>
-                  </ul>
+              <div class="query-detail">
+                  <div class="query-detail-title">税收及扣减项</div>
+                  <div class="query-detail-item">
+                      <ul>
+                          <li>病假扣款：{{salaryDetail.sickDeduction}}</li>
+                          <li>个税：{{salaryDetail.incomeTax}}</li>
+                          <li>补扣税：{{salaryDetail.supplementaryTax}}</li>
+                          <li>住宿费：{{salaryDetail.accommondationFee}}</li>
+                          <li>水电费：{{salaryDetail.waterElectricFee}}</li>
+                          <li>社保手续费：{{salaryDetail.socialServiceFee}}</li>
+                          <li>会费：{{salaryDetail.membershipFee}}</li>
+                          <li>通讯费：{{salaryDetail.communicationFee}}</li>
+                          <li>行政还款：{{salaryDetail.adminRepay}}</li>
+                          <li>其他工资扣款：{{salaryDetail.otherDeduction}}</li>
+                          <li>公积金：{{salaryDetail.housepovidentFund}}</li>
+                          <li>失保：{{salaryDetail.unemployInsurance}}</li>
+                          <li>养保：{{salaryDetail.endowmentInsurance}}</li>
+                          <li>医保：{{salaryDetail.medicalInsurance}}</li>
+                      </ul>
+                  </div>
               </div>
-          </div>
-          <div class="query-detail">
-              <div class="query-detail-title">其它</div>
-              <div class="query-detail-item">
-                  <ul>
-                      <li>十三薪：{{otherDetail.welfareAmountSalaries}}</li>
-                      <li>奖金：{{otherDetail.welfareAmountBonus}}</li>
-                      <li>福利：{{otherDetail.welfareAmountWeal}}</li>
-                  </ul>
+              <div class="query-detail">
+                  <div class="query-detail-title">其它</div>
+                  <div class="query-detail-item">
+                      <ul>
+                          <li>十三薪：{{otherDetail.welfareAmountSalaries}}</li>
+                          <li>奖金：{{otherDetail.welfareAmountBonus}}</li>
+                          <li>福利：{{otherDetail.welfareAmountWeal}}</li>
+                      </ul>
+                  </div>
               </div>
-          </div>
+          </slot>
+          <!--苏通-->
+          <slot v-if="account.user.site===processEnv.VUE_APP_SITE_ST">
+              <div class="query-detail">
+                  <div class="query-detail-title">工资明细(右上角可选择月份)</div>
+                  <div class="query-detail-item">
+                      <ul>
+                          <li>基本工资:{{salaryDetail.basePay}}</li>
+                          <li>考核工资:{{salaryDetail.assessmentPay}}</li>
+                          <li>加班工资:{{salaryDetail.overtimePay}}</li>
+                          <li>计件工资:{{salaryDetail.pieceRatePay}}</li>
+                          <li>计加班工资:{{salaryDetail.pieceOverPay}}</li>
+                          <li>上岗工资:{{salaryDetail.ondutyPay}}</li>
+                          <li>技能工资:{{salaryDetail.skillPay}}</li>
+                          <li>交通补贴:{{salaryDetail.trafficSubsidy}}</li>
+                          <li>增日工资:{{salaryDetail.increasingDayPay}}</li>
+                          <li>三班倒工龄工资:{{salaryDetail.threeShiftsPay}}</li>
+                          <li>带徒津贴:{{salaryDetail.apprenticeSubsidy}}</li>
+                          <li>大学生补贴:{{salaryDetail.collegeSubsidy}}</li>
+                          <li>组长补贴:{{salaryDetail.groupLeaderSubsidy}}</li>
+                          <li>中夜班费及补贴:{{salaryDetail.nightShiftSubsidy}}</li>
+                          <li>病假工资:{{salaryDetail.sickPay}}</li>
+                          <li>增补:{{salaryDetail.supplementPay}}</li>
+                          <li>净化费:{{salaryDetail.purificationSubsidy}}</li>
+                          <li>质量奖:{{salaryDetail.qualityAward}}</li>
+                          <li>塑封补贴:{{salaryDetail.plasticSealSubsidy}}</li>
+                          <li>补贴:{{salaryDetail.subsidy}}</li>
+                          <li>其他补贴:{{salaryDetail.otherSubsidy}}</li>
+                          <li>应发工资:{{salaryDetail.grossPay}}</li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="query-detail">
+                  <div class="query-detail-title">税收及扣减项</div>
+                  <div class="query-detail-item">
+                      <ul>
+                          <li>病假扣款：{{salaryDetail.sickDeduction}}</li>
+                          <li>个税：{{salaryDetail.incomeTax}}</li>
+                          <li>补扣税：{{salaryDetail.supplementaryTax}}</li>
+                          <li>住宿费：{{salaryDetail.accommondationFee}}</li>
+                          <li>水电费：{{salaryDetail.waterElectricFee}}</li>
+                          <li>社保手续费：{{salaryDetail.socialServiceFee}}</li>
+                          <li>会费：{{salaryDetail.membershipFee}}</li>
+                          <li>通讯费：{{salaryDetail.communicationFee}}</li>
+                          <li>行政还款：{{salaryDetail.adminRepay}}</li>
+                          <li>其他工资扣款：{{salaryDetail.otherDeduction}}</li>
+                          <li>公积金：{{salaryDetail.housepovidentFund}}</li>
+                          <li>失保：{{salaryDetail.unemployInsurance}}</li>
+                          <li>养保：{{salaryDetail.endowmentInsurance}}</li>
+                          <li>医保：{{salaryDetail.medicalInsurance}}</li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="query-detail">
+                  <div class="query-detail-title">其它</div>
+                  <div class="query-detail-item">
+                      <ul>
+                          <li>十三薪：{{otherDetail.welfareAmountSalaries}}</li>
+                          <li>奖金：{{otherDetail.welfareAmountBonus}}</li>
+                          <li>福利：{{otherDetail.welfareAmountWeal}}</li>
+                      </ul>
+                  </div>
+              </div>
+          </slot>
       </div>
        <div class="bottom-label">
            实发工资（不含其它）：{{salaryDetail.netSalary}}
-          </div>
+       </div>
    </div>
 </template>
 <script>
@@ -212,7 +278,8 @@
                     mobile: '',
                     password: '',
                     captcha: '',
-                }
+                },
+                processEnv:process.env
             };
         },
 
