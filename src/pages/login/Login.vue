@@ -166,7 +166,7 @@
                     this.setUser(user)
                     setAuthorization({token: loginRes.data.token, expireAt: new Date(loginRes.data.expireTime)})
                     // 获取路由配置(使用本地配置)
-                    let routesConfig = process.env.VUE_NODE_ENV === 'prod'?require('../../router/config-prod').default:require('../../router/config').default
+                    let routesConfig = process.env.VUE_APP_NODE_ENV === 'prod'?require('../../router/config-prod').default:require('../../router/config').default
                     loadRoutes({router: this.$router, store: this.$store, i18n: this.$i18n}, routesConfig)
                     localStorage.removeItem(process.env.VUE_APP_TABS)
                     this.user.loginid = loginRes.data.loginid
