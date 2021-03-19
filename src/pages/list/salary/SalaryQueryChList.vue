@@ -160,6 +160,19 @@
                     </div>
                  </a-modal>
 
+
+        <a-modal
+                title="上传失败"
+                :maskClosable=false
+                :visible="errorMsgModalVisible"
+                @ok="closeErrorMsgModal"
+                @cancel="closeErrorMsgModal"
+        >
+            <div>
+               {{errorMsg}}
+            </div>
+        </a-modal>
+
     </a-card>
 </template>
 <script>
@@ -297,7 +310,9 @@
                     labelCol: { span: 4 },
                     wrapperCol: { span: 14 },
                 },
-                hasCheckPassword:false
+                hasCheckPassword:false,
+                errorMsg:'',
+                errorMsgModalVisible:false
             }
         },
         created() {
@@ -318,6 +333,10 @@
                         this.treeDataSimple = res.data.data
                     }
                 })
+            },
+            closeErrorMsgModal(){
+                this.errorMsg = "";
+                this.errorMsgModalVisible = false;
             },
             showUploadSalaryModal() {
                 if(this.hasCheckPassword){
@@ -379,7 +398,9 @@
 
                 importSalaryExcel(fileFormData).then(res => {
                     if (res.data.success) {
-                        this.$message.success('上传成功.');
+                        // this.$message.success('上传成功.');
+                        this.errorMsg = res.data.message;
+                        this.errorMsgModalVisible = true;
                         setTimeout(() => {
                             this.salaryModalVisible = false;
                             this.salaryConfirmLoading = false;
