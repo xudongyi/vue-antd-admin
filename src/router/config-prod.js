@@ -63,7 +63,7 @@ const options = {
           name: '薪资查询（崇川）',
           meta: {
             icon: 'money-collect',
-            site: '21',
+            site: '6',
           },
           component: () => import('@/pages/list/salary/SalaryQueryChList'),
         },
@@ -72,7 +72,7 @@ const options = {
           name: '薪资查询（苏通）',
           meta: {
             icon: 'money-collect',
-            site: '41',
+            site: '5',
           },
           component: () => import('@/pages/list/salary/SalaryQueryStList'),
         },
@@ -81,7 +81,7 @@ const options = {
           name: '福利查询（崇川）',
           meta: {
             icon: 'money-collect',
-            site: '21',
+            site: '6',
           },
           component: () => import('@/pages/list/salary/WelfareQueryList'),
         },
@@ -90,7 +90,7 @@ const options = {
           name: '福利查询（苏通）',
           meta: {
             icon: 'money-collect',
-            site: '41',
+            site: '5',
           },
           component: () => import('@/pages/list/salary/WelfareQueryList'),
         },
@@ -109,7 +109,7 @@ const options = {
           meta: {
             icon: 'exclamation-circle',
             authority:'2',
-            site: '21'
+            site: '6'
           },
           component: () => import('@/pages/list/salary/SalaryReport'),
         },
@@ -119,7 +119,7 @@ const options = {
               meta: {
                   icon: 'exclamation-circle',
                   authority:'2',
-                  site: '21'
+                  site: '6'
               },
               component: () => import('@/pages/salaryConfig/SalaryReportConfig'),
           },
