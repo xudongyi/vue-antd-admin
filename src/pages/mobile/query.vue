@@ -111,7 +111,7 @@
               />
           </van-popup>
           <!--崇川-->
-          <slot  v-if="account.user.site===processEnv.VUE_APP_SITE_CH">
+          <slot  v-if="account.user.site==processEnv.VUE_APP_SITE_CH">
               <div class="query-detail">
                   <div class="query-detail-title">工资明细(右上角可选择月份)</div>
                   <div class="query-detail-item">
@@ -174,7 +174,7 @@
               </div>
           </slot>
           <!--苏通-->
-          <slot v-if="account.user.site===processEnv.VUE_APP_SITE_ST">
+          <slot v-if="account.user.site==processEnv.VUE_APP_SITE_ST">
               <div class="query-detail">
                   <div class="query-detail-title">工资明细(右上角可选择月份)</div>
                   <div class="query-detail-item">
