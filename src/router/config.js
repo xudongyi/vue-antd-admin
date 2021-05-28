@@ -77,6 +77,15 @@ const options = {
           component: () => import('@/pages/list/salary/SalaryQueryStList'),
         },
         {
+          path: 'salaryXM',
+          name: '薪资查询（厦门）',
+          meta: {
+            icon: 'money-collect',
+            site: '3391',
+          },
+          component: () => import('@/pages/list/salary/SalaryQueryStList'),
+        },
+        {
           path: 'welfare',
           name: '福利查询（崇川）',
           meta: {
@@ -91,6 +100,14 @@ const options = {
           meta: {
             icon: 'money-collect',
             site: '41',
+          },
+          component: () => import('@/pages/list/salary/WelfareQueryList'),
+        },{
+          path: 'welfareXM',
+          name: '福利查询（厦门）',
+          meta: {
+            icon: 'money-collect',
+            site: '3391',
           },
           component: () => import('@/pages/list/salary/WelfareQueryList'),
         },
