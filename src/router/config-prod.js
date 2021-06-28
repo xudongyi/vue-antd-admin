@@ -83,7 +83,7 @@ const options = {
             icon: 'money-collect',
             site: '8',
           },
-          component: () => import('@/pages/list/salary/SalaryQueryStList'),
+          component: () => import('@/pages/list/salary/SalaryQueryXmList'),
         },
         {
           path: 'welfare',
