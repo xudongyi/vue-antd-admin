@@ -113,29 +113,31 @@
           <!--崇川-->
           <slot  v-if="account.user.site==processEnv.VUE_APP_SITE_CH">
               <div class="query-detail">
-                  <div class="query-detail-title">工资明细-崇川(右上角可选择月份)</div>
+                  <div class="query-detail-title">工资明细(右上角可选择月份)</div>
                   <div class="query-detail-item">
                       <ul>
-                          <li>应税工资:{{salaryDetail.taxableSalary}}</li>
                           <li>基本工资:{{salaryDetail.basePay}}</li>
-                          <li>岗位工资:{{salaryDetail.ondutyPay}}</li>
+                          <li>考核工资:{{salaryDetail.assessmentPay}}</li>
                           <li>加班工资:{{salaryDetail.overtimePay}}</li>
+                          <li>计件工资:{{salaryDetail.pieceRatePay}}</li>
+                          <li>计加班工资:{{salaryDetail.pieceOverPay}}</li>
+                          <li>上岗工资:{{salaryDetail.ondutyPay}}</li>
                           <li>技能工资:{{salaryDetail.skillPay}}</li>
-                          <li>月度考核:{{salaryDetail.assessmentPay}}</li>
+                          <li>交通补贴:{{salaryDetail.trafficSubsidy}}</li>
                           <li>增日工资:{{salaryDetail.increasingDayPay}}</li>
+                          <li>三班倒工龄工资:{{salaryDetail.threeShiftsPay}}</li>
                           <li>带徒津贴:{{salaryDetail.apprenticeSubsidy}}</li>
-                          <li>其他补贴:{{salaryDetail.otherSubsidy}}</li>
-                          <li>职务津贴:{{salaryDetail.jobAllowance}}</li>
-                          <li>夜班津贴:{{salaryDetail.nightShiftSubsidy}}</li>
-                          <li>夜班津贴:{{salaryDetail.nightShiftSubsidy}}</li>
+                          <li>大学生补贴:{{salaryDetail.collegeSubsidy}}</li>
+                          <li>组长补贴:{{salaryDetail.groupLeaderSubsidy}}</li>
+                          <li>中夜班费及补贴:{{salaryDetail.nightShiftSubsidy}}</li>
+                          <li>病假工资:{{salaryDetail.sickPay}}</li>
                           <li>增补:{{salaryDetail.supplementPay}}</li>
                           <li>净化费:{{salaryDetail.purificationSubsidy}}</li>
                           <li>质量奖:{{salaryDetail.qualityAward}}</li>
-                          <li>特殊岗位津贴:{{salaryDetail.specialAllowance}}</li>
-                          <li>餐补:{{salaryDetail.mealSubsidy}}</li>
-                          <li>通讯补贴:{{salaryDetail.communicationFee}}</li>
+                          <li>塑封补贴:{{salaryDetail.plasticSealSubsidy}}</li>
+                          <li>补贴:{{salaryDetail.subsidy}}</li>
+                          <li>其他补贴:{{salaryDetail.otherSubsidy}}</li>
                           <li>应发工资:{{salaryDetail.grossPay}}</li>
-                          <li>餐费:{{salaryDetail.mealFee}}</li>
                       </ul>
                   </div>
               </div>
@@ -143,14 +145,13 @@
                   <div class="query-detail-title">税收及扣减项</div>
                   <div class="query-detail-item">
                       <ul>
-                          <li>请假扣款：{{salaryDetail.sickDeduction}}</li>
+                          <li>病假扣款：{{salaryDetail.sickDeduction}}</li>
                           <li>个税：{{salaryDetail.incomeTax}}</li>
+                          <li>补扣税：{{salaryDetail.supplementaryTax}}</li>
                           <li>住宿费：{{salaryDetail.accommondationFee}}</li>
                           <li>水电费：{{salaryDetail.waterElectricFee}}</li>
                           <li>社保手续费：{{salaryDetail.socialServiceFee}}</li>
                           <li>会费：{{salaryDetail.membershipFee}}</li>
-                          <li>个税返回：{{salaryDetail.taxReturn}}</li>
-                          <li>补扣税：{{salaryDetail.supplementaryTax}}</li>
                           <li>通讯费：{{salaryDetail.communicationFee}}</li>
                           <li>行政还款：{{salaryDetail.adminRepay}}</li>
                           <li>其他工资扣款：{{salaryDetail.otherDeduction}}</li>
@@ -175,7 +176,7 @@
           <!--苏通-->
           <slot v-if="account.user.site==processEnv.VUE_APP_SITE_ST">
               <div class="query-detail">
-                  <div class="query-detail-title">工资明细-苏通(右上角可选择月份)</div>
+                  <div class="query-detail-title">工资明细(右上角可选择月份)</div>
                   <div class="query-detail-item">
                       <ul>
                           <li>基本工资:{{salaryDetail.basePay}}</li>
@@ -242,19 +243,22 @@
                           <li>计件工资:{{salaryDetail.pieceRatePay}}</li>
                           <li>加班工资:{{salaryDetail.overtimePay}}</li>
                           <li>技能工资:{{salaryDetail.skillPay}}</li>
-                          <li>交通补贴:{{salaryDetail.trafficSubsidy}}</li>
-                          <li>三班倒工龄工资:{{salaryDetail.threeShiftsPay}}</li>
+                          <li>月度考核:{{salaryDetail.assessmentPay}}</li>
+                          <li>增日工资:{{salaryDetail.increasingDayPay}}</li>
+                          <li>工龄工资:{{salaryDetail.threeShiftsPay}}</li>
                           <li>带徒津贴:{{salaryDetail.apprenticeSubsidy}}</li>
-                          <li>中夜班费及补贴:{{salaryDetail.nightShiftSubsidy}}</li>
+                          <li>其他补贴:{{salaryDetail.otherSubsidy}}</li>
+                          <li>职务津贴:{{salaryDetail.jobAllowance}}</li>
+                          <li>夜班津贴:{{salaryDetail.nightShiftSubsidy}}</li>
                           <li>增补:{{salaryDetail.supplementPay}}</li>
                           <li>净化费:{{salaryDetail.purificationSubsidy}}</li>
-                          <li>综合补贴:{{salaryDetail.comprehensiveAllowance}}</li>
-                          <li>工序津贴:{{salaryDetail.processAllowance}}</li>
                           <li>质量奖:{{salaryDetail.qualityAward}}</li>
-                          <li>补贴:{{salaryDetail.subsidy}}</li>
-                          <li>其他补贴:{{salaryDetail.otherSubsidy}}</li>
+                          <li>特殊岗位津贴:{{salaryDetail.specialAllowance}}</li>
+                          <li>餐补:{{salaryDetail.mealSubsidy}}</li>
+                          <li>通讯补贴:{{salaryDetail.communicationFee}}</li>
                           <li>应发工资:{{salaryDetail.grossPay}}</li>
-                          <li>核定工资:{{salaryDetail.approvedSalary}}</li>
+                          <li>餐费:{{salaryDetail.mealFee}}</li>
+                          <li>核定工资 :{{salaryDetail.approvedSalary}}</li>
                       </ul>
                   </div>
               </div>
@@ -262,16 +266,15 @@
                   <div class="query-detail-title">税收及扣减项</div>
                   <div class="query-detail-item">
                       <ul>
-                          <li>病假扣款：{{salaryDetail.sickDeduction}}</li>
                           <li>个税：{{salaryDetail.incomeTax}}</li>
-                          <li>补扣税：{{salaryDetail.supplementaryTax}}</li>
                           <li>住宿费：{{salaryDetail.accommondationFee}}</li>
                           <li>水电费：{{salaryDetail.waterElectricFee}}</li>
+                          <li>补扣税：{{salaryDetail.supplementaryTax}}</li>
                           <li>社保手续费：{{salaryDetail.socialServiceFee}}</li>
                           <li>会费：{{salaryDetail.membershipFee}}</li>
-                          <li>会费：{{salaryDetail.membershipFee}}</li>
-                          <li>通讯费：{{salaryDetail.communicationFee}}</li>
+                          <li>个税返回：{{salaryDetail.taxReturn}}</li>
                           <li>行政还款：{{salaryDetail.adminRepay}}</li>
+                          <li>请假扣款：{{salaryDetail.sickDeduction}}</li>
                           <li>其他工资扣款：{{salaryDetail.otherDeduction}}</li>
                           <li>公积金：{{salaryDetail.housepovidentFund}}</li>
                           <li>失保：{{salaryDetail.unemployInsurance}}</li>
@@ -320,7 +323,7 @@
                 currentDateMonth:((new Date().getMonth()+1)<10 ? "0"+(new Date().getMonth()+1):new Date().getMonth()+1),
                 show:false,
                 isFirstLogin:false,
-                isInputPwd:true,
+                isInputPwd:false,
                 salaryDetail:{},
                 otherDetail:{},
                 password: '',
@@ -485,6 +488,11 @@
         },
         mounted() {
             this.isFirstLogin = this.account.user.first_login<1
+            if(this.processEnv.VUE_APP_NODE_ENV==='prod'){
+                this.isInputPwd = false
+            }else{
+                this.isInputPwd = true
+            }
         }
     };
 </script>
