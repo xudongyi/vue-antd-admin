@@ -172,48 +172,35 @@
     import notification from 'ant-design-vue/es/notification'
 
     const columns = [
+        {title: '应税工资', dataIndex: 'taxableSalary', width: 100,fixed: 'left',align: 'center'},
         {title: '工号', width: 100, dataIndex: 'workcode', key: 'workcode',fixed: 'left',align: 'center'},
-        {title: '姓名', width: 100, dataIndex: 'hrName',fixed: 'left', key: 'hrName'},
-        {title: '薪资日期', width: 100, dataIndex: 'belongDate', key: 'belongDate',fixed: 'left',align: 'center'},
-        {title: '发放日期', width: 100, dataIndex: 'salaryDate', key: 'salaryDate',fixed: 'left',align: 'center'},
+        {title: '姓名', width: 100, dataIndex: 'hrName',fixed: 'left',fixed: 'left', key: 'hrName'},
         {title: '基本工资', dataIndex: 'basePay', width: 100, align: 'center'},
-        {title: '考核工资', dataIndex: 'assessmentPay', width: 100, align: 'center'},
+        {title: '岗位工资', dataIndex: 'ondutyPay2', width: 100, align: 'center'},
         {title: '加班工资', dataIndex: 'overtimePay', width: 100, align: 'center'},
-        // {title: '计件工资', dataIndex: 'pieceRatePay', width: 100, align: 'center'},
-        // {title: '计加班工资', dataIndex: 'pieceOverPay', width: 100, align: 'center'},
-        {title: '上岗工资', dataIndex: 'ondutyPay', width: 100, align: 'center'},
         {title: '技能工资', dataIndex: 'skillPay', width: 100, align: 'center'},
-        // {title: '交通补贴', dataIndex: 'trafficSubsidy', width: 100, align: 'center'},
+        {title: '月度考核', dataIndex: 'assessmentPay2', width: 100, align: 'center'},
         {title: '增日工资', dataIndex: 'increasingDayPay', width: 100, align: 'center'},
-        {title: '三班倒工龄工资', dataIndex: 'threeShiftsPay', width: 120, align: 'center'},
+        {title: '工龄工资', dataIndex: 'threeShiftsPay2', width: 120, align: 'center'},
         {title: '带徒津贴', dataIndex: 'apprenticeSubsidy', width: 100, align: 'center'},
-        // {title: '大学生补贴', dataIndex: 'collegeSubsidy', width: 100, align: 'center'},
-        // {title: '组长补贴', dataIndex: 'groupLeaderSubsidy', width: 100, align: 'center'},
-        {title: '中夜班费及补贴', dataIndex: 'nightShiftSubsidy', width: 120, align: 'center'},
-        {title: '病假工资', dataIndex: 'sickPay', width: 100, align: 'center'},
-        {title: '增补', dataIndex: 'supplementPay', width: 100, align: 'center'},
-        {title: '净化费', dataIndex: 'purificationSubsidy', width: 100, align: 'center'},
-        // {title: '综合津贴', dataIndex: 'comprehensiveAllowance', width: 100, align: 'center'},
-        // {title: '工序津贴', dataIndex: 'processAllowance', width: 100, align: 'center'},
-        {title: '质量奖', dataIndex: 'qualityAward', width: 100, align: 'center'},
-        // {title: '塑封补贴', dataIndex: 'plasticSealSubsidy', width: 100, align: 'center'},
-        // {title: '补贴', dataIndex: 'subsidy', width: 100, align: 'center'},
         {title: '其他补贴', dataIndex: 'otherSubsidy', width: 100, align: 'center'},
         {title: '职务津贴', dataIndex: 'jobAllowance', width: 100, align: 'center'},
+        {title: '夜班津贴', dataIndex: 'nightShiftSubsidy2', width: 120, align: 'center'},
+        {title: '请假扣款', dataIndex: 'sickDeduction2', width: 100, align: 'center'},
+        {title: '增补', dataIndex: 'supplementPay', width: 100, align: 'center'},
+        {title: '净化费', dataIndex: 'purificationSubsidy', width: 100, align: 'center'},
+        {title: '质量奖', dataIndex: 'qualityAward', width: 100, align: 'center'},
         {title: '特殊岗位津贴', dataIndex: 'specialAllowance', width: 100, align: 'center'},
+        {title: '餐补', dataIndex: 'mealSubsidy', width: 100, align: 'center'},
+        {title: '通讯补贴', dataIndex: 'communicationFee2', width: 100, align: 'center'},
         {title: '应发工资', dataIndex: 'grossPay', width: 100, align: 'center'},
-        // {title: '病假扣款', dataIndex: 'sickDeduction', width: 100, align: 'center'},
+        {title: '餐费', dataIndex: 'mealFee', width: 100, align: 'center'},
         {title: '个税', dataIndex: 'incomeTax', width: 100, align: 'center'},
-        // {title: '补扣税', dataIndex: 'supplementaryTax', width: 100, align: 'center'},
         {title: '住宿费', dataIndex: 'accommondationFee', width: 100, align: 'center'},
         {title: '水电费', dataIndex: 'waterElectricFee', width: 100, align: 'center'},
-        {title: '餐补', dataIndex: 'mealSubsidy', width: 100, align: 'center'},
-        {title: '餐费', dataIndex: 'mealFee', width: 100, align: 'center'},
-
         {title: '社保手续费', dataIndex: 'socialServiceFee', width: 100, align: 'center'},
         {title: '会费', dataIndex: 'membershipFee', width: 100, align: 'center'},
-        {title: '通讯费', dataIndex: 'communicationFee', width: 100, align: 'center'},
-        // {title: '行政还款', dataIndex: 'adminRepay', width: 100, align: 'center'},
+        {title: '个税返回', dataIndex: 'taxReturn', width: 100, align: 'center'},
         {title: '其他工资扣款', dataIndex: 'otherDeduction', width: 120, align: 'center'},
         {title: '公积金', dataIndex: 'housepovidentFund', width: 100, align: 'center'},
         {title: '失保', dataIndex: 'unemployInsurance', width: 100, align: 'center'},
@@ -221,13 +208,18 @@
         {title: '医保', dataIndex: 'medicalInsurance', width: 100, align: 'center'},
         {title: '大病保', dataIndex: 'seriousIllnessInsurance', width: 100, align: 'center'},
         {title: '实发工资', dataIndex: 'netSalary', width: 100, align: 'center'},
-        {title: '个税返回', dataIndex: 'taxReturn', width: 100, align: 'center'},
-        {title: '应税工资', dataIndex: 'taxableSalary', width: 100, align: 'center'},
         {title: '核定工资 ', dataIndex: 'approvedSalary', width: 100, align: 'center'},
 
+        {title: '薪资日期', width: 100, dataIndex: 'belongDate', key: 'belongDate',align: 'center'},
+        {title: '发放日期', width: 100, dataIndex: 'salaryDate', key: 'salaryDate',align: 'center'},
         {title: '十三薪', dataIndex: 'welfareAmountSalaries', width: 100, align: 'center'},
         {title: '奖金', dataIndex: 'welfareAmountBonus', width: 100, align: 'center'},
         {title: '福利', dataIndex: 'welfareAmountWeal', width: 100, align: 'center'}
+
+
+
+
+
     ];
 
     export default {
